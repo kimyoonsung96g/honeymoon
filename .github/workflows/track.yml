@@ -1,0 +1,33 @@
+name: 호텔 가격 추적
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # 매일 오전 9시(한국 시간)
+  workflow_dispatch:       # Actions 탭에서 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 설치
+        run: |
+          pip install playwright==1.47.0
+          python -m playwright install --with-deps chromium
+      - name: 가격 조회
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python check_prices.py
+      - name: 결과 저장
+        run: |
+          git config user.name "price-bot"
+          git config user.email "price-bot@users.noreply.github.com"
+          git add docs/prices.json
+          git diff --cached --quiet || git commit -m "가격 업데이트 $(date +%F)"
+          git push
