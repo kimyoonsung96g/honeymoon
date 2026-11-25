@@ -253,7 +253,12 @@ function renderHotels(){
       const bL=lastK(rec.history), kL=lastK(rec.kayak_history);
       if(bL && kL && (kL<bL*0.6 || kL>bL*1.4)){ const x=document.createElement('span'); x.className='err'; x.textContent=' (다른 숙소 가격으로 보여 계산에서 제외)'; kLine.append(x); }
       box.append(kLine);
-      if(h.id==='2') box.append(srcLine('올인클루시브', rec.ai_history, rec.ai_error, false));
+      if(h.id==='2'){
+        const ba=lastK(rec.ai_history), ka=lastK(rec.kayak_ai_history);
+        box.append(srcLine('올인클루시브 부킹닷컴', rec.ai_history, rec.ai_error, !!ba && (!ka || ba<=ka)));
+        box.append(srcLine('올인클루시브 카약', rec.kayak_ai_history, rec.kayak_ai_error, !!ka && (!ba || ka<ba)));
+      }
+      if(rec.room_used){const r=document.createElement('div');r.className='history';r.textContent='부킹닷컴 기준 객실: '+rec.room_used;box.append(r);}
       if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
     }
     const act=document.createElement('div'); act.className='hotel-actions';
@@ -283,18 +288,50 @@ function renderOptions(){
 function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
 const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10'],['fl_pmi_opo','마요르카→포르투 9/14'],['fl_lis_bcn','리스본→바르셀로나 9/18'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
+const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
+const BOOK_LINKS={
+  fl_bcn_pmi:[['구글 항공편',GF('BCN','PMI','2027-09-10')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/bcn/pmi/270910/?adultsv2=2']],
+  fl_pmi_opo:[['구글 항공편',GF('PMI','OPO','2027-09-14')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/pmi/opo/270914/?adultsv2=2']],
+  fl_lis_bcn:[['구글 항공편',GF('LIS','BCN','2027-09-18')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/lis/bcn/270918/?adultsv2=2']],
+  car_small:[['카약 렌터카','https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a']],
+  car_suv:[['카약 렌터카 SUV','https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a&fs=carclass=suv']]
+};
+function linkRow(links){
+  const act=document.createElement('div'); act.className='hotel-actions';
+  for(const [t,u] of links){ const a=document.createElement('a'); a.className='btn'; a.href=u; a.target='_blank'; a.rel='noopener'; a.textContent=t; act.append(a); }
+  return act;
+}
 function renderExtras(){
   const w=$('extras'); w.textContent='';
-  for(const [k,label] of EXTRA_KEYS){ const r=extras[k]||{}; w.append(srcLine(label, r.history, r.error, false)); }
+  for(const [k,label] of EXTRA_KEYS){
+    const r=extras[k]||{}; const box=document.createElement('div'); box.className='hotel';
+    box.append(srcLine(label, r.history, r.error, false), linkRow(BOOK_LINKS[k]||[]));
+    w.append(box);
+  }
+  const tb=document.createElement('div'); tb.className='hotel';
+  const tl=document.createElement('div'); tl.className='history'; const st=document.createElement('strong'); st.textContent='포르투→리스본 기차 9/17 '; tl.append(st, document.createTextNode('포르투갈 철도(CP) 알파 펜둘라르. 출발 몇 달 전부터 판매'));
+  tb.append(tl, linkRow([['CP 공식 사이트','https://www.cp.pt'],['트레인라인','https://www.thetrainline.com']]));
+  w.append(tb);
 }
 function calculate(){
   const notes=[]; let hotel=0, roMiss=0, fcMiss=0, aiMiss=false;
   for(const h of HOTELS){
     const p=prices[h.id]||{krw:h.est}; const rec=p.rec||{};
     let v=p.krw, breakfast=true;
-    if(opts.meal==='allinc' && h.id==='2'){ const ai=lastK(rec.ai_history); if(ai) v=ai; else { v+=1070000; aiMiss=true; } breakfast=false; }
+    let aiFc=null;
+    if(opts.meal==='allinc' && h.id==='2'){
+      const c=[lastK(rec.ai_history), lastK(rec.kayak_ai_history)].filter(Boolean);
+      if(c.length) v=Math.min(...c); else { v+=1070000; aiMiss=true; }
+      aiFc=lastK(rec.ai_fc_history); breakfast=false;
+    }
     if(opts.meal==='mallorcaOnly' && h.id!=='2'){ const ro=lastK(rec.ro_history); if(ro) v=ro; else { v-=380000/3; roMiss++; } breakfast=false; }
-    if(opts.cancel==='free'){ const fc=lastK(rec.fc_history); if(fc && breakfast) v=fc; else { v*=1.12; fcMiss++; } }
+    if(opts.cancel==='free'){
+      const fcs=[lastK(rec.fc_history), lastK(rec.kayak_fc_history)].filter(Boolean);
+      const fc=fcs.length?Math.min(...fcs):null;
+      if(breakfast && fc) v=fc;
+      else if(aiFc) v=aiFc;
+      else { v*=1.12; fcMiss++; }
+    }
     hotel+=v;
   }
   if(aiMiss) notes.push('올인클루시브 조회 전: 예상 차액 1,070,000원 사용');
