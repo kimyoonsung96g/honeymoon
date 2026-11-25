@@ -1,185 +1,178 @@
 {
- "updated": "2026-11-25 23:25",
+ "updated": "2026-11-25 23:40",
  "hotels": {
   "1": {
    "history": [
     {
      "date": "2026-11-25",
-     "krw": 1855588
+     "krw": 2041147
     }
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
      "date": "2026-11-25",
-     "krw": 1855036
+     "krw": 2196015
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
      "date": "2026-11-25",
-     "krw": 1855588
+     "krw": 2041147
     }
    ],
    "ro_error": "조식 미포함 요금이 없음",
    "ro_history": [],
    "ai_history": [],
-   "method": "rows-v1"
+   "method": "rows-v2"
   },
   "2": {
    "history": [
     {
      "date": "2026-11-25",
-     "krw": 1853714
+     "krw": 2039085
     }
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
      "date": "2026-11-25",
-     "krw": 2059292
+     "krw": 2317064
     }
    ],
    "ai_error": null,
    "ai_history": [
     {
      "date": "2026-11-25",
-     "krw": 2912711
+     "krw": 3203982
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
      "date": "2026-11-25",
-     "krw": 2286684
+     "krw": 2515352
     }
    ],
    "ro_error": null,
    "ro_history": [
     {
      "date": "2026-11-25",
-     "krw": 2196716
+     "krw": 2416388
     }
    ],
-   "method": "rows-v1"
+   "method": "rows-v2"
   },
   "3": {
    "history": [
     {
      "date": "2026-11-25",
-     "krw": 877987
+     "krw": 930666
     }
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
      "date": "2026-11-25",
-     "krw": 846474
+     "krw": 923774
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
      "date": "2026-11-25",
-     "krw": 1021157
+     "krw": 1082426
     }
    ],
    "ro_error": null,
    "ro_history": [
     {
      "date": "2026-11-25",
-     "krw": 811299
+     "krw": 859977
     }
    ],
    "ai_history": [],
-   "method": "rows-v1"
+   "method": "rows-v2"
   },
   "4": {
    "history": [
     {
      "date": "2026-11-25",
-     "krw": 458020
+     "krw": 485501
     }
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
      "date": "2026-11-25",
-     "krw": 302809
+     "krw": 332762
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
      "date": "2026-11-25",
-     "krw": 499283
+     "krw": 529240
     }
    ],
    "ro_error": null,
    "ro_history": [
     {
      "date": "2026-11-25",
-     "krw": 389248
+     "krw": 412603
     }
    ],
    "ai_history": [],
-   "method": "rows-v1"
+   "method": "rows-v2"
   }
  },
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [],
-   "method": "list-v1"
+   "method": "list-v2"
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [],
-   "method": "list-v1"
+   "method": "list-v2"
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-25 23:25",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
-   "history": [],
-   "method": "list-v1"
-  },
-  "car_small": {
-   "name": "마요르카 렌터카 최저가 (4일)",
-   "last_check": "2026-11-25 23:25",
+   "last_check": "2026-11-25 23:40",
    "error": null,
    "history": [
     {
      "date": "2026-11-25",
-     "krw": 116444
+     "krw": 88798
     }
    ],
-   "method": "list-v1"
+   "method": "list-v2"
   },
-  "car_suv": {
-   "name": "마요르카 렌터카 SUV (4일)",
-   "last_check": "2026-11-25 23:25",
+  "car_small": {
+   "name": "마요르카 렌터카 자동 최저가 (4일)",
+   "last_check": "2026-11-25 23:40",
    "error": null,
    "history": [
     {
@@ -187,7 +180,19 @@
      "krw": 152832
     }
    ],
-   "method": "list-v1"
+   "method": "list-v2"
+  },
+  "car_suv": {
+   "name": "마요르카 렌터카 자동 SUV (4일)",
+   "last_check": "2026-11-25 23:40",
+   "error": null,
+   "history": [
+    {
+     "date": "2026-11-25",
+     "krw": 189220
+    }
+   ],
+   "method": "list-v2"
   }
  }
 }
