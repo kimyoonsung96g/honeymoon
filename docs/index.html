@@ -84,7 +84,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
 /* 환율 */
 .fx{display:flex;gap:12px;flex-wrap:wrap}
-.fx label{display:flex;align-items:center;gap:6px;font-size:.86rem;width:100%;justify-content:space-between}
+.fx label{display:flex;align-items:center;gap:6px;font-size:.86rem}
 .fx input{width:110px;font:inherit;font-weight:600;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-align:right}
 
 /* 옵션 */
@@ -126,18 +126,13 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>항공, 기차, 렌터카</h2>
-    <p class="hint">항공은 구글 항공편 편도 최저가(1인 요금 × 2인, 수하물 별도), 렌터카는 카약의 자동 변속기 4일 최저가(기본 보험, 풀보험 별도)예요.</p>
+    <p class="hint">항공은 구글 항공편 편도 최저가(1인 요금 × 2인, 수하물 별도), 렌터카는 카약 4일 최저가예요.</p>
     <div id="extras"></div>
-    <p class="hint" style="margin-top:14px">직접 입력 (2인 기준). 항공과 렌터카는 입력하면 조회가 대신 이 금액으로 계산해요.</p>
-    <div class="fx">
-      <label>바르셀로나→마요르카 <input type="number" data-manual="fl_bcn_pmi" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>마요르카→포르투 <input type="number" data-manual="fl_pmi_opo" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>리스본→바르셀로나 <input type="number" data-manual="fl_lis_bcn" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>수하물 (3구간) <input type="number" data-manual="bag" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>포르투→리스본 기차 <input type="number" data-manual="train" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>렌터카 (4일) <input type="number" data-manual="car" inputmode="numeric" class="num" placeholder="입력"> 원</label>
+    <div class="fx" style="margin-top:12px">
+      <label>수하물 요금 (2인, 3구간) <input type="number" id="bagIn" inputmode="numeric" class="num" placeholder="입력"> 원</label>
+      <label>포르투→리스본 기차 (2인) <input type="number" id="trainIn" inputmode="numeric" class="num" placeholder="입력"> 원</label>
     </div>
-    <p class="hint" style="margin-top:6px">수하물은 항공사 예약 단계에서만 나와 자동 조회가 안 되고, 기차표는 출발 몇 달 전부터 판매돼요.</p>
+    <p class="hint" style="margin-top:6px">수하물은 항공사 사이트에서만 확인돼 자동 조회가 안 되고, 기차표는 출발 몇 달 전부터 판매돼요. 금액을 넣으면 계산에 반영돼요.</p>
   </section>
 
   <section>
@@ -201,9 +196,9 @@ const OPTIONS = [
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
 const DEFAULT_OPTS = {cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
-const LS_KEY='honeymoon_opts_v3'; let manual={}; let extras={};
+const LS_KEY='honeymoon_opts_v2'; let bag='', train=''; let extras={};
 let opts={...DEFAULT_OPTS};
-try{ const s=JSON.parse(localStorage.getItem(LS_KEY)); if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; } }catch(e){}
+try{ const s=JSON.parse(localStorage.getItem(LS_KEY)); if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; bag=s.bag||''; train=s.train||''; } }catch(e){}
 let prices={}; let aiNote='';  // id -> {krw, auto, rec}
 const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const $=id=>document.getElementById(id);
@@ -253,12 +248,7 @@ function renderHotels(){
       const bL=lastK(rec.history), kL=lastK(rec.kayak_history);
       if(bL && kL && (kL<bL*0.6 || kL>bL*1.4)){ const x=document.createElement('span'); x.className='err'; x.textContent=' (다른 숙소 가격으로 보여 계산에서 제외)'; kLine.append(x); }
       box.append(kLine);
-      if(h.id==='2'){
-        const ba=lastK(rec.ai_history), ka=lastK(rec.kayak_ai_history);
-        box.append(srcLine('올인클루시브 부킹닷컴', rec.ai_history, rec.ai_error, !!ba && (!ka || ba<=ka)));
-        box.append(srcLine('올인클루시브 카약', rec.kayak_ai_history, rec.kayak_ai_error, !!ka && (!ba || ka<ba)));
-      }
-      if(rec.room_used){const r=document.createElement('div');r.className='history';r.textContent='부킹닷컴 기준 객실: '+rec.room_used;box.append(r);}
+      if(h.id==='2') box.append(srcLine('올인클루시브', rec.ai_history, rec.ai_error, false));
       if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
     }
     const act=document.createElement('div'); act.className='hotel-actions';
@@ -285,53 +275,21 @@ function renderOptions(){
     box.append(lb,seg); wrap.append(box);
   }
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual}));}catch(e){}}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,bag,train}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
-const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10'],['fl_pmi_opo','마요르카→포르투 9/14'],['fl_lis_bcn','리스본→바르셀로나 9/18'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
-const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
-const BOOK_LINKS={
-  fl_bcn_pmi:[['구글 항공편',GF('BCN','PMI','2027-09-10')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/bcn/pmi/270910/?adultsv2=2']],
-  fl_pmi_opo:[['구글 항공편',GF('PMI','OPO','2027-09-14')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/pmi/opo/270914/?adultsv2=2']],
-  fl_lis_bcn:[['구글 항공편',GF('LIS','BCN','2027-09-18')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/lis/bcn/270918/?adultsv2=2']],
-  car_small:[['카약 렌터카','https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a']],
-  car_suv:[['카약 렌터카 SUV','https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a&fs=carclass=suv']]
-};
-function linkRow(links){
-  const act=document.createElement('div'); act.className='hotel-actions';
-  for(const [t,u] of links){ const a=document.createElement('a'); a.className='btn'; a.href=u; a.target='_blank'; a.rel='noopener'; a.textContent=t; act.append(a); }
-  return act;
-}
+const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10'],['fl_pmi_opo','마요르카→포르투 9/14'],['fl_lis_bcn','리스본→바르셀로나 9/18'],['car_small','렌터카 최저가 (4일)'],['car_suv','렌터카 SUV (4일)']];
 function renderExtras(){
   const w=$('extras'); w.textContent='';
-  for(const [k,label] of EXTRA_KEYS){
-    const r=extras[k]||{}; const box=document.createElement('div'); box.className='hotel';
-    box.append(srcLine(label, r.history, r.error, false), linkRow(BOOK_LINKS[k]||[]));
-    w.append(box);
-  }
-  const tb=document.createElement('div'); tb.className='hotel';
-  const tl=document.createElement('div'); tl.className='history'; const st=document.createElement('strong'); st.textContent='포르투→리스본 기차 9/17 '; tl.append(st, document.createTextNode('포르투갈 철도(CP) 알파 펜둘라르. 출발 몇 달 전부터 판매'));
-  tb.append(tl, linkRow([['CP 공식 사이트','https://www.cp.pt'],['트레인라인','https://www.thetrainline.com']]));
-  w.append(tb);
+  for(const [k,label] of EXTRA_KEYS){ const r=extras[k]||{}; w.append(srcLine(label, r.history, r.error, false)); }
 }
 function calculate(){
   const notes=[]; let hotel=0, roMiss=0, fcMiss=0, aiMiss=false;
   for(const h of HOTELS){
     const p=prices[h.id]||{krw:h.est}; const rec=p.rec||{};
     let v=p.krw, breakfast=true;
-    let aiFc=null;
-    if(opts.meal==='allinc' && h.id==='2'){
-      const c=[lastK(rec.ai_history), lastK(rec.kayak_ai_history)].filter(Boolean);
-      if(c.length) v=Math.min(...c); else { v+=1070000; aiMiss=true; }
-      aiFc=lastK(rec.ai_fc_history); breakfast=false;
-    }
+    if(opts.meal==='allinc' && h.id==='2'){ const ai=lastK(rec.ai_history); if(ai) v=ai; else { v+=1070000; aiMiss=true; } breakfast=false; }
     if(opts.meal==='mallorcaOnly' && h.id!=='2'){ const ro=lastK(rec.ro_history); if(ro) v=ro; else { v-=380000/3; roMiss++; } breakfast=false; }
-    if(opts.cancel==='free'){
-      const fcs=[lastK(rec.fc_history), lastK(rec.kayak_fc_history)].filter(Boolean);
-      const fc=fcs.length?Math.min(...fcs):null;
-      if(breakfast && fc) v=fc;
-      else if(aiFc) v=aiFc;
-      else { v*=1.12; fcMiss++; }
-    }
+    if(opts.cancel==='free'){ const fc=lastK(rec.fc_history); if(fc && breakfast) v=fc; else { v*=1.12; fcMiss++; } }
     hotel+=v;
   }
   if(aiMiss) notes.push('올인클루시브 조회 전: 예상 차액 1,070,000원 사용');
@@ -339,23 +297,18 @@ function calculate(){
   if(fcMiss) notes.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상치 사용`);
   $('aiNote').textContent=notes.join(' / ');
 
-  const M=k=>Number(manual[k])||0;
-  const SEG=[['fl_bcn_pmi','바르셀로나→마요르카'],['fl_pmi_opo','마요르카→포르투'],['fl_lis_bcn','리스본→바르셀로나']];
-  let flight=0, known=0; const missing=[], used=[];
-  for(const [k,name] of SEG){
-    const v=M(k)||lastK((extras[k]||{}).history);
-    if(v){ flight+=v; known++; used.push(M(k)?name+' 입력값':name+' 조회가'); } else missing.push(name);
-  }
-  if(M('bag')) flight+=M('bag'); else missing.push('수하물');
-  if(M('train')) flight+=M('train'); else missing.push('기차');
-  let fNote;
-  if(!known && !M('bag') && !M('train')){ flight=840000; fNote='항공권 조회 전이고 입력값도 없어서 기존 예상값 사용 (수하물, 기차 포함)'; }
-  else fNote=(missing.length?`미입력: ${missing.join(', ')}`:'모든 구간 반영');
+  const fares=['fl_bcn_pmi','fl_pmi_opo','fl_lis_bcn'].map(k=>lastK((extras[k]||{}).history));
+  let flight, fNote;
+  if(fares.every(Boolean)){
+    flight=fares.reduce((a,b)=>a+b,0)+(Number(bag)||0)+(Number(train)||0);
+    const miss=[]; if(!bag) miss.push('수하물'); if(!train) miss.push('기차');
+    fNote='항공 조회가'+(miss.length?` + ${miss.join(', ')} 미입력`:' + 입력하신 수하물, 기차 요금');
+  } else { flight=840000; fNote='항공권 판매 전이라 기존 예상값 사용 (수하물, 기차 포함)'; }
   $('fNote').textContent=fNote;
 
   const ck=opts.car==='suv'?'car_suv':'car_small'; const cv=lastK((extras[ck]||{}).history);
-  const car=M('car')||cv||(opts.car==='suv'?580000:420000);
-  $('cNote').textContent=M('car')?'입력값':(cv?'카약 조회가 (기본 보험)':'조회 전이라 기존 예상값 사용');
+  const car=cv||(opts.car==='suv'?580000:420000);
+  $('cNote').textContent=cv?'카약 조회가':'조회 전이라 기존 예상값 사용';
 
   const total=hotel+flight+car+opts.transfer+TOUR_INSURANCE, diff=total-AGENCY_PRICE;
   $('bHotel').textContent=fmt(hotel); $('bFlight').textContent=fmt(flight); $('bCar').textContent=fmt(car);
@@ -364,10 +317,9 @@ function calculate(){
   if(diff<=0){$('diffValue').textContent='−'+fmt(-diff);$('diffNote').textContent='직접 예약하면 이만큼 아낄 수 있어요.';}
   else{$('diffValue').textContent='+'+fmt(diff);$('diffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요.';}
 }
-document.querySelectorAll('[data-manual]').forEach(inp=>{
-  const k=inp.dataset.manual; if(manual[k]) inp.value=manual[k];
-  inp.addEventListener('input',()=>{ manual[k]=inp.value; save(); calculate(); });
-});
+$('bagIn').value=bag; $('trainIn').value=train;
+$('bagIn').addEventListener('input',e=>{bag=e.target.value;save();calculate();});
+$('trainIn').addEventListener('input',e=>{train=e.target.value;save();calculate();});
 $('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션을 견적서 조건으로 되돌렸어요.');});
 
 renderHotels(); renderExtras(); renderOptions(); calculate();

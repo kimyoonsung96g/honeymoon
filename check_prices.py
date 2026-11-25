@@ -25,7 +25,6 @@ DROP_ALERT_KRW = 30000  # 이 금액 이상 내려가면 알림
 
 BQ = "&group_adults=2&no_rooms=1&selected_currency=KRW"
 KQ = "/2adults?fs=freebies=free-breakfast"
-KQ_AI = "/2adults?fs=freebies=all-inclusive"
 HOTELS = {
     "1": {"name": "Ohla Eixample", "dates": "9/6~9/10", "nights": 4, "room": ["Essential", "에센셜", "=더블룸"],
           "k_room": (["더블룸", "Double Room"], ["디럭스", "Deluxe", "수페리어", "Superior", "스위트", "Suite", "트윈", "Twin"]),
@@ -165,26 +164,49 @@ def analyze_rows(rows, room_words):
 KAYAK_ROW = re.compile(r"([^\n]+)\n([^\n]*)\n(\d+)\u200b?박 총액 ([\d,]+)원")
 
 
-def kayak_rows(page, url, hid, tag):
+def _parse_kayak(body):
+    return [(f"{a} {b}".strip(), int(t.replace(",", ""))) for a, b, n, t in KAYAK_ROW.findall(body)]
+
+
+def kayak_rows(page, url, hid, tag, chip=None):
+    """카약 객실 요금 목록을 읽음. chip이 있으면 요금 목록 위의 조건 버튼('조식 포함', '올인클루시브')을 눌러 걸러낸 뒤 읽음
+    (주소의 필터는 이 목록에 적용되지 않음). 반환: (rows, 버튼 적용 여부, 오류)"""
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(15000)
     body = page.inner_text("body")
-    rows = [(f"{a} {b}".strip(), int(t.replace(",", ""))) for a, b, n, t in KAYAK_ROW.findall(body)]
-    save_debug(f"kayak_{hid}{tag}.txt", "=== 읽은 객실 요금 ===\n" +
-               "\n".join(f"[{p:,}] {t}" for t, p in rows) + "\n\n=== 화면 전체 ===\n" + body)
     if has(body, BLOCK):
-        return None, "카약 접속 차단"
+        save_debug(f"kayak_{hid}{tag}.txt", body)
+        return None, False, "카약 접속 차단"
+    before = _parse_kayak(body)
+    rows, applied, note = before, False, "버튼 없음"
+    if chip:
+        try:
+            page.get_by_text(chip, exact=True).first.click(timeout=8000)
+            page.wait_for_timeout(7000)
+            body = page.inner_text("body")
+            after = _parse_kayak(body)
+            if after and after != before:
+                rows, applied, note = after, True, "버튼 적용됨"
+            else:
+                note = "버튼을 눌렀지만 목록이 그대로" if after else "버튼을 누른 뒤 목록이 비어 있음"
+        except Exception as e:
+            note = f"버튼 누르기 실패: {str(e)[:60]}"
+    save_debug(f"kayak_{hid}{tag}.txt", f"=== '{chip}' {note} ===\n=== 읽은 객실 요금 ===\n" +
+               "\n".join(f"[{p:,}] {t}" for t, p in rows) + "\n\n=== 화면 전체 ===\n" + body)
     if not rows:
-        return None, "객실 요금 목록을 찾지 못함 (예약 미오픈 또는 차단)"
-    return rows, None
+        return None, False, "객실 요금 목록을 찾지 못함 (예약 미오픈 또는 차단)"
+    return rows, applied, None
 
 
-def kayak_pick(rows, h, words, ref, also=None):
-    """견적 객실 + 조건(words)에 맞는 줄의 최저가. 부킹닷컴(ref)과 40% 넘게 차이 나면 제외"""
+def kayak_pick(rows, h, words, ref, also=None, applied=False, other=None):
+    """견적 객실 + 조건에 맞는 줄의 최저가.
+    조건 버튼이 적용됐으면(applied) 줄에 조건 문구가 없어도 인정하되, 다른 식사 조건(other)이 적힌 줄은 제외.
+    부킹닷컴(ref)과 40% 넘게 차이 나면 제외."""
     inc, exc = h["k_room"]
     cand = [p for t, p in rows
             if any(w.lower() in t.lower() for w in inc) and not any(x.lower() in t.lower() for x in exc)
-            and has(t, words) and (also is None or has(t, also))]
+            and (has(t, words) or (applied and not (other and has(t, other))))
+            and (also is None or has(t, also))]
     if not cand:
         return None, "견적 객실의 해당 조건 요금이 카약에 없음"
     v = min(cand)
@@ -316,17 +338,19 @@ def main():
                 put(rec, "ai_fc_history", r["ai_fc"], "ai_fc_error", ("올인클루시브 무료 취소 요금이 없음" if rows and r["ai_fc"] is None else err), h["name"] + " 올인클루시브 무료취소")
 
             try:
-                krows, kerr = kayak_rows(page, h["kayak"], hid, "")
-                k, kerr = kayak_pick(krows, h, BREAKFAST, r["breakfast"]) if krows else (None, kerr)
+                krows, kapp, kerr = kayak_rows(page, h["kayak"], hid, "", "조식 포함")
+                k, kerr = kayak_pick(krows, h, BREAKFAST, r["breakfast"], applied=kapp, other=ALL_INC) if krows else (None, kerr)
+                kf, kferr = (kayak_pick(krows, h, BREAKFAST, r["fc"], FREE_CANCEL, applied=kapp, other=ALL_INC)
+                             if krows else (None, kerr))
             except Exception as e:
-                k, kerr = None, f"조회 오류: {str(e)[:80]}"
+                k, kerr, kf, kferr = None, f"조회 오류: {str(e)[:80]}", None, f"조회 오류: {str(e)[:80]}"
             put(rec, "kayak_history", k, "kayak_error", kerr, "KAYAK " + h["name"])
-            kf, kferr = kayak_pick(krows, h, BREAKFAST, r["fc"], FREE_CANCEL) if krows else (None, kerr)
             put(rec, "kayak_fc_history", kf, "kayak_fc_error", kferr, "KAYAK " + h["name"] + " 무료취소")
             if h.get("all_inclusive"):
                 try:
-                    arows, aerr = kayak_rows(page, h["kayak"].replace(KQ, KQ_AI), hid, "_ai")
-                    ka, aerr = kayak_pick(arows, h, ALL_INC, r["ai"]) if arows else (None, aerr)
+                    arows, aapp, aerr = kayak_rows(page, h["kayak"].replace(KQ, "/2adults"), hid, "_ai", "올인클루시브")
+                    ka, aerr = (kayak_pick(arows, h, ALL_INC, r["ai"], applied=aapp, other=None) if (arows and (aapp or any(has(t, ALL_INC) for t, _ in arows)))
+                                else (None, aerr or "올인클루시브 버튼이 적용되지 않음"))
                 except Exception as e:
                     ka, aerr = None, f"조회 오류: {str(e)[:80]}"
                 put(rec, "kayak_ai_history", ka, "kayak_ai_error", aerr, "KAYAK " + h["name"] + " 올인클루시브")
