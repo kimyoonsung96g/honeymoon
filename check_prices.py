@@ -21,7 +21,7 @@ HOTELS = {
     "2": {"name": "Zoëtry Mallorca", "dates": "9/10~9/14",
           "url": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-10&checkout=2027-09-14" + Q},
     "3": {"name": "Mercure Porto Centro", "dates": "9/14~9/17",
-          "url": "https://www.booking.com/hotel/pt/mercure-porto-centro.ko.html?checkin=2027-09-14&checkout=2027-09-17" + Q},
+          "url": "https://www.booking.com/hotel/pt/mercure-batalha-porto-centro.ko.html?checkin=2027-09-14&checkout=2027-09-17" + Q},
     "4": {"name": "TURIM Boulevard", "dates": "9/17~9/18",
           "url": "https://www.booking.com/hotel/pt/turim-boulevard.ko.html?checkin=2027-09-17&checkout=2027-09-18" + Q},
 }
