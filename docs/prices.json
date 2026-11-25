@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25 22:43",
+ "updated": "2026-11-25 23:12",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
@@ -43,7 +43,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
@@ -83,7 +83,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
@@ -116,7 +116,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "last_error": null,
    "kayak_error": "부킹닷컴과 차이가 커서 제외 (카약에서 읽은 값 302,809원)",
    "kayak_history": [
@@ -144,7 +144,7 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "error": null,
    "history": [
     {
@@ -155,8 +155,8 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-25 22:43",
-   "error": "아직 판매 전이거나 가격 추출 실패",
+   "last_check": "2026-11-25 23:12",
+   "error": null,
    "history": [
     {
      "date": "2026-11-25",
@@ -166,8 +166,8 @@
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-25 22:43",
-   "error": "아직 판매 전이거나 가격 추출 실패",
+   "last_check": "2026-11-25 23:12",
+   "error": null,
    "history": [
     {
      "date": "2026-11-25",
@@ -177,7 +177,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 최저가 (4일)",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "error": null,
    "history": [
     {
@@ -188,7 +188,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 SUV (4일)",
-   "last_check": "2026-11-25 22:43",
+   "last_check": "2026-11-25 23:12",
    "error": null,
    "history": [
     {
