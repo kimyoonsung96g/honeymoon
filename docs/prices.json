@@ -1,170 +1,196 @@
 {
- "updated": "2026-11-25 23:40",
+ "updated": "2026-11-26 00:03",
  "hotels": {
   "1": {
    "history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 2041147
     }
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
-     "date": "2026-11-25",
-     "krw": 2196015
+     "date": "2026-11-26",
+     "krw": 1883764
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 2041147
     }
    ],
    "ro_error": "조식 미포함 요금이 없음",
    "ro_history": [],
    "ai_history": [],
-   "method": "rows-v2"
+   "method": "rows-v5",
+   "ai_fc_history": [],
+   "kayak_fc_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1883764
+    }
+   ],
+   "kayak_ai_history": [],
+   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 더블룸 투숙 가능 인원: 성인 2명 더블침대 1개 이 세련된 객실은 현지 뒤뜰 전망을 자랑합니다. 침대에서 투명하게 보이는 레인 샤워기가 구비되어 있습니다. 객실, 디럭스 더블룸 - 다락 투숙 가능 인원: 성인 2명 대형 더블침대 1개 이 객실은 인더스트리얼 장식, 독)",
+   "kayak_fc_error": null
   },
   "2": {
    "history": [
     {
-     "date": "2026-11-25",
-     "krw": 2039085
+     "date": "2026-11-26",
+     "krw": 2265879
     }
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "last_error": null,
    "kayak_error": null,
    "kayak_history": [
     {
-     "date": "2026-11-25",
-     "krw": 2317064
+     "date": "2026-11-26",
+     "krw": 1715908
     }
    ],
    "ai_error": null,
    "ai_history": [
     {
-     "date": "2026-11-25",
-     "krw": 3203982
+     "date": "2026-11-26",
+     "krw": 4597735
     }
    ],
    "fc_error": null,
    "fc_history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 2515352
     }
    ],
-   "ro_error": null,
-   "ro_history": [
+   "ro_error": "조식 미포함 요금이 없음",
+   "ro_history": [],
+   "method": "rows-v5",
+   "ai_fc_history": [
     {
-     "date": "2026-11-25",
-     "krw": 2416388
+     "date": "2026-11-26",
+     "krw": 4849271
     }
    ],
-   "method": "rows-v2"
+   "kayak_fc_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1715908
+    }
+   ],
+   "kayak_ai_history": [],
+   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스룸 - Ponent 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개 방음 시설과 발코니를 갖춘 이 트윈룸/더블룸에는 에어컨이 설치되어 있습니다. 객실, 디럭스룸 - Tramuntana 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개)",
+   "ai_fc_error": null,
+   "kayak_fc_error": null,
+   "kayak_ai_error": "견적 객실의 해당 조건 요금이 카약에 없음"
   },
   "3": {
    "history": [
     {
-     "date": "2026-11-25",
-     "krw": 930666
+     "date": "2026-11-26",
+     "krw": 1038908
     }
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "last_error": null,
-   "kayak_error": null,
-   "kayak_history": [
-    {
-     "date": "2026-11-25",
-     "krw": 923774
-    }
-   ],
+   "kayak_error": "견적 객실의 해당 조건 요금이 카약에 없음",
+   "kayak_history": [],
    "fc_error": null,
    "fc_history": [
     {
-     "date": "2026-11-25",
-     "krw": 1082426
+     "date": "2026-11-26",
+     "krw": 1197296
     }
    ],
    "ro_error": null,
    "ro_history": [
     {
-     "date": "2026-11-25",
-     "krw": 859977
+     "date": "2026-11-26",
+     "krw": 897531
     }
    ],
    "ai_history": [],
-   "method": "rows-v2"
+   "method": "rows-v5",
+   "ai_fc_history": [],
+   "kayak_fc_history": [],
+   "kayak_ai_history": [],
+   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: Junior Family Suite with Double Bed and Sofa Bed 소파베드 1개 및 대형 더블침대 1개 단독으로 사용하는 스위트룸, Privilege Double Room with Panoramic City View 더블침대 1개 객실, Super)",
+   "kayak_fc_error": "견적 객실의 해당 조건 요금이 카약에 없음"
   },
   "4": {
    "history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 485501
     }
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "last_error": null,
-   "kayak_error": null,
-   "kayak_history": [
-    {
-     "date": "2026-11-25",
-     "krw": 332762
-    }
-   ],
+   "kayak_error": "견적 객실의 해당 조건 요금이 카약에 없음",
+   "kayak_history": [],
    "fc_error": null,
    "fc_history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 529240
     }
    ],
    "ro_error": null,
    "ro_history": [
     {
-     "date": "2026-11-25",
+     "date": "2026-11-26",
      "krw": 412603
     }
    ],
    "ai_history": [],
-   "method": "rows-v2"
+   "method": "rows-v5",
+   "ai_fc_history": [],
+   "kayak_fc_history": [],
+   "kayak_ai_history": [],
+   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스 더블룸 - 대로 전망 투숙 가능 인원: 성인 2명 더블침대 1개 이 더블룸에는 샤워 시설, 헤어드라이어, 슬리퍼가 구비된 전용 욕실이 있으며, 무료 세면도구와 목욕 가운이 비치되어 있습니다. 이 넓은 더블룸에는 방음벽이 장치되어 있고, 에어컨, 평면 케이블 TV)",
+   "kayak_fc_error": "견적 객실의 해당 조건 요금이 카약에 없음"
   }
  },
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [],
    "method": "list-v2"
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [],
    "method": "list-v2"
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "error": null,
    "history": [
     {
      "date": "2026-11-25",
+     "krw": 88798
+    },
+    {
+     "date": "2026-11-26",
      "krw": 88798
     }
    ],
@@ -172,11 +198,15 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "error": null,
    "history": [
     {
      "date": "2026-11-25",
+     "krw": 152832
+    },
+    {
+     "date": "2026-11-26",
      "krw": 152832
     }
    ],
@@ -184,11 +214,15 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-25 23:40",
+   "last_check": "2026-11-26 00:03",
    "error": null,
    "history": [
     {
      "date": "2026-11-25",
+     "krw": 189220
+    },
+    {
+     "date": "2026-11-26",
      "krw": 189220
     }
    ],
