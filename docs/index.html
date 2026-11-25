@@ -142,6 +142,16 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
   </section>
 
   <section>
+    <h2>견적에 포함된 투어와 보험</h2>
+    <div class="rows">
+      <div><span>9/7 바르셀로나 가우디 오전 단체 워킹투어<br><small class="hint">한국인 가이드. 까사 바트요, 까사 밀라, 구엘공원, 사그라다 파밀리아(외관). 별도: 구엘공원 입장료 1인 €18, 택시비 1인 €5~10</small></span></div>
+      <div><span>9/9 몬세라트와 지로나 단체투어<br><small class="hint">한국인 가이드와 차량. 4인 이상 모여야 출발. 별도: 몬세라트 성당 입장료 1인 €14, 푸니쿨라</small></span></div>
+      <div><span>9/15 포르투 시내 오전 반일 단체투어<br><small class="hint">한국인 가이드. 3인 이상 모여야 출발. 별도: 수신기 1인 €2, 식사</small></span></div>
+      <div><span>여행자 보험<br><small class="hint">견적서에는 ‘최대 1억 원 보장’만 적혀 있어요. 보험사와 보장 항목은 여행사에 확인이 필요해요.</small></span></div>
+    </div>
+  </section>
+
+  <section>
     <h2>항목별 내역 (2인)</h2>
     <div class="rows">
       <div><span>호텔 12박<br><small class="hint" id="aiNote"></small></span><strong class="num" id="bHotel"></strong></div>
@@ -234,7 +244,10 @@ function renderHotels(){
     const rec=p.rec;
     if(rec){
       box.append(srcLine('부킹닷컴', rec.history, rec.last_error, p.src==='booking'));
-      box.append(srcLine('카약', rec.kayak_history, rec.kayak_error, p.src==='kayak'));
+      const kLine=srcLine('카약', rec.kayak_history, rec.kayak_error, p.src==='kayak');
+      const bL=lastK(rec.history), kL=lastK(rec.kayak_history);
+      if(bL && kL && (kL<bL*0.6 || kL>bL*1.4)){ const x=document.createElement('span'); x.className='err'; x.textContent=' (다른 숙소 가격으로 보여 계산에서 제외)'; kLine.append(x); }
+      box.append(kLine);
       if(h.id==='2') box.append(srcLine('올인클루시브', rec.ai_history, rec.ai_error, false));
       if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
     }
@@ -310,7 +323,10 @@ $('trainIn').addEventListener('input',e=>{train=e.target.value;save();calculate(
 $('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션을 견적서 조건으로 되돌렸어요.');});
 
 renderHotels(); renderExtras(); renderOptions(); calculate();
-fetch('prices.json?t='+Date.now()).then(r=>r.json()).then(d=>{
+const RAW='https://raw.githubusercontent.com/kimyoonsung96g/honeymoon/main/docs/prices.json';
+fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
+ .catch(()=>fetch('prices.json?t='+Date.now()).then(r=>r.json()))
+ .then(d=>{
   for(const h of HOTELS){
     const rec=d.hotels&&d.hotels[h.id]; if(!rec) continue;
     const today=rec.last_check?rec.last_check.slice(0,10):null;
@@ -318,7 +334,7 @@ fetch('prices.json?t='+Date.now()).then(r=>r.json()).then(d=>{
     const bl=latest(rec.history), kl=latest(rec.kayak_history);
     const cands=[];
     if(bl) cands.push({krw:bl.krw,src:'booking',date:bl.date});
-    if(kl) cands.push({krw:kl.krw,src:'kayak',date:kl.date});
+    if(kl && (!bl || (kl.krw>=bl.krw*0.6 && kl.krw<=bl.krw*1.4))) cands.push({krw:kl.krw,src:'kayak',date:kl.date});
     // 최근 날짜 기록을 우선, 같은 날이면 더 싼 쪽
     const newest=cands.length?cands.map(c=>c.date).sort().pop():null;
     const best=cands.filter(c=>c.date===newest).sort((x,y)=>x.krw-y.krw)[0];
