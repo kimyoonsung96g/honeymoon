@@ -11,6 +11,7 @@ from datetime import datetime, timezone, timedelta
 
 KST = timezone(timedelta(hours=9))
 DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs", "prices.json")
+DEBUG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "debug")
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
 DROP_ALERT_KRW = 30000  # 이 금액 이상 내려가면 알림
 
@@ -147,23 +148,54 @@ def fetch_car(page, url, prev_total):
     return total, None
 
 
-def fetch_kayak(page, h, booking_total):
+KAYAK_PROVIDERS = ["Booking.com", "부킹닷컴", "Agoda", "아고다", "Hotels.com", "호텔스닷컴", "Expedia", "익스피디아",
+                   "Trip.com", "트립닷컴", "Priceline", "Vio.com", "Super.com", "Prestigia", "Destinia", "공식"]
+KAYAK_DEAL = ["특가 보기", "딜 보기", "예약하기", "View Deal", "View deal", "보기"]
+
+# 페이지에서 '예약 사이트 이름 + 가격 + 특가 보기 버튼'이 함께 있는 작은 덩어리만 골라냄
+# (비슷한 숙소, 광고 영역의 가격은 제외하기 위함)
+KAYAK_JS = r"""
+(args) => {
+  const [providers, deals] = args;
+  const out = [];
+  for (const el of document.querySelectorAll('div,li,a,section')) {
+    const t = (el.innerText || '').trim();
+    if (!t || t.length > 220 || !/₩|원/.test(t)) continue;
+    const hasProv = providers.some(p => t.includes(p)) ||
+      [...el.querySelectorAll('img[alt]')].some(i => providers.some(p => (i.alt||'').includes(p)));
+    const hasDeal = deals.some(d => t.includes(d));
+    if (hasProv && hasDeal) out.push(t.replace(/\s+/g, ' '));
+  }
+  return out;
+}
+"""
+
+
+def fetch_kayak(page, h, booking_total, hid):
     page.goto(h["kayak"], wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(15000)  # 카약은 여러 사이트 가격을 천천히 불러옴
     body = page.inner_text("body")
+    # 문제 확인용으로 카약 화면 글자를 저장 (debug 폴더)
+    try:
+        os.makedirs(DEBUG_DIR, exist_ok=True)
+        with open(os.path.join(DEBUG_DIR, f"kayak_{hid}.txt"), "w", encoding="utf-8") as f:
+            f.write(body[:15000])
+    except Exception:
+        pass
     if any(k.lower() in body.lower() for k in KAYAK_BLOCK):
         return None, "카약 접속 차단"
-    vals = won_values(body, 50000, 20000000)
+    blocks = page.evaluate(KAYAK_JS, [KAYAK_PROVIDERS, KAYAK_DEAL])
+    vals = []
+    for t in blocks:
+        vals += won_values(t, 30000, 20000000)
     if not vals:
-        return None, "가격 추출 실패 (예약 미오픈 또는 차단)"
+        return None, "예약 사이트별 가격을 찾지 못함"
     v = min(vals)
-    # 카약은 보통 '1박 요금'으로 표시 → 숙박 전체 금액으로 맞춤
     per_night_total, as_total = v * h["nights"], v
     if booking_total:
         total = min((per_night_total, as_total), key=lambda x: abs(x - booking_total))
-        # 카약 페이지에는 '비슷한 숙소' 가격도 섞여 있어서, 부킹닷컴과 너무 차이 나면 버림
         if not (0.6 * booking_total <= total <= 1.4 * booking_total):
-            return None, "다른 숙소 가격으로 보여 제외"
+            return None, f"부킹닷컴과 차이가 커서 제외 (카약에서 읽은 값 {v:,}원)"
     else:
         total = per_night_total
     return total, None
@@ -225,7 +257,7 @@ def main():
 
             # 카약
             try:
-                k, kerr = fetch_kayak(page, h, b)
+                k, kerr = fetch_kayak(page, h, b, hid)
             except Exception as e:
                 k, kerr = None, f"조회 오류: {str(e)[:80]}"
             rec["kayak_error"] = kerr
