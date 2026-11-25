@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25 21:31",
+ "updated": "2026-11-25 21:38",
  "hotels": {
   "1": {
    "history": [
@@ -10,8 +10,15 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-25 21:31",
-   "last_error": null
+   "last_check": "2026-11-25 21:38",
+   "last_error": null,
+   "kayak_error": null,
+   "kayak_history": [
+    {
+     "date": "2026-11-25",
+     "krw": 477760
+    }
+   ]
   },
   "2": {
    "history": [
@@ -22,15 +29,34 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-25 21:31",
-   "last_error": null
+   "last_check": "2026-11-25 21:38",
+   "last_error": null,
+   "kayak_error": null,
+   "kayak_history": [
+    {
+     "date": "2026-11-25",
+     "krw": 971620
+    }
+   ]
   },
   "3": {
-   "history": [],
+   "history": [
+    {
+     "date": "2026-11-25",
+     "krw": 811299
+    }
+   ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-25 21:31",
-   "last_error": "가격 추출 실패 (사이트 차단 가능)"
+   "last_check": "2026-11-25 21:38",
+   "last_error": null,
+   "kayak_error": null,
+   "kayak_history": [
+    {
+     "date": "2026-11-25",
+     "krw": 201303
+    }
+   ]
   },
   "4": {
    "history": [
@@ -41,8 +67,15 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-25 21:31",
-   "last_error": null
+   "last_check": "2026-11-25 21:38",
+   "last_error": null,
+   "kayak_error": null,
+   "kayak_history": [
+    {
+     "date": "2026-11-25",
+     "krw": 92599
+    }
+   ]
   }
  }
 }
