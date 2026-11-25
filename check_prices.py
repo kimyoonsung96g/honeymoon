@@ -8,7 +8,7 @@
   (부킹닷컴 주소의 필터는 호텔 페이지에서 적용되지 않아서, 표의 조건 문구로 직접 구분)
 호텔(카약): 예약 사이트별 가격 목록만 읽음
 항공(구글 항공편): 검색 결과 목록의 편도 최저가 x 2인 (수하물 별도)
-렌터카(카약): 마요르카 4일 최저가
+렌터카(카약): 마요르카 4일 최저가 (자동 변속기, 광고 제외)
 
 결과: docs/prices.json / 확인용 화면 글자: debug/ 폴더
 가격이 내려가면 휴대폰 푸시 알림 (ntfy 앱, NTFY_TOPIC 설정 시)
@@ -51,9 +51,9 @@ EXTRAS = {
     "fl_bcn_pmi": {"name": "바르셀로나→마요르카 9/10", "kind": "flight", "url": _gf("BCN", "PMI", "2027-09-10")},
     "fl_pmi_opo": {"name": "마요르카→포르투 9/14", "kind": "flight", "url": _gf("PMI", "OPO", "2027-09-14")},
     "fl_lis_bcn": {"name": "리스본→바르셀로나 9/18", "kind": "flight", "url": _gf("LIS", "BCN", "2027-09-18")},
-    "car_small": {"name": "마요르카 렌터카 최저가 (4일)", "kind": "car",
+    "car_small": {"name": "마요르카 렌터카 자동 최저가 (4일)", "kind": "car",
                   "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a"},
-    "car_suv": {"name": "마요르카 렌터카 SUV (4일)", "kind": "car",
+    "car_suv": {"name": "마요르카 렌터카 자동 SUV (4일)", "kind": "car",
                 "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a&fs=carclass=suv"},
 }
 CAR_DAYS = 4
@@ -108,7 +108,12 @@ def fetch_booking_rows(page, h, hid):
         # 가격 칸만 읽음 (세금 줄 제외). 정가와 할인가가 같이 있으면 작은 값이 실제 가격
         vals = won_values(pe.inner_text(), 50000, 40000000)
         if vals:
-            rows.append((re.sub(r"\s+", " ", t), min(vals)))
+            price = min(vals)
+            # '불포함 사항: 10 % 부가가치세(VAT)'처럼 VAT가 빠진 가격이면 VAT를 더해 실제 결제액으로 맞춤
+            vat = re.search(r"불포함[^%]{0,40}?(\d+(?:\.\d+)?)\s*%\s*부가가치세", t)
+            if vat:
+                price = round(price * (1 + float(vat.group(1)) / 100))
+            rows.append((re.sub(r"\s+", " ", t), price))
     fixed = rows
     save_debug(f"booking_{hid}.txt", "\n\n".join(f"[{p:,}] {t}" for t, p in fixed) or body)
     if not fixed:
@@ -160,7 +165,8 @@ def fetch_kayak(page, h, booking_total, hid):
         return None, "카약 접속 차단"
     vals = []
     for t in blocks:
-        vals += won_values(t, 30000, 20000000)
+        tot = [int(x.replace(",", "")) for x in re.findall(r"총액\s*([\d,]{5,})\s*원", t)]
+        vals += tot if tot else won_values(t, 30000, 20000000)
     if not vals:
         return None, "예약 사이트별 가격을 찾지 못함"
     v = min(vals)
@@ -196,6 +202,7 @@ def fetch_flight(page, url, key):
 
 
 # ---------------- 카약 렌터카 ----------------
+# 견적서 조건(자동 변속기)에 맞춰 '수동' 차량은 제외. 광고 칸도 제외. 가격은 카약이 표시한 4일 총액.
 def fetch_car(page, url, key, prev_total):
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(15000)
@@ -203,15 +210,21 @@ def fetch_car(page, url, key, prev_total):
     save_debug(f"car_{key}.txt", body)
     if has(body, BLOCK):
         return None, "카약 접속 차단"
-    vals = won_values(body, 10000, 5000000)
+    want_suv = key == "car_suv"
+    vals = []
+    for blk in body.split("상세 정보 보기")[1:]:
+        if "광고" in blk.split("상품 확인")[0][-40:]:
+            continue
+        if "수동" in blk:
+            continue
+        if want_suv and "SUV" not in blk:
+            continue
+        v = won_values(blk, 10000, 5000000)
+        if v:
+            vals.append(v[0])  # 칸의 첫 가격이 할인 적용된 총액
     if not vals:
-        return None, "아직 예약 전이거나 가격 추출 실패"
-    v = min(vals)
-    if prev_total:
-        total = min((v, v * CAR_DAYS), key=lambda x: abs(x - prev_total))
-    else:
-        total = v * CAR_DAYS if v < 60000 else v
-    return total, None
+        return None, "자동 변속기" + (" SUV" if want_suv else "") + " 차량을 찾지 못함"
+    return min(vals), None
 
 
 # ---------------- 기록, 알림 ----------------
@@ -265,11 +278,11 @@ def main():
             rec = data["hotels"].setdefault(hid, {})
             rec["name"], rec["dates"] = h["name"], h["dates"]
             rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-            # 예전 방식(필터가 적용되지 않던) 기록은 정확하지 않아 한 번 비움
-            if rec.get("method") != "rows-v1":
+            # 계산 방식이 바뀐 예전 기록(VAT 미포함 등)은 정확하지 않아 한 번 비움
+            if rec.get("method") != "rows-v2":
                 for k in ("history", "fc_history", "ro_history", "ai_history", "kayak_history"):
                     rec[k] = []
-                rec["method"] = "rows-v1"
+                rec["method"] = "rows-v2"
 
             try:
                 rows, err = fetch_booking_rows(page, h, hid)
@@ -295,9 +308,9 @@ def main():
             rec = ex.setdefault(key, {})
             rec["name"] = e["name"]
             rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-            if rec.get("method") != "list-v1":
+            if rec.get("method") != "list-v2":
                 rec["history"] = []
-                rec["method"] = "list-v1"
+                rec["method"] = "list-v2"
             prev_hist = rec.get("history") or []
             try:
                 if e["kind"] == "flight":
