@@ -12,7 +12,7 @@ GitHub가 매일 오전 9시에 부킹닷컴 가격을 자동으로 조회하고
    - `track.yml` 내용을 그대로 붙여넣고 Commit
 4. **Settings → Pages**
    - Source: Deploy from a branch / Branch: `main`, 폴더: `/docs` → Save
-   - 1~2분 뒤 나오는 주소(`https://아이디.github.io/honeymoon/`)를 휴대폰 홈 화면에 추가
+   - 1~2분 뒤 나오는 주소(`https://kimyoonsung96g.github.io/honeymoon/`)를 휴대폰 홈 화면에 추가
 5. **Actions 탭 → 호텔 가격 추적 → Run workflow**로 첫 조회 실행 (이후 매일 자동)
 
 ## 가격 하락 알림 받기 (선택)
