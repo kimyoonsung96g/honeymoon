@@ -120,7 +120,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>호텔 가격</h2>
-    <p class="hint" id="updatedHint">매일 오전 9시에 부킹닷컴 조식 포함 최저가(숙박 전체, 2인)를 자동으로 조회해요.</p>
+    <p class="hint" id="updatedHint">매일 오전 9시에 부킹닷컴과 카약의 조식 포함 최저가(숙박 전체, 2인)를 자동으로 조회하고, 더 싼 쪽으로 계산해요.</p>
     <div id="hotels"></div>
   </section>
 
@@ -155,7 +155,7 @@ const HOTELS = [
   {id:'2', city:'마요르카', nights:4, dates:'9/10~9/14', name:'Zoëtry Mallorca', room:'Double Ponent, 조식 포함', est:1945000,
    url:'https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-10&checkout=2027-09-14&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1'},
   {id:'3', city:'포르투', nights:3, dates:'9/14~9/17', name:'Mercure Porto Centro', room:'Standard Double, 조식 포함', est:691000,
-   url:'https://www.booking.com/hotel/pt/mercure-baylha-porto-centro.ko.html?checkin=2027-09-14&checkout=2027-09-17&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1'},
+   url:'https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-14&checkout=2027-09-17&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1'},
   {id:'4', city:'리스본', nights:1, dates:'9/17~9/18', name:'TURIM Boulevard', room:'Superior, 조식 포함', est:349000,
    url:'https://www.booking.com/hotel/pt/turim-boulevard.ko.html?checkin=2027-09-17&checkout=2027-09-18&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1'}
 ];
@@ -186,6 +186,28 @@ const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const $=id=>document.getElementById(id);
 function toast(m){const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400);}
 
+const KAYAK={'1':'https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-06/2027-09-10/2adults?fs=freebies=free-breakfast',
+ '2':'https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-10/2027-09-14/2adults?fs=freebies=free-breakfast',
+ '3':'https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-14/2027-09-17/2adults?fs=freebies=free-breakfast',
+ '4':'https://www.kayak.co.kr/hotels/TURIM-Boulevard-Hotel,Lisbon,Portugal-c21721-h4855678-details/2027-09-17/2027-09-18/2adults?fs=freebies=free-breakfast'};
+function srcLine(label, hs, err, isBest){
+  const line=document.createElement('div'); line.className='history';
+  const b=document.createElement('strong'); b.textContent=label+' '; line.append(b);
+  if(hs && hs.length){
+    const last=hs[hs.length-1];
+    line.append(document.createTextNode(fmt(last.krw)+(isBest?' (최저)':'')));
+    if(hs.length>1){
+      const d=last.krw-hs[hs.length-2].krw; const sp=document.createElement('span');
+      if(d<0){sp.className='down';sp.textContent=`, 전날보다 ${fmt(-d)} 내림`;}
+      else if(d>0){sp.className='up';sp.textContent=`, 전날보다 ${fmt(d)} 오름`;}
+      else sp.textContent=', 변동 없음';
+      line.append(sp);
+    }
+  } else {
+    const sp=document.createElement('span'); sp.className='err'; sp.textContent=err||'아직 기록 없음'; line.append(sp);
+  }
+  return line;
+}
 function renderHotels(){
   const wrap=$('hotels'); wrap.textContent='';
   for(const h of HOTELS){
@@ -200,26 +222,17 @@ function renderHotels(){
     head.append(left,meta);
     const k=document.createElement('div'); k.className='krw num'; k.textContent=fmt(p.krw);
     if(!p.auto){const e=document.createElement('span');e.className='est';e.textContent='예상가 (자동 조회 전)';k.append(e);}
-    const info=document.createElement('div'); info.className='history';
+    box.append(head,k);
     const rec=p.rec;
-    if(rec && rec.history && rec.history.length){
-      const hs=rec.history, last=hs[hs.length-1];
-      info.append(document.createTextNode(`${last.date} 조회`));
-      if(hs.length>1){
-        const d=last.krw-hs[hs.length-2].krw; const s=document.createElement('span');
-        if(d<0){s.className='down';s.textContent=`, 전날보다 ${fmt(-d)} 내림`;}
-        else if(d>0){s.className='up';s.textContent=`, 전날보다 ${fmt(d)} 오름`;}
-        else s.textContent=', 변동 없음';
-        info.append(s);
-        const min=Math.min(...hs.map(x=>x.krw));
-        info.append(document.createTextNode(` (기록 중 최저 ${fmt(min)})`));
-      }
+    if(rec){
+      box.append(srcLine('부킹닷컴', rec.history, rec.last_error, p.src==='booking'));
+      box.append(srcLine('카약', rec.kayak_history, rec.kayak_error, p.src==='kayak'));
+      if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
     }
-    box.append(head,k,info);
-    if(rec && rec.last_error){const er=document.createElement('div');er.className='err';er.textContent=`최근 조회 실패 (${rec.last_check}): ${rec.last_error}`;box.append(er);}
     const act=document.createElement('div'); act.className='hotel-actions';
-    const a=document.createElement('a'); a.className='btn'; a.href=h.url; a.target='_blank'; a.rel='noopener'; a.textContent='부킹닷컴에서 보기';
-    act.append(a); box.append(act);
+    const a=document.createElement('a'); a.className='btn'; a.href=h.url; a.target='_blank'; a.rel='noopener'; a.textContent='부킹닷컴';
+    const a2=document.createElement('a'); a2.className='btn'; a2.href=KAYAK[h.id]; a2.target='_blank'; a2.rel='noopener'; a2.textContent='카약';
+    act.append(a,a2); box.append(act);
     wrap.append(box);
   }
 }
@@ -257,11 +270,19 @@ $('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();render
 renderHotels(); renderOptions(); calculate();
 fetch('prices.json?t='+Date.now()).then(r=>r.json()).then(d=>{
   for(const h of HOTELS){
-    const rec=d.hotels&&d.hotels[h.id];
-    if(rec && rec.history && rec.history.length) prices[h.id]={krw:rec.history[rec.history.length-1].krw,auto:true,rec};
-    else if(rec) prices[h.id]={krw:h.est,auto:false,rec};
+    const rec=d.hotels&&d.hotels[h.id]; if(!rec) continue;
+    const today=rec.last_check?rec.last_check.slice(0,10):null;
+    const latest=hs=>hs&&hs.length?hs[hs.length-1]:null;
+    const bl=latest(rec.history), kl=latest(rec.kayak_history);
+    const cands=[];
+    if(bl) cands.push({krw:bl.krw,src:'booking',date:bl.date});
+    if(kl) cands.push({krw:kl.krw,src:'kayak',date:kl.date});
+    // 최근 날짜 기록을 우선, 같은 날이면 더 싼 쪽
+    const newest=cands.length?cands.map(c=>c.date).sort().pop():null;
+    const best=cands.filter(c=>c.date===newest).sort((x,y)=>x.krw-y.krw)[0];
+    prices[h.id]=best?{krw:best.krw,src:best.src,auto:true,rec}:{krw:h.est,auto:false,rec};
   }
-  if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 부킹닷컴 조식 포함 최저가(숙박 전체, 2인)를 조회해요.`;
+  if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 부킹닷컴과 카약을 조회하고 더 싼 쪽으로 계산해요.`;
   renderHotels(); calculate();
 }).catch(()=>{});
 </script>
