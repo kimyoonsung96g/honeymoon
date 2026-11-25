@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 신혼여행 호텔 가격 자동 추적 (GitHub Actions에서 매일 자동 실행)
-- 부킹닷컴에서 4개 호텔의 조식 포함 최저가(원화, 숙박 전체)를 조회
+- 부킹닷컴 + 카약에서 4개 호텔의 조식 포함 최저가(원화, 숙박 전체)를 조회
 - docs/prices.json 에 날짜별로 기록 (모바일 페이지가 이 파일을 읽음)
 - 가격이 내려가면 휴대폰으로 푸시 알림 (ntfy 앱, NTFY_TOPIC 설정 시)
 """
@@ -14,45 +14,82 @@ DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs", "pr
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
 DROP_ALERT_KRW = 30000  # 이 금액 이상 내려가면 알림
 
-Q = "&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1"
+BQ = "&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1"
+KQ = "/2adults?fs=freebies=free-breakfast"
 HOTELS = {
-    "1": {"name": "Ohla Eixample", "dates": "9/6~9/10",
-          "url": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-06&checkout=2027-09-10" + Q},
-    "2": {"name": "Zoëtry Mallorca", "dates": "9/10~9/14",
-          "url": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-10&checkout=2027-09-14" + Q},
-    "3": {"name": "Mercure Porto Centro", "dates": "9/14~9/17",
-          "url": "https://www.booking.com/hotel/pt/mercure-batalha-porto-centro.ko.html?checkin=2027-09-14&checkout=2027-09-17" + Q},
-    "4": {"name": "TURIM Boulevard", "dates": "9/17~9/18",
-          "url": "https://www.booking.com/hotel/pt/turim-boulevard.ko.html?checkin=2027-09-17&checkout=2027-09-18" + Q},
+    "1": {"name": "Ohla Eixample", "dates": "9/6~9/10", "nights": 4,
+          "booking": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-06&checkout=2027-09-10" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-06/2027-09-10" + KQ},
+    "2": {"name": "Zoëtry Mallorca", "dates": "9/10~9/14", "nights": 4,
+          "booking": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-10&checkout=2027-09-14" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-10/2027-09-14" + KQ},
+    "3": {"name": "Mercure Porto Centro", "dates": "9/14~9/17", "nights": 3,
+          "booking": "https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-14&checkout=2027-09-17" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-14/2027-09-17" + KQ},
+    "4": {"name": "TURIM Boulevard", "dates": "9/17~9/18", "nights": 1,
+          "booking": "https://www.booking.com/hotel/pt/turim-boulevard.ko.html?checkin=2027-09-17&checkout=2027-09-18" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/TURIM-Boulevard-Hotel,Lisbon,Portugal-c21721-h4855678-details/2027-09-17/2027-09-18" + KQ},
 }
 
 NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "no availability"]
-SELECTORS = ['[data-testid="price-and-discounted-price"]', "span.prco-valign-middle-helper",
-             ".bui-price-display__value", ".hprt-price-price"]
+BOOKING_SEL = ['[data-testid="price-and-discounted-price"]', "span.prco-valign-middle-helper",
+               ".bui-price-display__value", ".hprt-price-price"]
+KAYAK_BLOCK = ["로봇", "robot", "captcha", "보안 확인", "Please confirm", "unusual traffic"]
+WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
 
 
-def fetch(page, hotel):
-    page.goto(hotel["url"], wait_until="domcontentloaded", timeout=45000)
+def won_values(text, lo, hi):
+    out = []
+    for m in WON.finditer(text or ""):
+        v = int((m.group(1) or m.group(2)).replace(",", ""))
+        if lo <= v <= hi:
+            out.append(v)
+    return out
+
+
+def fetch_booking(page, h):
+    page.goto(h["booking"], wait_until="domcontentloaded", timeout=45000)
     page.wait_for_timeout(6000)
     body = page.inner_text("body")
     if any(k in body for k in NO_ROOM):
         return None, "예약 미오픈 또는 매진"
     prices = []
-    for sel in SELECTORS:
+    for sel in BOOKING_SEL:
         for el in page.query_selector_all(sel):
-            m = re.search(r"₩\s*([\d,]+)", (el.inner_text() or ""))
-            if m:
-                v = int(m.group(1).replace(",", ""))
-                if v >= 50000:
-                    prices.append(v)
+            prices += won_values(el.inner_text(), 50000, 20000000)
     if not prices:
-        for m in re.finditer(r"₩\s*([\d,]+)", body):
-            v = int(m.group(1).replace(",", ""))
-            if 100000 <= v <= 15000000:
-                prices.append(v)
-    if not prices:
-        return None, "가격 추출 실패 (사이트 차단 가능)"
-    return min(prices), None
+        prices = won_values(body, 100000, 20000000)
+    return (min(prices), None) if prices else (None, "가격 추출 실패 (사이트 차단 가능)")
+
+
+def fetch_kayak(page, h, booking_total):
+    page.goto(h["kayak"], wait_until="domcontentloaded", timeout=60000)
+    page.wait_for_timeout(15000)  # 카약은 여러 사이트 가격을 천천히 불러옴
+    body = page.inner_text("body")
+    if any(k.lower() in body.lower() for k in KAYAK_BLOCK):
+        return None, "카약 접속 차단"
+    vals = won_values(body, 50000, 20000000)
+    if not vals:
+        return None, "가격 추출 실패 (예약 미오픈 또는 차단)"
+    v = min(vals)
+    # 카약은 보통 '1박 요금'으로 표시 → 숙박 전체 금액으로 맞춤
+    per_night_total, as_total = v * h["nights"], v
+    if booking_total:
+        total = min((per_night_total, as_total), key=lambda x: abs(x - booking_total))
+    else:
+        total = per_night_total
+    return total, None
+
+
+def record(rec, key, price, today):
+    hist = rec.setdefault(key, [])
+    prev = hist[-1]["krw"] if hist else None
+    if hist and hist[-1]["date"] == today:
+        hist[-1]["krw"] = price
+    else:
+        hist.append({"date": today, "krw": price})
+    rec[key] = hist[-120:]
+    return prev
 
 
 def notify(title, msg):
@@ -83,26 +120,33 @@ def main():
                                              "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
         page = ctx.new_page()
         for hid, h in HOTELS.items():
-            rec = data["hotels"].setdefault(hid, {"history": []})
+            rec = data["hotels"].setdefault(hid, {})
             rec["name"], rec["dates"] = h["name"], h["dates"]
-            try:
-                price, err = fetch(page, h)
-            except Exception as e:
-                price, err = None, f"조회 오류: {str(e)[:80]}"
             rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-            rec["last_error"] = err
-            print(h["name"], price, err or "")
-            if price is None:
-                continue
-            hist = rec["history"]
-            prev = hist[-1]["krw"] if hist else None
-            if hist and hist[-1]["date"] == today:
-                hist[-1]["krw"] = price
-            else:
-                hist.append({"date": today, "krw": price})
-            rec["history"] = hist[-120:]
-            if prev is not None and prev - price >= DROP_ALERT_KRW:
-                alerts.append(f"{h['name']} {prev:,}원 → {price:,}원 ({prev - price:,}원 내림)")
+
+            # 부킹닷컴 (기존 'history' 키 유지)
+            try:
+                b, berr = fetch_booking(page, h)
+            except Exception as e:
+                b, berr = None, f"조회 오류: {str(e)[:80]}"
+            rec["last_error"] = berr
+            if b is not None:
+                prev = record(rec, "history", b, today)
+                if prev is not None and prev - b >= DROP_ALERT_KRW:
+                    alerts.append(f"[Booking] {h['name']} {prev:,} -> {b:,} KRW")
+
+            # 카약
+            try:
+                k, kerr = fetch_kayak(page, h, b)
+            except Exception as e:
+                k, kerr = None, f"조회 오류: {str(e)[:80]}"
+            rec["kayak_error"] = kerr
+            if k is not None:
+                prev = record(rec, "kayak_history", k, today)
+                if prev is not None and prev - k >= DROP_ALERT_KRW:
+                    alerts.append(f"[KAYAK] {h['name']} {prev:,} -> {k:,} KRW")
+
+            print(h["name"], "booking:", b, berr or "", "| kayak:", k, kerr or "")
         browser.close()
 
     data["updated"] = now.strftime("%Y-%m-%d %H:%M")
