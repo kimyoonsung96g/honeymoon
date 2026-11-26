@@ -3,6 +3,9 @@
 """
 신혼여행 가격 자동 추적 (GitHub Actions에서 매일 자동 실행)
 
+실행할 때마다 공개 환율 API(frankfurter → open.er-api)에서 EUR→KRW 환율을 받아
+prices.json의 eur_krw / eur_krw_date에 저장한다 (실패하면 저장값, 그다음 1475).
+
 일정 1(9/6~9/18)과 일정 2(9/8~9/22), 일정 3(9/8~9/22 · 마요르카→세비야→포르투→바르셀로나)를 함께 조회한다.
 일정 2·3은 같은 호텔·객실 기준 날짜만 바꾼 값이고, 같은 날짜(9/15~9/18 포르투 등)는 앞선 결과를 그대로 재사용해 중복 요청을 줄인다.
 
@@ -126,6 +129,32 @@ GH_Q = {"1": ("Hotel Ohla Eixample Barcelona", "2027-09-06", "2027-09-10"),
         "2": ("Zoetry Mallorca", "2027-09-10", "2027-09-14"),
         "3": ("Mercure Porto Centro Santa Catarina", "2027-09-14", "2027-09-17"),
         "4": ("TURIM Boulevard Hotel Lisbon", "2027-09-17", "2027-09-18")}
+
+
+def fetch_eur_krw(prev=None):
+    """현재 EUR→KRW 환율을 공개 API에서 조회해 (원 단위 정수, 기준일, 출처)로 반환.
+    API가 모두 실패하면 저장돼 있던 이전 값, 그것도 없으면 EUR_KRW_DEFAULT(1475)를 쓴다."""
+    for name, url in EUR_KRW_API:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "honeymoon-price-check/1.0"})
+            with urllib.request.urlopen(req, timeout=20) as r:
+                d = json.loads(r.read().decode("utf-8"))
+            raw = (d.get("rates") or {}).get("KRW")
+            if raw is None:
+                continue
+            rate = float(raw)
+            if not (500 <= rate <= 5000):  # 단위가 바뀐 응답은 쓰지 않는다
+                continue
+            date = d.get("date") or datetime.now(KST).strftime("%Y-%m-%d")
+            return round(rate), date, name
+        except Exception as e:
+            print(f"환율 조회 실패({name}): {str(e)[:80]}")
+    if prev:
+        try:
+            return int(float(prev)), None, "저장값"
+        except (TypeError, ValueError):
+            pass
+    return EUR_KRW_DEFAULT, None, "기본값"
 
 
 def _pb_varint(n):
@@ -620,7 +649,13 @@ def fetch_car(page, url, key, prev_total):
 # ---------------- 호텔 공식 홈페이지(무료 취소 회원가) ----------------
 # 오라·조에트리·투림은 같은 예약엔진(eMascaró bookcore), 메르쿠르는 아코르(all.accor.com).
 # 엔진 화면의 'Price with discount'(할인 적용가)와 회원가(Privilege Club / World of Hyatt / TURIM Club / ALL)를 읽는다.
-EUR_KRW = 1340  # 유로 표시 요금을 원화로 환산할 때 쓰는 참고 환율 (화면에는 €와 함께 표시)
+EUR_KRW_DEFAULT = 1475  # 환율 조회가 모두 실패했을 때 쓰는 기본값 (2026-11-26 기준)
+EUR_KRW = EUR_KRW_DEFAULT  # 실행할 때마다 fetch_eur_krw()가 갱신하고, 공식 홈페이지 유로 요금 환산에 쓴다
+# 유로→원 환율 공개 API (앞에서부터 시도, 실패하면 다음 것으로)
+EUR_KRW_API = [
+    ("frankfurter", "https://api.frankfurter.app/latest?from=EUR&to=KRW"),
+    ("er-api", "https://open.er-api.com/v6/latest/EUR"),
+]
 EMAS_OCC = ("%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D")
 OFFICIAL = {
     "1": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
@@ -1030,6 +1065,7 @@ def track_extras(page, extra_map, store, tag, now, put):
 
 def main():
     from playwright.sync_api import sync_playwright
+    global EUR_KRW
     only = ""
     for a in sys.argv[1:]:
         if a.lstrip("-") in ("s1", "s2", "s3"):
@@ -1041,6 +1077,16 @@ def main():
     now = datetime.now(KST)
     today = now.strftime("%Y-%m-%d")
     alerts = []
+
+    # 최신 유로 환율을 받아 오늘 기록에 남기고, 공식 홈페이지 유로 요금 환산에도 쓴다
+    rate, rate_date, rate_src = fetch_eur_krw(data.get("eur_krw"))
+    EUR_KRW = rate
+    data["eur_krw"] = rate
+    if rate_date:
+        data["eur_krw_date"] = rate_date
+    data["eur_krw_src"] = rate_src
+    data["eur_krw_updated"] = now.strftime("%Y-%m-%d %H:%M")
+    print(f"환율 1 EUR = {rate:,}원 ({rate_src}{', 기준일 ' + rate_date if rate_date else ''})")
 
     def put(rec, key, val, err_key, err, label):
         rec[err_key] = err

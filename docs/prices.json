@@ -1,5 +1,9 @@
 {
  "updated": "2026-11-26 17:07",
+ "eur_krw": 1475,
+ "eur_krw_date": "2026-11-26",
+ "eur_krw_src": "manual",
+ "eur_krw_updated": "2026-11-26 19:30",
  "hotels": {
   "1": {
    "history": [
@@ -284,23 +288,23 @@
    "cur": "EUR",
    "public": {
     "amt": 1726.0,
-    "krw": 2312840
+    "krw": 2545850
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 2312840
+     "krw": 2545850
     }
    ],
    "member": {
     "amt": 1381.0,
-    "krw": 1850540
+    "krw": 2036975
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 1850540
+     "krw": 2036975
     }
    ]
   },
@@ -315,23 +319,23 @@
    "cur": "EUR",
    "public": {
     "amt": 831.0,
-    "krw": 1113540
+    "krw": 1225725
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 1113540
+     "krw": 1225725
     }
    ],
    "member": {
     "amt": 790.35,
-    "krw": 1059069
+    "krw": 1165766
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 1059069
+     "krw": 1165766
     }
    ]
   },
@@ -346,12 +350,12 @@
    "cur": "EUR",
    "public": {
     "amt": 228.69,
-    "krw": 306445
+    "krw": 337318
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 306445
+     "krw": 337318
     }
    ]
   }
@@ -488,23 +492,23 @@
    "cur": "EUR",
    "public": {
     "amt": 831.0,
-    "krw": 1113540
+    "krw": 1225725
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 1113540
+     "krw": 1225725
     }
    ],
    "member": {
     "amt": 790.35,
-    "krw": 1059069
+    "krw": 1165766
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 1059069
+     "krw": 1165766
     }
    ]
   },
@@ -713,23 +717,23 @@
    "cur": "EUR",
    "public": {
     "amt": 1814.0,
-    "krw": 2430760
+    "krw": 2675650
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 2430760
+     "krw": 2675650
     }
    ],
    "member": {
     "amt": 1451.0,
-    "krw": 1944340
+    "krw": 2140225
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 1944340
+     "krw": 2140225
     }
    ]
   },
@@ -749,23 +753,23 @@
    "cur": "EUR",
    "public": {
     "amt": 831.0,
-    "krw": 1113540
+    "krw": 1225725
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 1113540
+     "krw": 1225725
     }
    ],
    "member": {
     "amt": 790.35,
-    "krw": 1059069
+    "krw": 1165766
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 1059069
+     "krw": 1165766
     }
    ]
   }

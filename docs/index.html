@@ -151,9 +151,11 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>환율</h2>
-    <p class="hint">유로 요금을 원화로 바꿀 때 쓰는 환율이에요. 두 일정에 같이 적용되고, 숫자를 바꾸면 모든 계산(올인클루시브 추가금, 유로 입력 금액, 참고 금액)에 바로 반영돼 이 브라우저에 저장돼요.</p>
+    <p class="hint">유로 요금을 원화로 바꿀 때 쓰는 환율이에요. 세 일정에 같이 적용되고, <strong>매일 자동으로 조회한 환율이 반영</strong>돼요. 숫자를 직접 고쳐 쓸 수도 있으며, 그때는 입력한 값이 저장되어 자동 환율보다 우선해요. 바꾸면 모든 계산(올인클루시브 추가금, 유로 입력 금액, 참고 금액)에 바로 반영돼요.</p>
     <div class="fxbox">
       <label class="rate">1 EUR = <input type="number" id="fxRate" class="num" inputmode="decimal" min="1" step="0.01" aria-label="1유로당 원 환율"> 원</label>
+      <div class="history" id="fxHint">자동 조회 환율을 불러오는 중이에요.</div>
+      <button type="button" class="btn" id="fxAutoBtn" hidden>자동 조회 환율로 되돌리기</button>
       <div class="conv-in"><span class="tag">유로 → 원</span><input type="number" id="convEur" class="num" inputmode="decimal" placeholder="EUR" aria-label="유로 금액"><span class="conv-out num" id="convEurOut">—</span></div>
       <div class="conv-in"><span class="tag">원 → 유로</span><input type="number" id="convKrw" class="num" inputmode="numeric" placeholder="원" aria-label="원 금액"><span class="conv-out num" id="convKrwOut">—</span></div>
     </div>
@@ -381,8 +383,12 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
 <script>
 const AGENCY_PRICE = 8940000;         // 견적서 기본가 (4곳 조식 포함·국제선 제외). 화면에서 국제선·올인클루시브를 더해 비교
-const FX_DEFAULT = 1340;              // 1 EUR = 1,340원, 화면에서 바꾸면 localStorage에 저장
+const FX_DEFAULT = 1475;              // 1 EUR = 1,475원 (2026-11-26 기준). prices.json의 eur_krw(매일 자동 조회)가 있으면 그 값이 우선
+const FX_OLD_DEFAULT = 1340;          // 예전 기본값 — 저장된 환율이 이 값이면 자동 저장된 기본값으로 보고 새 자동 환율로 넘어감
 let fx = FX_DEFAULT;                  // 페이지 안의 모든 유로→원 환산이 이 값을 따름
+let fxAuto = FX_DEFAULT;              // prices.json이 알려준 자동 조회 환율
+let fxAutoDate = null;                // 그 환율의 기준일
+let fxManual = false;                 // 사용자가 직접 입력한 환율이면 true → 자동 환율이 덮어쓰지 않음
 const ZOETRY_AI_UPGRADE_EUR = 200;    // 조에트리 올인클루시브 변경: 인당·1박당 €200 추가
 const ZOETRY_AI_UPGRADE_TOTAL = ZOETRY_AI_UPGRADE_EUR * 2 * 4;  // 2인 4박 = €1,600
 const OFF_URL = {
@@ -429,7 +435,10 @@ let optsMigrated=false;
 let opts={...DEFAULT_OPTS};
 try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
   if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; manualCur=s.manualCur||{};
-         hotelActual=s.hotelActual||{}; picked=s.picked||{}; const r=Number(s.fx); if(r>0) fx=r;
+         hotelActual=s.hotelActual||{}; picked=s.picked||{}; const r=Number(s.fx);
+         if(r>0){ fx=r;
+           // 예전 버전은 기본값 1340을 무조건 저장했다. 직접 입력한 기록(fxManual)이 없고 값이 옛 기본값이면 자동 환율로 본다.
+           fxManual = (typeof s.fxManual==='boolean') ? s.fxManual : Math.abs(r-FX_OLD_DEFAULT)>0.01; }
          // 예전 저장값의 'breakfast'는 처음 기본값일 수 있으니, 직접 고른 기록이 없으면 새 기본값으로 맞춘다
          if((Number(s.dv)||1)<DEFAULTS_VER && !picked.meal && opts.meal!==DEFAULT_OPTS.meal){ opts.meal=DEFAULT_OPTS.meal; optsMigrated=true; } } }catch(e){}
 let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
@@ -584,7 +593,7 @@ function renderOptions(){
     box.append(lb,seg); wrap.append(box);
   }
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx,dv:DEFAULTS_VER,picked}));}catch(e){}}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx,fxManual,dv:DEFAULTS_VER,picked}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
 const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (참고, 수하물 미포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (참고, 수하물 미포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (참고, 수하물 미포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
@@ -726,14 +735,28 @@ function paintConv(){
   cEo.textContent = e>0 ? fmt(e*fx) : '—';
   cKo.textContent = w>0 ? fmtEur(round2(w/fx)) : '—';
 }
+// 지금 환율이 자동 조회값인지 직접 입력값인지 알려주고, 직접 입력했을 때만 '자동 환율로 되돌리기'를 보여준다
+function fxStatus(){
+  const el=$('fxHint'), btn=$('fxAutoBtn');
+  if(el) el.textContent = fxManual
+    ? `직접 입력한 환율을 쓰고 있어요. 자동 조회 환율은 1 EUR = ${fmt(fxAuto)}원이에요.`
+    : `매일 자동으로 조회한 환율이 반영돼요${fxAutoDate?` (${fxAutoDate} 기준)`:''}. 숫자를 직접 바꾸면 그 값이 저장돼요.`;
+  if(btn) btn.hidden = !fxManual;
+}
+function applyFx(n, manual){
+  const v=Number(n); if(!(v>0)) return;
+  fx=v; fxManual=!!manual; fxIn.value=v;
+  save(); renderHotels(); renderExtras(); paintManual(); paintConv(); calculate();
+  renderS2(); s2Calc(); renderS3(); s3Calc(); fxStatus();
+}
 fxIn.value=fx;
 fxIn.addEventListener('input',()=>{
   const n=Number(fxIn.value); if(!(n>0)) return;
-  fx=n; save(); renderHotels(); renderExtras(); paintManual(); paintConv(); calculate();
-  renderS2(); s2Calc();
-  renderS3(); s3Calc();
+  applyFx(n, true);
 });
 fxIn.addEventListener('blur',()=>{ if(!(Number(fxIn.value)>0)) fxIn.value=fx; });
+$('fxAutoBtn').addEventListener('click',()=>{ applyFx(fxAuto,false); toast(`자동 조회 환율 1 EUR = ${fmt(fxAuto)}원으로 되돌렸어요.`); });
+fxStatus();
 cE.addEventListener('input',()=>{ cK.value=''; paintConv(); });
 cK.addEventListener('input',()=>{ cE.value=''; paintConv(); });
 
@@ -1556,6 +1579,13 @@ const RAW='https://raw.githubusercontent.com/kimyoonsung96g/honeymoon/main/docs/
 fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
  .catch(()=>fetch('prices.json?t='+Date.now()).then(r=>r.json()))
  .then(d=>{
+  // 매일 자동으로 조회한 유로 환율 (직접 입력해 저장한 값이 있으면 그 값을 그대로 둔다)
+  const autoFx=Number(d.eur_krw);
+  if(autoFx>0){
+    fxAuto=autoFx; fxAutoDate=d.eur_krw_date||null;
+    if(!fxManual){ fx=autoFx; fxIn.value=autoFx; }
+    fxStatus();
+  }
   for(const h of HOTELS){
     const rec=d.hotels&&d.hotels[h.id]; if(!rec) continue;
     const today=rec.last_check?rec.last_check.slice(0,10):null;
