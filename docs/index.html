@@ -52,6 +52,7 @@ main{max-width:560px;margin:0 auto;padding:0 0 48px}
 .compare div{background:rgba(10,20,50,.35);padding:10px 12px}
 .compare span{display:block;font-size:.76rem;opacity:.8}
 .compare strong{font-size:1.02rem;font-weight:600}
+.compare .agency-note{display:block;font-size:.7rem;line-height:1.35;opacity:.85;margin-top:3px;font-weight:400}
 
 section{padding:22px 20px 6px}
 h2{font-size:1rem;font-weight:700;margin:0 0 4px}
@@ -71,7 +72,15 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 .price-row select{font:inherit;padding:9px 6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 .krw{font-size:1.25rem;font-weight:700;margin-top:8px}
 .est{font-size:.75rem;color:var(--muted);font-weight:500;margin-left:6px}
+.est.actual{color:var(--save)}
 .err{color:var(--over);font-size:.8rem}
+/* 실제 예약 금액 */
+.actual{margin-top:10px;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;background:var(--surface)}
+.actual .lbl{font-size:.78rem;font-weight:600;color:var(--muted)}
+.actual .in{display:flex;gap:6px;margin-top:5px;align-items:center}
+.actual input{flex:1;min-width:0;font:inherit;font-weight:600;font-size:.95rem;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);text-align:right}
+.actual select{font:inherit;font-size:.84rem;padding:7px 4px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.actual .conv{font-size:.78rem;color:var(--muted);margin-top:4px;text-align:right}
 .hotel-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
 .btn{font:inherit;font-size:.84rem;font-weight:600;border-radius:8px;padding:8px 12px;cursor:pointer;text-decoration:none;display:inline-block;border:1px solid var(--cobalt);background:transparent;color:var(--cobalt)}
 :root[data-theme="dark"] .btn{color:#AFC3F2;border-color:#4E6BB5}
@@ -83,9 +92,20 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 .history .up{color:var(--over);font-weight:600}
 
 /* 환율 */
-.fx{display:flex;gap:12px;flex-wrap:wrap}
-.fx label{display:flex;align-items:center;gap:6px;font-size:.86rem;width:100%;justify-content:space-between}
+.fx{display:flex;gap:10px;flex-wrap:wrap;flex-direction:column}
+.fx .row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.86rem;width:100%;justify-content:space-between}
+.fx .row .name{flex:1 1 auto;min-width:0}
+.fx .row .money{display:flex;align-items:center;gap:4px;white-space:nowrap}
 .fx input{width:110px;font:inherit;font-weight:600;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-align:right}
+.fx select{font:inherit;font-size:.84rem;padding:7px 4px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.fx .conv{flex-basis:100%;text-align:right;color:var(--muted);font-size:.76rem;margin-top:-6px}
+.fxbox{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.fxbox .rate{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600}
+.fxbox input{width:100px;font:inherit;font-weight:600;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);text-align:right}
+.fxbox .conv-in{display:flex;align-items:center;gap:10px;font-size:.84rem}
+.fxbox .conv-in .tag{flex:0 0 58px;color:var(--muted)}
+.fxbox .conv-in input{flex:1;width:auto;min-width:0}
+.fxbox .conv-out{flex:0 0 auto;font-weight:600;text-align:right;min-width:104px}
 
 /* 옵션 */
 .opt{margin-bottom:16px}
@@ -113,10 +133,20 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
     <p class="diff num" id="diffValue">0원</p>
     <p class="diff-note" id="diffNote"></p>
     <div class="compare">
-      <div><span>여행사 견적</span><strong class="num">8,940,000원</strong></div>
+      <div><span>여행사 견적</span><strong class="num" id="agencyTotal">8,940,000원</strong><small class="agency-note" id="agencyNote"></small></div>
       <div><span>직접 예약 합계</span><strong class="num" id="directTotal">0원</strong></div>
     </div>
   </header>
+
+  <section>
+    <h2>환율</h2>
+    <p class="hint">유로 요금을 원화로 바꿀 때 쓰는 환율이에요. 숫자를 바꾸면 아래 모든 계산(올인클루시브 추가금, 유로 입력 금액, 참고 금액)에 바로 반영되고 이 브라우저에 저장돼요.</p>
+    <div class="fxbox">
+      <label class="rate">1 EUR = <input type="number" id="fxRate" class="num" inputmode="decimal" min="1" step="0.01" aria-label="1유로당 원 환율"> 원</label>
+      <div class="conv-in"><span class="tag">유로 → 원</span><input type="number" id="convEur" class="num" inputmode="decimal" placeholder="EUR" aria-label="유로 금액"><span class="conv-out num" id="convEurOut">—</span></div>
+      <div class="conv-in"><span class="tag">원 → 유로</span><input type="number" id="convKrw" class="num" inputmode="numeric" placeholder="원" aria-label="원 금액"><span class="conv-out num" id="convKrwOut">—</span></div>
+    </div>
+  </section>
 
   <section>
     <h2>호텔 가격</h2>
@@ -130,11 +160,11 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
     <div id="extras"></div>
     <p class="hint" style="margin-top:14px">직접 입력 (2인 기준). 항공은 1인당 20kg 위탁 수하물이 포함된 요금을 넣어주세요. 렌터카는 입력하면 조회가 대신 이 금액으로 계산해요.</p>
     <div class="fx">
-      <label>바르셀로나→마요르카 (20kg 포함) <input type="number" data-manual="fl_bcn_pmi" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>마요르카→포르투 (20kg 포함) <input type="number" data-manual="fl_pmi_opo" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>리스본→바르셀로나 (20kg 포함) <input type="number" data-manual="fl_lis_bcn" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>포르투→리스본 기차 <input type="number" data-manual="train" inputmode="numeric" class="num" placeholder="입력"> 원</label>
-      <label>렌터카 (4일) <input type="number" data-manual="car" inputmode="numeric" class="num" placeholder="입력"> 원</label>
+      <div class="row"><span class="name">바르셀로나→마요르카 (20kg 포함)</span><span class="money"><input type="number" data-manual="fl_bcn_pmi" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="fl_bcn_pmi" aria-label="바르셀로나→마요르카 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="fl_bcn_pmi"></span></div>
+      <div class="row"><span class="name">마요르카→포르투 (20kg 포함)</span><span class="money"><input type="number" data-manual="fl_pmi_opo" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="fl_pmi_opo" aria-label="마요르카→포르투 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="fl_pmi_opo"></span></div>
+      <div class="row"><span class="name">리스본→바르셀로나 (20kg 포함)</span><span class="money"><input type="number" data-manual="fl_lis_bcn" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="fl_lis_bcn" aria-label="리스본→바르셀로나 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="fl_lis_bcn"></span></div>
+      <div class="row"><span class="name">포르투→리스본 기차</span><span class="money"><input type="number" data-manual="train" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="train" aria-label="기차 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="train"></span></div>
+      <div class="row"><span class="name">렌터카 (4일)</span><span class="money"><input type="number" data-manual="car" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="car" aria-label="렌터카 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="car"></span></div>
     </div>
     <p class="hint" style="margin-top:6px">자동 조회된 항공 요금은 수하물이 빠진 최저가라 참고용으로만 보여주고, 합계에는 20kg 포함 입력값만 써요. 기차표는 출발 몇 달 전부터 판매돼요.</p>
   </section>
@@ -172,8 +202,9 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const AGENCY_PRICE = 8940000;
-const EUR_KRW = 1340;                 // 유로 표시 요금을 원화로 볼 때 쓰는 참고 환율
+const AGENCY_PRICE = 8940000;         // 견적서 기준 (4곳 조식 포함·국제선 제외)
+const FX_DEFAULT = 1340;              // 1 EUR = 1,340원, 화면에서 바꾸면 localStorage에 저장
+let fx = FX_DEFAULT;                  // 페이지 안의 모든 유로→원 환산이 이 값을 따름
 const ZOETRY_AI_UPGRADE_EUR = 200;    // 조에트리 올인클루시브 변경: 인당·1박당 €200 추가
 const ZOETRY_AI_UPGRADE_TOTAL = ZOETRY_AI_UPGRADE_EUR * 2 * 4;  // 2인 4박 = €1,600
 const OFF_URL = {
@@ -209,11 +240,21 @@ const OPTIONS = [
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
 const DEFAULT_OPTS = {cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
-const LS_KEY='honeymoon_opts_v3'; let manual={}; let extras={};
+const LS_KEY='honeymoon_opts_v3';
+let manual={};        // 직접 입력값 (고른 통화 그대로)
+let manualCur={};     // 직접 입력값 통화 'KRW'|'EUR' (없으면 원)
+let hotelActual={};   // 호텔 id -> {v, cur} : 실제 예약 금액
+let extras={};
 let opts={...DEFAULT_OPTS};
-try{ const s=JSON.parse(localStorage.getItem(LS_KEY)); if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; } }catch(e){}
+try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
+  if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; manualCur=s.manualCur||{};
+         hotelActual=s.hotelActual||{}; const r=Number(s.fx); if(r>0) fx=r; } }catch(e){}
 let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
 const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+const fmtEur=n=>'€'+Number(n).toLocaleString('ko-KR',{maximumFractionDigits:2});
+const round2=n=>Math.round(n*100)/100;
+const toKRW=(v,cur)=>cur==='EUR'?v*fx:v;
+const curOf=k=>manualCur[k]||'KRW';
 const $=id=>document.getElementById(id);
 function toast(m){const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400);}
 
@@ -262,9 +303,45 @@ function renderHotels(){
     left.append(nm,rm);
     const meta=document.createElement('div'); meta.className='hotel-meta'; meta.textContent=`${h.city} ${h.nights}박, ${h.dates}`;
     head.append(left,meta);
-    const k=document.createElement('div'); k.className='krw num'; k.textContent=fmt(p.krw);
-    if(!p.auto){const e=document.createElement('span');e.className='est';e.textContent='예상가 (자동 조회 전)';k.append(e);}
+    const k=document.createElement('div'); k.className='krw num';
     box.append(head,k);
+    // 실제 예약 금액 입력 (유로/원)
+    const ab=document.createElement('div'); ab.className='actual';
+    const lb=document.createElement('div'); lb.className='lbl'; lb.textContent='실제 예약 금액 (비우면 자동 조회가로 돌아감)';
+    const inRow=document.createElement('div'); inRow.className='in';
+    const ain=document.createElement('input'); ain.type='number'; ain.inputMode='decimal'; ain.className='num'; ain.placeholder='입력';
+    ain.setAttribute('aria-label',h.name+' 실제 예약 금액');
+    const asel=document.createElement('select'); asel.setAttribute('aria-label',h.name+' 실제 예약 금액 통화');
+    for(const [val,tx] of [['KRW','원'],['EUR','유로']]){const o=document.createElement('option');o.value=val;o.textContent=tx;asel.append(o);}
+    const aconv=document.createElement('div'); aconv.className='conv num';
+    const a0=hotelActual[h.id];
+    if(a0){ ain.value=(a0.v===''||a0.v==null)?'':a0.v; asel.value=a0.cur||'KRW'; }
+    inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
+    const paint=()=>{
+      const r=hotelCalc(h);
+      k.textContent=fmt(r.v);
+      if(r.actual){const e=document.createElement('span');e.className='est actual';e.textContent='실제 예약가 반영';k.append(e);}
+      else if(!p.auto){const e=document.createElement('span');e.className='est';e.textContent='예상가 (자동 조회 전)';k.append(e);}
+      const a=hotelActual[h.id]; const v=a?Number(a.v):0;
+      if(a && v>0){aconv.hidden=false;aconv.textContent=(a.cur==='EUR')?`= 약 ${fmt(v*fx)}`:`= 약 ${fmtEur(round2(v/fx))}`;}
+      else {aconv.hidden=true;aconv.textContent='';}
+    };
+    ain.addEventListener('input',()=>{
+      const v=ain.value;
+      if(v===''||!(Number(v)>0)) delete hotelActual[h.id];
+      else hotelActual[h.id]={v:v,cur:asel.value};
+      save(); paint(); calculate();
+    });
+    asel.addEventListener('change',()=>{
+      const a=hotelActual[h.id]; const n=Number(a?a.v:ain.value);
+      if(n>0 && a && a.cur!==asel.value){
+        const to=asel.value, c=to==='EUR'?n/fx:n*fx;
+        const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+        ain.value=out; hotelActual[h.id]={v:String(out),cur:to};
+      } else if(a){ hotelActual[h.id]={v:a.v,cur:asel.value}; }
+      save(); paint(); calculate();
+    });
+    paint();
     const rec=p.rec;
     if(rec){
       box.append(srcLine('부킹닷컴', rec.history, rec.last_error, p.src==='booking'));
@@ -275,10 +352,11 @@ function renderHotels(){
       const of=official[h.id];
       if(of && (of.public||of.member||of.error)){
         const ol=document.createElement('div'); ol.className='history';
-        const money=(c,a)=> c==='EUR' ? `€${Number(a).toLocaleString('ko-KR',{maximumFractionDigits:2})}` : `${Math.round(a).toLocaleString('ko-KR')}원`;
+        const money=(a)=> of.cur==='EUR' ? `€${Number(a).toLocaleString('ko-KR',{maximumFractionDigits:2})}` : `${Math.round(a).toLocaleString('ko-KR')}원`;
         const parts=[];
-        if(of.public && of.public.amt) parts.push(`일반 ${money(of.cur, of.public.amt)} (약 ${fmt(of.public.krw)})`);
-        if(of.member && of.member.amt) parts.push(`회원 ${money(of.cur, of.member.amt)} (약 ${fmt(of.member.krw)})`);
+        const krwOf=o=> (of.cur==='EUR' && o && o.amt) ? Math.round(o.amt*fx) : ((o&&o.krw)||0);
+        if(of.public && of.public.amt) parts.push(`일반 ${money(of.public.amt)} (약 ${fmt(krwOf(of.public))})`);
+        if(of.member && of.member.amt) parts.push(`회원 ${money(of.member.amt)} (약 ${fmt(krwOf(of.member))})`);
         const b=document.createElement('strong'); b.textContent='공식 홈페이지 무료취소·조식 ';
         ol.append(b, document.createTextNode(parts.length?parts.join(' / '):(of.error||'아직 조회 전')));
         if(of.rate){ const t=document.createElement('span'); t.className='history'; t.textContent=` · ${of.rate}${of.cancel?' · '+of.cancel:''}`; ol.append(t); }
@@ -286,7 +364,7 @@ function renderHotels(){
       }
       if(h.id==='2'){
         const ai=document.createElement('div'); ai.className='history';
-        ai.textContent=`※ 올인클루시브로 변경하면 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} 추가 — 2인 4박 기준 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW)})`;
+        ai.textContent=`※ 올인클루시브로 변경하면 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} 추가 — 2인 4박 기준 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(ZOETRY_AI_UPGRADE_TOTAL*fx)})`;
         box.append(ai);
       }
       if(h.id==='2'){
@@ -323,7 +401,7 @@ function renderOptions(){
     box.append(lb,seg); wrap.append(box);
   }
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual}));}catch(e){}}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
 const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (참고, 수하물 미포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (참고, 수하물 미포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (참고, 수하물 미포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
@@ -351,34 +429,44 @@ function renderExtras(){
   tb.append(tl, linkRow([['CP 공식 사이트','https://www.cp.pt'],['트레인라인','https://www.thetrainline.com']]));
   w.append(tb);
 }
-function calculate(){
-  const notes=[]; let hotel=0, roMiss=0, fcMiss=0, aiMiss=false;
-  for(const h of HOTELS){
-    const p=prices[h.id]||{krw:h.est}; const rec=p.rec||{};
-    let v=p.krw, breakfast=true;
-    let aiFc=null;
-    if(opts.meal==='allinc' && h.id==='2'){
-      const c=[lastK(rec.ai_history), lastK(rec.gh_ai_history)].filter(Boolean);
-      if(c.length) v=Math.min(...c);
-      else { v+=ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW; aiMiss=true; }
-      aiFc=lastK(rec.ai_fc_history); breakfast=false;
-    }
-    if(opts.meal==='mallorcaOnly' && h.id!=='2'){ const ro=lastK(rec.ro_history); if(ro) v=ro; else { v-=380000/3; roMiss++; } breakfast=false; }
-    if(opts.cancel==='free'){
-      const fcs=[lastK(rec.fc_history), lastK(rec.gh_fc_history)].filter(Boolean);
-      const fc=fcs.length?Math.min(...fcs):null;
-      if(breakfast && fc) v=fc;
-      else if(aiFc) v=aiFc;
-      else { v*=1.12; fcMiss++; }
-    }
-    hotel+=v;
+function hotelCalc(h){
+  const p=prices[h.id]||{krw:h.est,auto:false}; const rec=p.rec||{};
+  const a=hotelActual[h.id]; const av=a?Number(a.v):0;
+  if(a && av>0) return {v:toKRW(av,a.cur||'KRW'), actual:true};   // 실제 예약가가 있으면 조회가·옵션보다 우선
+  let v=p.krw, breakfast=true, aiFc=null, aiMiss=false, roMiss=false, fcMiss=false;
+  if(opts.meal==='allinc' && h.id==='2'){
+    const c=[lastK(rec.ai_history), lastK(rec.gh_ai_history)].filter(Boolean);
+    if(c.length) v=Math.min(...c);
+    else { v+=ZOETRY_AI_UPGRADE_TOTAL*fx; aiMiss=true; }
+    aiFc=lastK(rec.ai_fc_history); breakfast=false;
   }
-  if(aiMiss) notes.push(`올인클루시브 전환 추가 요금 반영: 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} (2인 4박 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW)})`);
+  if(opts.meal==='mallorcaOnly' && h.id!=='2'){ const ro=lastK(rec.ro_history); if(ro) v=ro; else { v-=380000/3; roMiss=true; } breakfast=false; }
+  if(opts.cancel==='free'){
+    const fcs=[lastK(rec.fc_history), lastK(rec.gh_fc_history)].filter(Boolean);
+    const fc=fcs.length?Math.min(...fcs):null;
+    if(breakfast && fc) v=fc;
+    else if(aiFc) v=aiFc;
+    else { v*=1.12; fcMiss=true; }
+  }
+  return {v, actual:false, aiMiss, roMiss, fcMiss};
+}
+function calculate(){
+  const notes=[]; let hotel=0, roMiss=0, fcMiss=0, aiMiss=false, actualCnt=0;
+  for(const h of HOTELS){
+    const r=hotelCalc(h);
+    hotel+=r.v;
+    if(r.actual) actualCnt++;
+    if(r.aiMiss) aiMiss=true;
+    if(r.roMiss) roMiss++;
+    if(r.fcMiss) fcMiss++;
+  }
+  if(aiMiss) notes.push(`올인클루시브 전환 추가 요금 반영: 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} (2인 4박 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(ZOETRY_AI_UPGRADE_TOTAL*fx)})`);
   if(roMiss) notes.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액 사용`);
   if(fcMiss) notes.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상치 사용`);
+  if(actualCnt) notes.push(`실제 예약가 반영 ${actualCnt}곳`);
   $('aiNote').textContent=notes.join(' / ');
 
-  const M=k=>Number(manual[k])||0;
+  const M=k=>toKRW(Number(manual[k])||0, curOf(k));
   const SEG=[['fl_bcn_pmi','바르셀로나→마요르카'],['fl_pmi_opo','마요르카→포르투'],['fl_lis_bcn','리스본→바르셀로나']];
   let flight=0, known=0; const missing=[];
   for(const [k,name] of SEG){ if(M(k)){ flight+=M(k); known++; } else missing.push(name); }
@@ -392,20 +480,65 @@ function calculate(){
   const car=M('car')||cv||(opts.car==='suv'?580000:420000);
   $('cNote').textContent=M('car')?'입력값':(cv?'카약 조회가 (기본 보험)':'조회 전이라 기존 예상값 사용');
 
-  const total=hotel+flight+car+opts.transfer+TOUR_INSURANCE, diff=total-AGENCY_PRICE;
+  const aiAdd = opts.meal==='allinc' ? ZOETRY_AI_UPGRADE_TOTAL*fx : 0;
+  const agencyTotal = AGENCY_PRICE + aiAdd;
+  $('agencyTotal').textContent=fmt(agencyTotal);
+  $('agencyNote').textContent = opts.meal==='allinc'
+    ? `조식 기준 + 마요르카 올인클루시브 €${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(aiAdd)}) 포함`
+    : '견적서 조건 (4곳 모두 조식 포함)';
+
+  const total=hotel+flight+car+opts.transfer+TOUR_INSURANCE, diff=total-agencyTotal;
   $('bHotel').textContent=fmt(hotel); $('bFlight').textContent=fmt(flight); $('bCar').textContent=fmt(car);
   $('bTransfer').textContent=fmt(opts.transfer); $('bTour').textContent=fmt(TOUR_INSURANCE);
   $('bTotal').textContent=fmt(total); $('directTotal').textContent=fmt(total);
   if(diff<=0){$('diffValue').textContent='−'+fmt(-diff);$('diffNote').textContent='직접 예약하면 이만큼 아낄 수 있어요.';}
   else{$('diffValue').textContent='+'+fmt(diff);$('diffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요.';}
 }
+function paintManual(){
+  document.querySelectorAll('[data-manual]').forEach(inp=>{
+    const k=inp.dataset.manual;
+    const sel=document.querySelector('[data-manual-cur="'+k+'"]');
+    const hint=document.querySelector('[data-manual-conv="'+k+'"]');
+    if(sel) sel.value=curOf(k);
+    const n=Number(inp.value)||0;
+    if(hint) hint.textContent = n>0 ? (curOf(k)==='EUR'?`= 약 ${fmt(n*fx)}`:`= 약 ${fmtEur(round2(n/fx))}`) : '';
+  });
+}
 document.querySelectorAll('[data-manual]').forEach(inp=>{
-  const k=inp.dataset.manual; if(manual[k]) inp.value=manual[k];
-  inp.addEventListener('input',()=>{ manual[k]=inp.value; save(); calculate(); });
+  const k=inp.dataset.manual;
+  if(manual[k]!==undefined && manual[k]!=='') inp.value=manual[k];
+  inp.addEventListener('input',()=>{ manual[k]=inp.value; save(); paintManual(); calculate(); });
+  const sel=document.querySelector('[data-manual-cur="'+k+'"]');
+  if(sel) sel.addEventListener('change',()=>{
+    const n=Number(inp.value)||0; const from=curOf(k), to=sel.value;
+    if(n>0 && from!==to){
+      const c=to==='EUR'?n/fx:n*fx;
+      const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+      inp.value=out; manual[k]=String(out);
+    }
+    manualCur[k]=to; save(); paintManual(); calculate();
+  });
 });
-$('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션을 견적서 조건으로 되돌렸어요.');});
 
-renderHotels(); renderExtras(); renderOptions(); calculate();
+// 환율 입력과 유로↔원 변환기
+const fxIn=$('fxRate'), cE=$('convEur'), cK=$('convKrw'), cEo=$('convEurOut'), cKo=$('convKrwOut');
+function paintConv(){
+  const e=Number(cE.value)||0, w=Number(cK.value)||0;
+  cEo.textContent = e>0 ? fmt(e*fx) : '—';
+  cKo.textContent = w>0 ? fmtEur(round2(w/fx)) : '—';
+}
+fxIn.value=fx;
+fxIn.addEventListener('input',()=>{
+  const n=Number(fxIn.value); if(!(n>0)) return;
+  fx=n; save(); renderHotels(); renderExtras(); paintManual(); paintConv(); calculate();
+});
+fxIn.addEventListener('blur',()=>{ if(!(Number(fxIn.value)>0)) fxIn.value=fx; });
+cE.addEventListener('input',()=>{ cK.value=''; paintConv(); });
+cK.addEventListener('input',()=>{ cE.value=''; paintConv(); });
+
+$('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액과 환율은 그대로예요.');});
+
+renderHotels(); renderExtras(); renderOptions(); paintManual(); paintConv(); calculate();
 const RAW='https://raw.githubusercontent.com/kimyoonsung96g/honeymoon/main/docs/prices.json';
 fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
  .catch(()=>fetch('prices.json?t='+Date.now()).then(r=>r.json()))
