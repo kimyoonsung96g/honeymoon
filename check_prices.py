@@ -242,14 +242,15 @@ GH_EXTRACT_JS = r"""
     return /^[\x20-\x7e]{2,40}$/.test(s) ? s : null;
   };
   // 상세 화면은 탭마다(개요/가격) 가격 목록을 따로 그리므로 값이 있는 탭을 모두 읽어 합친다.
-  const panes = [...document.querySelectorAll('[role=tabpanel]')]
-    .filter(p => /사이트 방문|모든 옵션/.test(p.innerText));
+  const panes = [...document.querySelectorAll('[role=tabpanel]')];
   const roots = panes.length ? panes : [document.querySelector('main') || document.body];
   for (const root of roots) {
     let lastProv = null;
     for (const el of root.querySelectorAll('h3, a, div[role=link]')) {
       if (el.tagName === 'H3') { lastProv = flat(el.innerText); continue; }
       const t = flat(el.innerText);
+      // 예약 사이트 요금 줄만 인정 (검색 결과 카드의 '최저가 ₩…' 줄과 섞이지 않게)
+      if (!/사이트 방문|가격 보기|숨은 비용 없음/.test(t)) continue;
       const vals = [...t.matchAll(/₩\s?([\d,]+)/g)].map(m => parseInt(m[1].replace(/,/g, ''))).filter(v => v >= 10000);
       if (!vals.length) continue;
       let up = el.parentElement, sect = null, d = 0;
@@ -348,29 +349,27 @@ def _gh_extract(page, ci):
     return page.evaluate(GH_EXTRACT_JS, {"ci": f"{ci[:4]}년 {int(ci[5:7])}월 {int(ci[8:10])}일"})
 
 
-def _gh_wait(page, ci, tries=6, delay=3000):
-    """페이지가 늦게 그려지므로 사이트별 가격이 잡힐 때까지 몇 번 더 읽는다."""
+def _gh_wait(page, ci, tries=6, delay=3000, need_room=False):
+    """페이지가 늦게 그려지므로 사이트별 가격이 잡힐 때까지 몇 번 더 읽는다.
+    need_room=True면 객실명이 붙은 요금이 나올 때까지 기다린다(가격 탭의 사이트 카드 목록)."""
     info = _gh_extract(page, ci)
     for _ in range(tries):
-        if info.get("offers"):
+        if info.get("offers") and (not need_room or any(o.get("room") for o in info["offers"])):
             break
         page.wait_for_timeout(delay)
         info = _gh_extract(page, ci)
     return info
 
 
-def google_hotel(page, hid, h):
-    """반환: ({'breakfast': [...], 'fc': [...], 'ai': [...]}, 오류)
-    각 항목은 (숙박 전체 금액, 설명문, 객실명, 예약사이트)"""
+def _gh_open(page, hid, h):
+    """검색 → (필요하면) 목록에서 호텔 카드 클릭 → '가격' 탭. 화면 상태를 반환."""
     q, ci, co = GH_Q[hid]
-    url = _gh(q, ci, co)
-    page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    page.goto(_gh(q, ci, co), wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(9000)
     body = page.inner_text("body")
     if has(body, BLOCK):
-        save_debug(f"google_{hid}.txt", body)
-        return None, "구글이 자동 조회를 차단함"
-    info = _gh_wait(page, ci, 5)
+        return None, "차단", body
+    info = _gh_wait(page, ci, 4)
     how = "상세 화면 바로 열림"
     if not info.get("entity"):
         clicked = _gh_click_card(page, h)
@@ -378,50 +377,64 @@ def google_hotel(page, hid, h):
             how = f"목록에서 '{clicked}' 클릭 → 상세"
             info = _gh_wait(page, ci, 8, 3500)
         if not info.get("offers"):
-            # 패널이 접히거나 늦게 뜨는 경우 한 번 더 (이번엔 첫 결과의 '가격 보기')
             clicked2 = _gh_click_card(page, h, force_price=True)
             if clicked2:
                 how += f" / 재시도 '{clicked2}'"
                 info = _gh_wait(page, ci, 8, 3500)
-    tabbed = False
     if info.get("entity") and _gh_price_tab(page):
-        more = _gh_wait(page, ci, 5)
-        tabbed = True
+        # 가격 탭은 사이트 카드/객실 줄이 늦게 그려지므로 객실 정보가 나올 때까지 조금 더 기다림
+        more = _gh_wait(page, ci, 8, 3000, need_room=True)
         if more.get("offers"):
             info = more
-    # 날짜 적용 확인 (헤더의 '2027년 9월 6일~10일' 문구 또는 체크인/아웃 표시)
+    return info, how, body
+
+
+def google_hotel(page, hid, h):
+    """반환: ({'breakfast': [...], 'fc': [...], 'ai': [...]}, 오류)
+    각 항목은 (숙박 전체 금액, 설명문, 객실명, 예약사이트)"""
+    q, ci, co = GH_Q[hid]
     want_ci, want_co = _md(f"{ci[5:7]}월 {ci[8:10]}일"), _md(f"{co[5:7]}월 {co[8:10]}일")
-    dates_ok = bool(info.get("date_ok")) or (
-        _md(info["dates"].get("체크인", "")) == want_ci and _md(info["dates"].get("체크아웃", "")) == want_co)
-    cur_ok = info.get("won", 0) > 0 and info.get("usd", 0) == 0
     nights = h["nights"]
-    # 같은 요금이 두 레이아웃에 중복으로 잡히므로 (사이트, 객실, 금액) 기준으로 정리
-    uniq = {}
-    for o in info.get("offers", []):
-        total = gh_total(o["vals"], nights)
-        if not total:
+    err = "구글 호텔 조회 실패"
+    for attempt in range(2):
+        info, how, body = _gh_open(page, hid, h)
+        if info is None:
+            err = "구글이 자동 조회를 차단함"
+            save_debug(f"google_{hid}.txt", body)
+            page.wait_for_timeout(4000)
             continue
-        uniq.setdefault((o["prov"], o["room"], total), (total, o["text"], o["room"], o["prov"]))
-    found = list(uniq.values())
-    head = (f"=== {h['name']} / {how} / 가격탭 {'열림' if tabbed else '없음'} / "
-            f"날짜 {info.get('dates')} (요청 {ci}~{co}, 적용 {'확인' if dates_ok else '실패'}) / "
-            f"₩ {info.get('won', 0)}회 US$ {info.get('usd', 0)}회 / 탭 {info.get('tabs')} ===\n"
-            f"=== 제목 {info.get('heads')} ===\n")
-    save_debug(f"google_{hid}.txt", head +
-               "\n".join(f"[{t:,}] <{r}> {p} | {x}" for t, x, r, p in found[:250]) +
-               "\n\n=== 화면 전체 ===\n" + body[:12000])
-    if not dates_ok:
-        return None, f"구글 호텔에 요청 일정이 적용되지 않음 (화면: {info.get('dates')})"
-    if not cur_ok:
-        return None, f"구글 호텔이 원화로 표시되지 않음 (₩ {info.get('won', 0)}회, US$ {info.get('usd', 0)}회)"
-    if not found:
-        return None, "상세 가격 목록을 찾지 못함"
-    res = {
-        "breakfast": [f for f in found if "조식" in f[1] and not has(f[1], GH_NO_BF) and not has(f[1], ALL_INC)],
-        "ai": [f for f in found if has(f[1], ALL_INC)],
-    }
-    res["fc"] = [f for f in res["breakfast"] if has(f[1], FREE_CANCEL)]
-    return res, None
+        dates_ok = bool(info.get("date_ok")) or (
+            _md(info["dates"].get("체크인", "")) == want_ci and _md(info["dates"].get("체크아웃", "")) == want_co)
+        cur_ok = info.get("won", 0) > 0 and info.get("usd", 0) == 0
+        uniq = {}
+        for o in info.get("offers", []):
+            total = gh_total(o["vals"], nights)
+            if not total:
+                continue
+            uniq.setdefault((o["prov"], o["room"], total), (total, o["text"], o["room"], o["prov"]))
+        found = list(uniq.values())
+        head = (f"=== {h['name']} / {how} / 시도 {attempt + 1} / "
+                f"날짜 {info.get('dates')} (요청 {ci}~{co}, 적용 {'확인' if dates_ok else '실패'}) / "
+                f"₩ {info.get('won', 0)}회 US$ {info.get('usd', 0)}회 / 탭 {info.get('tabs')} ===\n"
+                f"=== 제목 {info.get('heads')} ===\n")
+        save_debug(f"google_{hid}.txt", head +
+                   "\n".join(f"[{t:,}] <{r}> {p} | {x}" for t, x, r, p in found[:250]) +
+                   "\n\n=== 화면 전체 ===\n" + body[:12000])
+        if not dates_ok:
+            err = f"구글 호텔에 요청 일정이 적용되지 않음 (화면: {info.get('dates')})"
+        elif not cur_ok:
+            err = f"구글 호텔이 원화로 표시되지 않음 (₩ {info.get('won', 0)}회, US$ {info.get('usd', 0)}회)"
+        elif not found:
+            err = "상세 가격 목록을 찾지 못함"
+        else:
+            res = {
+                "breakfast": [f for f in found if "조식" in f[1] and not has(f[1], GH_NO_BF) and not has(f[1], ALL_INC)],
+                "ai": [f for f in found if has(f[1], ALL_INC)],
+            }
+            res["fc"] = [f for f in res["breakfast"] if has(f[1], FREE_CANCEL)]
+            return res, None
+        page.wait_for_timeout(4000)  # 빈 화면·목록만 뜬 경우 한 번 더 시도
+    return None, err
 
 
 def gh_pick(cands, h, ref, label):
