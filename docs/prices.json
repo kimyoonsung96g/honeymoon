@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 10:58",
+ "updated": "2026-11-26 11:06",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -28,20 +28,20 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 1637676
+     "krw": 1969924
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 1637676
+     "krw": 1969924
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
-   "gh_fc_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
+   "gh_error": "견적 객실 없어 전체 최저가",
+   "gh_fc_error": "견적 객실 없어 전체 최저가",
    "gh_method": "gh-entity-v1",
-   "gh_note": null
+   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
   },
   "2": {
    "history": [
@@ -52,7 +52,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -82,13 +82,13 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 2060524
+     "krw": 2317114
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 2287396
+     "krw": 2566602
     }
    ],
    "gh_ai_history": [],
@@ -107,7 +107,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -130,18 +130,18 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 979875
+     "krw": 1065191
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 1129260
+     "krw": 1223521
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_error": null,
+   "gh_fc_error": null,
    "gh_method": "gh-entity-v1",
    "gh_note": null
   },
@@ -154,7 +154,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -186,7 +186,7 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "error": null,
    "history": [
     {
@@ -198,7 +198,7 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "error": null,
    "history": [
     {
@@ -210,7 +210,7 @@
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "error": null,
    "history": [
     {
@@ -226,7 +226,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -242,7 +242,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-26 10:58",
+   "last_check": "2026-11-26 11:06",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
