@@ -1006,7 +1006,7 @@ function s2Calc(){
   $('s2bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s2.opts.car==='suv'?' · SUV':' · 소형');
 }
 $('s2ResetBtn').addEventListener('click',()=>{
-  s2.opts={...S2_DEFAULT_OPTS}; s2Save(); renderS2Options(); s2Calc();
+  s2.opts={...S2_DEFAULT_OPTS}; s2Save(); renderS2(); s2Calc();
   toast('일정 2 옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액·입력값·환율은 그대로예요.');
 });
 function showTab(t){
