@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 16:44",
+ "updated": "2026-11-26 17:07",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -28,13 +28,13 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 2196281
+     "krw": 1855244
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 2196281
+     "krw": 1855244
     }
    ],
    "gh_ai_history": [],
@@ -52,7 +52,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -107,7 +107,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -130,13 +130,13 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 1020586
+     "krw": 980442
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 1223575
+     "krw": 1223873
     }
    ],
    "gh_ai_history": [],
@@ -154,7 +154,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -187,8 +187,8 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_method": "gh-entity-v1",
    "gh_note": null
   }
@@ -196,8 +196,8 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-26 16:44",
-   "error": null,
+   "last_check": "2026-11-26 17:07",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-26",
@@ -208,8 +208,8 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-26 16:44",
-   "error": null,
+   "last_check": "2026-11-26 17:07",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-26",
@@ -220,8 +220,8 @@
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-26 16:44",
-   "error": null,
+   "last_check": "2026-11-26 17:07",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-25",
@@ -236,7 +236,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -252,7 +252,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -270,12 +270,12 @@
  "official": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -306,7 +306,7 @@
   },
   "3": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -314,30 +314,30 @@
    "meal": "Breakfast included",
    "cur": "EUR",
    "public": {
-    "amt": 596.97,
-    "krw": 799940
+    "amt": 831.0,
+    "krw": 1113540
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 799940
+     "krw": 1113540
     }
    ],
    "member": {
-    "amt": 568.02,
-    "krw": 761147
+    "amt": 790.35,
+    "krw": 1059069
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 761147
+     "krw": 1059069
     }
    ]
   },
   "4": {
    "name": "투림 공식(TURIM Club)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "DOUBLE SUPERIOR",
    "rate": "Black Friday 2026 | Flexible Rate",
@@ -360,17 +360,17 @@
   "1": {
    "name": "Ohla Eixample",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 2258642
+     "krw": 2258112
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 2258642
+     "krw": 2258112
     }
    ],
    "gh_ai_history": [],
@@ -402,11 +402,11 @@
   "2": {
    "name": "Mercure Porto Centro",
    "dates": "9/15~9/18",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 979905
+     "krw": 980427
     }
    ],
    "gh_fc_history": [
@@ -449,7 +449,7 @@
   "3": {
    "name": "Zoëtry Mallorca",
    "dates": "9/18~9/22",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
@@ -474,12 +474,12 @@
  "official_s2": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -487,37 +487,37 @@
    "meal": "Breakfast included",
    "cur": "EUR",
    "public": {
-    "amt": 596.97,
-    "krw": 799940
+    "amt": 831.0,
+    "krw": 1113540
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 799940
+     "krw": 1113540
     }
    ],
    "member": {
-    "amt": 568.02,
-    "krw": 761147
+    "amt": 790.35,
+    "krw": 1059069
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 761147
+     "krw": 1059069
     }
    ]
   },
   "3": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "공식 사이트에 해당 날짜 예약 가능한 객실 없음 (판매 전이거나 매진)"
   }
  },
  "extras_s2": {
   "fl_svq_opo": {
    "name": "세비야→포르투 9/15",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
@@ -525,11 +525,11 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_opo_pmi": {
    "name": "포르투→마요르카 9/18",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
@@ -537,11 +537,11 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_pmi_bcn": {
    "name": "마요르카→바르셀로나 9/22",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
@@ -553,14 +553,14 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/18~9/22, 4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/18~9/22, 4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
@@ -570,7 +570,7 @@
   "1": {
    "name": "Zoëtry Mallorca",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -625,17 +625,17 @@
   "3": {
    "name": "Ohla Eixample",
    "dates": "9/18~9/22",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 556961
+     "krw": 2116504
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 556961
+     "krw": 2116504
     }
    ],
    "gh_ai_history": [],
@@ -656,11 +656,11 @@
   "2": {
    "name": "Mercure Porto Centro",
    "dates": "9/15~9/18",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 979905
+     "krw": 980427
     }
    ],
    "gh_fc_history": [
@@ -704,7 +704,7 @@
  "official_s3": {
   "1": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -735,12 +735,12 @@
   },
   "3": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -748,24 +748,24 @@
    "meal": "Breakfast included",
    "cur": "EUR",
    "public": {
-    "amt": 596.97,
-    "krw": 799940
+    "amt": 831.0,
+    "krw": 1113540
    },
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 799940
+     "krw": 1113540
     }
    ],
    "member": {
-    "amt": 568.02,
-    "krw": 761147
+    "amt": 790.35,
+    "krw": 1059069
    },
    "member_error": null,
    "member_history": [
     {
      "date": "2026-11-26",
-     "krw": 761147
+     "krw": 1059069
     }
    ]
   }
@@ -773,11 +773,11 @@
  "extras_s3": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/8",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 61828
+     "krw": 61962
     }
    ],
    "method": "list-v2",
@@ -785,11 +785,11 @@
   },
   "fl_pmi_svq": {
    "name": "마요르카→세비야 9/12",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 90664
+     "krw": 90862
     }
    ],
    "method": "list-v2",
@@ -797,11 +797,11 @@
   },
   "fl_opo_bcn": {
    "name": "포르투→바르셀로나 9/18",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 119384
+     "krw": 119644
     }
    ],
    "method": "list-v2",
@@ -809,21 +809,21 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/8~9/12, 4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/8~9/12, 4일)",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "fl_svq_opo": {
    "name": "세비야→포르투 9/15",
-   "last_check": "2026-11-26 16:44",
+   "last_check": "2026-11-26 17:07",
    "history": [
     {
      "date": "2026-11-26",
@@ -831,7 +831,7 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   }
  }
 }

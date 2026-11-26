@@ -1,4 +1,4 @@
-=== Zoëtry Mallorca / 상세 화면 바로 열림 / 시도 2 / 날짜 {'체크인': '9월 18일 (토)', '체크아웃': '9월 22일 (수)'} (요청 2027-09-18~2027-09-22, 적용 확인) / ₩ 33회 US$ 0회 / 탭 ['개요', '가격', '리뷰', '사진', '정보', '주요 명소', '음식점', '공항'] ===
+=== Zoëtry Mallorca / 상세 화면 바로 열림 / 시도 2 / 날짜 {'체크인': '9월 18일 (토)', '체크아웃': '9월 22일 (수)'} (요청 2027-09-18~2027-09-22, 적용 확인) / ₩ 46회 US$ 0회 / 탭 ['개요', '가격', '리뷰', '사진', '정보', '주요 명소', '음식점', '공항'] ===
 === 제목 ['마요르카 · 검색결과 15,000개', 'Zoëtry Mallorca'] ===
 
 
@@ -14,10 +14,22 @@
 모든 필터
 펼치기
 마요르카 · 검색결과 15,000개
+스폰서· Agoda
+Es Figueral Nou Hotel (+12)
+₩372,611 · 
+4.7
+(233)
+4성급 호텔 · 스파
+Agoda 방문
+스폰서· Booking.com
+Petit Hotel Algaida
+₩200,826 · 
+4.9
+(226)
+호텔 · 무료 취소
+Booking.com 방문
 Grupotel Molins
-₩448,744 · 
-4.5
-(1.6천)
+₩448,744
 5성급 호텔 · 
 조식
 가격 보기
@@ -29,26 +41,15 @@ Grupotel Molins
 에어컨
 세부정보 보기
 Hotel de Mar Gran Meliá - The Leading Hotels of the World - Adults only
-₩862,308 · 
-4.6
-(712)
+₩862,308
 5성급 호텔 · 
 유료 조식
 가격 보기
-Hotel Negresco
-₩227,110 · 
-4.5
-(1.1천)
+Alua Suites Las Rocas
+₩167,758
 4성급 호텔 · 
-조식
-파격 할인가 일반적인 가격 대비 32% 저렴
-가격 보기
-MiM Mallorca member of Meliá Collection
-₩234,976 · 
-4.5
-(1.5천)
-4성급 호텔 · 
-수영장
+유료 조식
+할인 상품 일반적인 가격 대비 22% 저렴
 가격 보기
 6명 숙박 가능한, 수영장이 있는, 침실 3개짜리 베케이션 렌탈
 ₩539,992 · 
@@ -64,14 +65,24 @@ MiM Mallorca member of Meliá Collection
 공유숙박 · 
 에어컨
 세부정보 보기
-Alua Suites Las Rocas
-₩167,758 · 
-4.2
-(1.8천)
+MiM Mallorca member of Meliá Collection
+₩234,976
 4성급 호텔 · 
-유료 조식
-할인 상품 일반적인 가격 대비 22% 저렴
+수영장
 가격 보기
+Hotel Negresco
+₩227,110
+4성급 호텔 · 
+조식
+파격 할인가 일반적인 가격 대비 32% 저렴
+가격 보기
+스폰서· Hotels.com
+Finca Serena Mallorca, member of Small Luxury Hotels
+₩1,060,534 · 
+4.5
+(326)
+5성급 호텔 · 무료 취소
+Hotels.com 방문
 5명 숙박 가능한, 야외 그릴이 있는, 침실 3개짜리 베케이션 렌탈
 ₩357,883 · 
 4.5
@@ -86,79 +97,66 @@ Alua Suites Las Rocas
 공유숙박 · 
 에어컨
 세부정보 보기
-Universal Hotel Aquamarin
-₩294,290 · 
-4.4
-(886)
-4성급 호텔 · 
-유료 조식
-가격 보기
 Universal Hotel Romántica
-₩151,362 · 
-4.4
-(1.6천)
+₩151,362
 4성급 호텔 · 
 유료 조식
 할인 상품 일반적인 가격 대비 22% 저렴
 가격 보기
+Valldemossa Hotel
+₩1,907,515
+5성급 호텔 · 
+유료 조식
+가격 보기
+Universal Hotel Aquamarin
+₩294,290
+4성급 호텔 · 
+유료 조식
+가격 보기
 Hotel JS PortoColom Suites
-₩143,256 · 
-4.2
-(579)
+₩143,256
 4성급 호텔 · 
 유료 조식
 파격 할인가 일반적인 가격 대비 26% 저렴
 가격 보기
 Es Figueral Nou Hotel (+12)
-₩372,611 · 
-4.7
-(233)
+₩372,611
 4성급 호텔 · 
 조식
 가격 보기
-Valldemossa Hotel
-₩1,907,515 · 
-4.6
-(448)
-5성급 호텔 · 
-유료 조식
-가격 보기
-Universal Hotel Neptuno
-₩238,577 · 
-4.5
-(797)
+EIX Lagotel Holiday Resort
+₩124,393
 4성급 호텔 · 
 유료 조식
-파격 할인가 일반적인 가격 대비 39% 저렴
 가격 보기
-카스틸로 호텔 손 비다, 어 럭셔리 컬렉션 호텔
-₩638,482 · 
-4.6
-(1.7천)
-5성급 호텔 · 
-유료 조식
-가격 보기
-INNSiDE by Meliá Calviá Beach
-₩192,806 · 
-4.2
-(1.7천)
-4성급 호텔 · 
-조식 포함
-가격 보기
+스폰서· Booking.com
+Agroturisme Ses Illes
+₩335,550 · 
+4.8
+(312)
+4성급 호텔 · 수영장
+Booking.com 방문
 Hotel Galaxia
-₩87,052 · 
-3.6
-(709)
+₩87,052
 1성급 호텔 · 
 조식 포함
 합리적인 가격 해변 연결로
 가격 보기
-BelleVue Club
-₩129,840 · 
-3.5
-(1.1만)
-3성급 호텔 · 
-조식
+카스틸로 호텔 손 비다, 어 럭셔리 컬렉션 호텔
+₩638,482
+5성급 호텔 · 
+유료 조식
+가격 보기
+Barefoot Hotel Mallorca
+₩352,700
+4성급 호텔 · 
+무료 Wi-Fi
+가격 보기
+Universal Hotel Neptuno
+₩238,577
+4성급 호텔 · 
+유료 조식
+파격 할인가 일반적인 가격 대비 39% 저렴
 가격 보기
 결과 더보기
 Zoëtry Mallorca
@@ -176,6 +174,79 @@ Zoëtry Mallorca
 1박 요금(수수료 포함)
 취소 수수료가 없는 항목만
 2027년 9월 25일~29일에 ₩394,150 가격으로 예약할 수 있습니다.
+스폰서·비슷한 호텔
+Cap Rocat
+₩2,894,960
+ Expedia.com
+4.7/5
+(1.3천)
+ · 5성급 호텔
+스파 · 수영장
+Expedia.com 방문
+HM Ayron Park
+₩327,841
+ HM Ayron Park - Adults Only
+4.3/5
+(2.0천)
+ · 5성급 호텔
+온수 욕조 · 스파
+공식 사이트 방문
+Universal Hotel Neptuno
+₩400,824
+ Booking.com
+4.5/5
+(797)
+ · 4성급 호텔
+온수 욕조 · 수영장
+Booking.com 방문
+Hotel MySeaHouse Flamingo
+₩447,716
+ Hotels.com
+4.8/5
+(2.7천)
+ · 4성급 호텔
+스파 · 수영장
+Hotels.com 방문
+HM Dunas Blancas
+₩348,125
+ Expedia.com
+4.0/5
+(833)
+ · 4성급 호텔
+무료 취소 · 수영장
+Expedia.com 방문
+Hotel Gracia
+₩333,134
+ Hotel Gracia
+4.4/5
+(629)
+ · 3성급 호텔
+무료 취소 · 수영장
+공식 사이트 방문
+Hotel Ipanema Park
+₩199,434
+ Booking.com
+3.5/5
+(1.3천)
+ · 4성급 호텔
+수영장 · 반려동물 허용
+Booking.com 방문
+whala!beach
+₩245,539
+ Booking.com
+3.3/5
+(3.4천)
+ · 3성급 호텔
+무료 취소 · 수영장
+Booking.com 방문
+Globales Maioris
+₩299,019
+ Booking.com
+4.1/5
+(1.8천)
+ · 4성급 호텔
+무료 취소 · 수영장
+Booking.com 방문
 관련 항목
 ₩669,421
 Marriott's Club Son Antem
@@ -240,10 +311,10 @@ Fincahotel La Verana
 더 높은 투숙객 평점
 11.8km 거리
 근처 공유숙박
-₩1,567,912
-Preciosa villa con WiFi y aire acondicionado
+₩1,729,170
+Villa 'Cunill' con vistas al mar, Wi-Fi y aire acondicionado
 침실 4개8박
-3.6km 거리
+4km 거리
 ₩528,467
 Encantadora casa con piscina, amplia terraza, jardín y Wi-Fi
 침실 2개6박
@@ -280,7 +351,7 @@ Hipotels Gran Playa de Palma
 Iberostar Selection Playa de Palma
 Grupotel Playa de Palma Suites & Spa
 근처 공유숙박
-Preciosa villa con WiFi y aire acondicionado
+Villa 'Cunill' con vistas al mar, Wi-Fi y aire acondicionado
 Encantadora casa con piscina, amplia terraza, jardín y Wi-Fi
 Chalet Carrer Ondategui a pocos metros de la playa
 Villa 'Sa Torre' con vistas al mar, piscina privada y Wi-Fi
