@@ -6,7 +6,7 @@
 호텔(부킹닷컴): 호텔 페이지의 '객실 표'를 한 줄씩 읽어서 조건별 최저가를 구함
   - 조식 포함 / 조식 포함 + 무료 취소 / 조식 미포함 / 올인클루시브
   (부킹닷컴 주소의 필터는 호텔 페이지에서 적용되지 않아서, 표의 조건 문구로 직접 구분)
-호텔(카약): 객실 요금 목록에서 견적 객실 + 조건(조식 포함 / 올인클루시브) 줄만 읽음 (세금·수수료 포함 총액)
+호텔(구글 호텔): 견적서와 같은 객실의 조식 포함 / 올인클루시브 표시 요금만 읽음 (카약은 자동 조회 차단으로 제외)
 항공(구글 항공편): 검색 결과 목록의 편도 최저가 x 2인 (수하물 별도)
 렌터카(카약): 마요르카 4일 최저가 (자동 변속기, 광고 제외)
 
@@ -46,6 +46,17 @@ HOTELS = {
 }
 
 
+def _gh(q, ci, co):
+    return ("https://www.google.com/travel/search?q=" + q.replace(" ", "%20") +
+            f"&checkin={ci}&checkout={co}&adults=2&hl=ko&gl=kr&curr=KRW")
+
+
+GH = {"1": _gh("Ohla Eixample Barcelona", "2027-09-06", "2027-09-10"),
+      "2": _gh("Zoetry Mallorca Wellness Spa", "2027-09-10", "2027-09-14"),
+      "3": _gh("Mercure Porto Centro Santa Catarina", "2027-09-14", "2027-09-17"),
+      "4": _gh("TURIM Boulevard Hotel Lisbon", "2027-09-17", "2027-09-18")}
+
+
 def _gf(frm, to, date):
     return ("https://www.google.com/travel/flights?q=Flights%20from%20" + frm + "%20to%20" + to +
             "%20on%20" + date + "%20one%20way&curr=KRW&hl=ko&gl=KR")
@@ -58,13 +69,13 @@ EXTRAS = {
     "car_small": {"name": "마요르카 렌터카 자동 최저가 (4일)", "kind": "car",
                   "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a"},
     "car_suv": {"name": "마요르카 렌터카 자동 SUV (4일)", "kind": "car",
-                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a&fs=carclass=suv"},
+                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a"},
 }
 CAR_DAYS = 4
 
 WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
 NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "no availability"]
-BLOCK = ["로봇", "robot", "captcha", "보안 확인", "Please confirm", "unusual traffic"]
+BLOCK = ["로봇", "robot", "captcha", "보안 확인", "Please confirm", "unusual traffic", "비정상적인 트래픽", "실제 KAYAK 사용자임을 확인", "본인 확인:"]
 BREAKFAST = ["조식 포함", "조식이 포함", "breakfast included", "훌륭한 조식 포함"]
 FREE_CANCEL = ["무료 취소", "free cancellation"]
 ALL_INC = ["올 인클루시브", "올인클루시브", "all-inclusive", "all inclusive"]
@@ -159,60 +170,87 @@ def analyze_rows(rows, room_words):
     }, room_used, sorted({r for r, _, _ in rows if r})
 
 
-# ---------------- 카약 호텔 ----------------
-# 카약 호텔 페이지의 객실 요금 목록: '객실명 / 조건 / N박 총액 X원(세금·수수료 포함)' 형식을 줄 단위로 읽음
-KAYAK_ROW = re.compile(r"([^\n]+)\n([^\n]*)\n(\d+)\u200b?박 총액 ([\d,]+)원")
+# ---------------- 구글 호텔 ----------------
+# 구글 호텔 페이지의 '가격' 목록에서 예약 사이트별 요금을 읽음.
+# 각 가격 줄과 그 앞의 설명 줄에 예약 사이트 이름이 있어야 인정하고, '조식' / '올인클루시브' 표시로 조건을 구분.
+GH_PROVIDERS = ["Booking.com", "Agoda", "Hotels.com", "Expedia", "Trip.com", "Priceline", "Vio.com", "Prestigia",
+                "Destinia", "Super.com", "공식", "official", "Zoëtry", "Mercure", "Accor", "TURIM", "Ohla", "Hyatt"]
+GH_NO_BF = ["조식 불포함", "조식 별도", "조식 미포함"]
+ROOM_WORDS = ["룸", "Room", "객실", "스위트", "Suite", "Double", "더블"]
 
 
-def _parse_kayak(body):
-    return [(f"{a} {b}".strip(), int(t.replace(",", ""))) for a, b, n, t in KAYAK_ROW.findall(body)]
+def _click_text(page, text, timeout=4000):
+    try:
+        page.get_by_text(text, exact=True).first.click(timeout=timeout)
+        return True
+    except Exception:
+        return False
 
 
-def kayak_rows(page, url, hid, tag, chip=None):
-    """카약 객실 요금 목록을 읽음. chip이 있으면 요금 목록 위의 조건 버튼('조식 포함', '올인클루시브')을 눌러 걸러낸 뒤 읽음
-    (주소의 필터는 이 목록에 적용되지 않음). 반환: (rows, 버튼 적용 여부, 오류)"""
-    page.goto(url, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(15000)
+def google_hotel(page, hid, h):
+    """반환: ({'breakfast': [(값, 문구)], 'fc': [...], 'ai': [...]}, 오류)"""
+    page.goto(GH[hid], wait_until="domcontentloaded", timeout=60000)
+    page.wait_for_timeout(10000)
     body = page.inner_text("body")
     if has(body, BLOCK):
-        save_debug(f"kayak_{hid}{tag}.txt", body)
-        return None, False, "카약 접속 차단"
-    before = _parse_kayak(body)
-    rows, applied, note = before, False, "버튼 없음"
-    if chip:
-        try:
-            page.get_by_text(chip, exact=True).first.click(timeout=8000)
-            page.wait_for_timeout(7000)
-            body = page.inner_text("body")
-            after = _parse_kayak(body)
-            if after and after != before:
-                rows, applied, note = after, True, "버튼 적용됨"
-            else:
-                note = "버튼을 눌렀지만 목록이 그대로" if after else "버튼을 누른 뒤 목록이 비어 있음"
-        except Exception as e:
-            note = f"버튼 누르기 실패: {str(e)[:60]}"
-    save_debug(f"kayak_{hid}{tag}.txt", f"=== '{chip}' {note} ===\n=== 읽은 객실 요금 ===\n" +
-               "\n".join(f"[{p:,}] {t}" for t, p in rows) + "\n\n=== 화면 전체 ===\n" + body)
-    if not rows:
-        return None, False, "객실 요금 목록을 찾지 못함 (예약 미오픈 또는 차단)"
-    return rows, applied, None
+        save_debug(f"google_{hid}.txt", body)
+        return None, "구글이 자동 조회를 차단함"
+    # 검색 결과 목록이 나오면 첫 번째 호텔을 눌러 상세로 들어감, 이어서 '가격' 탭
+    if h["name"].split()[0] not in body[:3000]:
+        _click_text(page, h["name"], 4000)
+    _click_text(page, "가격", 4000)
+    page.wait_for_timeout(5000)
+    # 객실별 요금 목록 펼치기 (문구는 화면에 따라 다를 수 있어 여러 개 시도)
+    for t in ("모든 객실", "모든 객실 보기", "객실 옵션 더보기", "객실 더보기", "모든 옵션 보기"):
+        if _click_text(page, t, 2500):
+            page.wait_for_timeout(4000)
+            break
+    body = page.inner_text("body")
+    lines = [l.strip() for l in body.split("\n") if l.strip()]
+    found, last, room = [], -1, ""
+    for i, l in enumerate(lines):
+        vals = won_values(l, 30000, 30000000)
+        if not vals:
+            # 짧은 객실명 줄이면 이후 가격들의 객실로 기억 (부킹닷컴 객실 표와 같은 방식)
+            if len(l) <= 60 and has(l, ROOM_WORDS):
+                room = l
+            continue
+        # 이 가격의 설명 = 바로 앞 가격 다음 줄부터 이 줄까지 (옆 사이트의 조건이 섞이지 않게, 최대 6줄)
+        win = " ".join(lines[max(last + 1, i - 6): i + 1])
+        last = i
+        if not any(pv.lower() in win.lower() for pv in GH_PROVIDERS):
+            continue
+        found.append((min(vals), win, room))
+    save_debug(f"google_{hid}.txt", "=== 읽은 사이트별 가격 [가격] <객실> 설명 ===\n" +
+               "\n".join(f"[{v:,}] <{r}> {w}" for v, w, r in found) + "\n\n=== 화면 전체 ===\n" + body)
+    if not found:
+        return None, "사이트별 가격 목록을 찾지 못함"
+    res = {
+        "breakfast": [f for f in found if "조식" in f[1] and not has(f[1], GH_NO_BF) and not has(f[1], ALL_INC)],
+        "ai": [f for f in found if has(f[1], ALL_INC)],
+    }
+    res["fc"] = [f for f in res["breakfast"] if has(f[1], FREE_CANCEL)]
+    return res, None
 
 
-def kayak_pick(rows, h, words, ref, also=None, applied=False, other=None):
-    """견적 객실 + 조건에 맞는 줄의 최저가.
-    조건 버튼이 적용됐으면(applied) 줄에 조건 문구가 없어도 인정하되, 다른 식사 조건(other)이 적힌 줄은 제외.
-    부킹닷컴(ref)과 40% 넘게 차이 나면 제외."""
+def gh_pick(cands, h, ref, label):
+    """견적서와 같은 조건으로 비교: 견적 객실(k_room)에 해당하는 요금만 사용.
+    구글이 객실을 구분해 보여주지 않으면 비교하지 않음(다른 객실 가격과 섞이지 않게).
+    구글은 보통 1박 요금이라 숙박 전체로 환산(부킹닷컴에 더 가까운 해석). 40% 넘게 차이 나면 제외."""
+    if not cands:
+        return None, f"구글 호텔에 {label} 표시 요금이 없음"
     inc, exc = h["k_room"]
-    cand = [p for t, p in rows
-            if any(w.lower() in t.lower() for w in inc) and not any(x.lower() in t.lower() for x in exc)
-            and (has(t, words) or (applied and not (other and has(t, other))))
-            and (also is None or has(t, also))]
-    if not cand:
-        return None, "견적 객실의 해당 조건 요금이 카약에 없음"
-    v = min(cand)
-    if ref and not (0.6 * ref <= v <= 1.4 * ref):
-        return None, f"부킹닷컴과 차이가 커서 제외 (카약 {v:,}원)"
-    return v, None
+    match = [c for c in cands if c[2] and any(w.lower() in c[2].lower() for w in inc)
+             and not any(x.lower() in c[2].lower() for x in exc)]
+    if not match:
+        rooms = sorted({c[2] for c in cands if c[2]})
+        return None, ("구글에 견적 객실의 " + label + " 요금이 없음" +
+                      (f" (구글에 보인 객실: {', '.join(rooms)[:120]})" if rooms else " (구글이 객실을 구분해 보여주지 않음)"))
+    v = min(c[0] for c in match)
+    total = min((v * h["nights"], v), key=lambda x: abs(x - ref)) if ref else v * h["nights"]
+    if ref and not (0.6 * ref <= total <= 1.4 * ref):
+        return None, f"부킹닷컴과 차이가 커서 제외 (구글 {v:,}원)"
+    return total, None
 
 
 # ---------------- 구글 항공편 ----------------
@@ -239,13 +277,19 @@ def fetch_flight(page, url, key):
 
 # ---------------- 카약 렌터카 ----------------
 # 견적서 조건(자동 변속기)에 맞춰 '수동' 차량은 제외. 광고 칸도 제외. 가격은 카약이 표시한 4일 총액.
+_CAR_CACHE = {}
+
+
 def fetch_car(page, url, key, prev_total):
-    page.goto(url, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(15000)
-    body = page.inner_text("body")
+    # 최저가와 SUV를 같은 페이지에서 읽어 카약 접속 횟수를 줄임
+    if url not in _CAR_CACHE:
+        page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        page.wait_for_timeout(15000)
+        _CAR_CACHE[url] = page.inner_text("body")
+    body = _CAR_CACHE[url]
     save_debug(f"car_{key}.txt", body)
     if has(body, BLOCK):
-        return None, "카약 접속 차단"
+        return None, "카약이 자동 조회를 차단함 (사용자 확인 요구)"
     want_suv = key == "car_suv"
     vals = []
     for blk in body.split("상세 정보 보기")[1:]:
@@ -315,10 +359,12 @@ def main():
             rec["name"], rec["dates"] = h["name"], h["dates"]
             rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
             # 계산 방식이 바뀐 예전 기록(VAT 미포함 등)은 정확하지 않아 한 번 비움
-            if rec.get("method") != "rows-v5":
-                for k in ("history", "fc_history", "ro_history", "ai_history", "ai_fc_history", "kayak_history", "kayak_fc_history", "kayak_ai_history"):
+            if rec.get("method") != "rows-v6":
+                for k in ("history", "fc_history", "ro_history", "ai_history", "ai_fc_history", "gh_history", "gh_fc_history", "gh_ai_history"):
                     rec[k] = []
-                rec["method"] = "rows-v5"
+                rec["method"] = "rows-v6"
+                for k in [x for x in rec if x.startswith("kayak_")]:
+                    rec.pop(k, None)
 
             try:
                 rows, err = fetch_booking_rows(page, h, hid)
@@ -338,23 +384,20 @@ def main():
                 put(rec, "ai_fc_history", r["ai_fc"], "ai_fc_error", ("올인클루시브 무료 취소 요금이 없음" if rows and r["ai_fc"] is None else err), h["name"] + " 올인클루시브 무료취소")
 
             try:
-                krows, kapp, kerr = kayak_rows(page, h["kayak"], hid, "", "조식 포함")
-                k, kerr = kayak_pick(krows, h, BREAKFAST, r["breakfast"], applied=kapp, other=ALL_INC) if krows else (None, kerr)
-                kf, kferr = (kayak_pick(krows, h, BREAKFAST, r["fc"], FREE_CANCEL, applied=kapp, other=ALL_INC)
-                             if krows else (None, kerr))
+                g, gerr = google_hotel(page, hid, h)
             except Exception as e:
-                k, kerr, kf, kferr = None, f"조회 오류: {str(e)[:80]}", None, f"조회 오류: {str(e)[:80]}"
-            put(rec, "kayak_history", k, "kayak_error", kerr, "KAYAK " + h["name"])
-            put(rec, "kayak_fc_history", kf, "kayak_fc_error", kferr, "KAYAK " + h["name"] + " 무료취소")
+                g, gerr = None, f"조회 오류: {str(e)[:80]}"
+            if g:
+                k, kerr2 = gh_pick(g["breakfast"], h, r["breakfast"], "조식 포함")
+                kf, kferr = gh_pick(g["fc"], h, r["fc"], "조식 포함 무료 취소")
+            else:
+                k, kerr2, kf, kferr = None, gerr, None, gerr
+            put(rec, "gh_history", k, "gh_error", kerr2, "Google " + h["name"])
+            put(rec, "gh_fc_history", kf, "gh_fc_error", kferr, "Google " + h["name"] + " 무료취소")
             if h.get("all_inclusive"):
-                try:
-                    arows, aapp, aerr = kayak_rows(page, h["kayak"].replace(KQ, "/2adults"), hid, "_ai", "올인클루시브")
-                    ka, aerr = (kayak_pick(arows, h, ALL_INC, r["ai"], applied=aapp, other=None) if (arows and (aapp or any(has(t, ALL_INC) for t, _ in arows)))
-                                else (None, aerr or "올인클루시브 버튼이 적용되지 않음"))
-                except Exception as e:
-                    ka, aerr = None, f"조회 오류: {str(e)[:80]}"
-                put(rec, "kayak_ai_history", ka, "kayak_ai_error", aerr, "KAYAK " + h["name"] + " 올인클루시브")
-            print(h["name"], r, "| kayak:", k, kerr or "")
+                ka, aerr = gh_pick(g["ai"], h, r["ai"], "올인클루시브") if g else (None, gerr)
+                put(rec, "gh_ai_history", ka, "gh_ai_error", aerr, "Google " + h["name"] + " 올인클루시브")
+            print(h["name"], r, "| google:", k, kerr2 or "")
 
         ex = data.setdefault("extras", {})
         for key, e in EXTRAS.items():
