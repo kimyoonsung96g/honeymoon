@@ -1,0 +1,198 @@
+=== 조에트리 공식(World of Hyatt) 2027-09-10~2027-09-14 / 방 8개 ===
+- Ponent Room | 1208자
+- Tramuntana Room | 1209자
+- Ponent Deluxe Room | 1215자
+- Tramuntana Deluxe Room | 1254자
+- Tramuntana Junior Suite | 1218자
+- Ponent Junior Suite | 1252자
+- Ponent Suite | 1208자
+- Elegant Suite | 1248자
+
+선택: {'room': 'Ponent Room', 'rate': 'Flexible Rate', 'meal': 'Bed & Breakfast', 'cancel': 'Free cancellation until 2027.09.09.!', 'cur': 'EUR', 'public': 1726.0, 'member': 1381.0, 'per_night': False, 'raw': 'Bed & Breakfast\n€ 432 / night\nUNLOCK\nUNLOCK PRICE WORLD OF HYATT\n€ 1,381\nPrice with discount\n€ 1,726'}
+
+=== 원문(첫 3000자) ===
+Ponent Room
+1234567
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
+
+If your plans change, resell your reservation or change the name on the reservation.
+
+Booking conditions
+Bed & Breakfast
+€ 389 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,243
+Price with discount
+€ 1,554
+Half Board
+€ 519 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,659
+Price with discount
+€ 2,074
+Endless Privileges®
+€ 789 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,523
+Price with discount
+€ 3,154
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.09.!
+Booking conditions
+Bed & Breakfast
+€ 432 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,381
+Price with discount
+€ 1,726
+Half Board
+€ 562 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,797
+Price with discount
+€ 2,246
+Endless Privileges®
+€ 832 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,661
+Price with discount
+€ 3,326
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+---
+Tramuntana Room
+1234
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
+
+If your plans change, resell your reservation or change the name on the reservation.
+
+Booking conditions
+Bed & Breakfast
+€ 399 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,277
+Price with discount
+€ 1,596
+Half Board
+€ 529 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,693
+Price with discount
+€ 2,116
+Endless Privileges®
+€ 799 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,557
+Price with discount
+€ 3,196
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.09.!
+Booking conditions
+Bed & Breakfast
+€ 444 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,419
+Price with discount
+€ 1,774
+Half Board
+€ 574 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,835
+Price with discount
+€ 2,294
+Endless Privileges®
+€ 844 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,699
+Price with discount
+€ 3,374
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+---
+Ponent Deluxe Room
+1234567
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
+
+If your plans change, resell your reservation or change the name on the reservation.
+
+Booking conditions
+Bed & Breakfast
+€ 410 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,312
+Price with discount
+€ 1,640
+Half Board
+€ 540 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,728
+Price with discount
+€ 2,160
+Endless Privileges®
+€ 810 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,592
+Price with discount
+€ 3,240
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.09.!
+Booking conditions
+Bed & Breakfast
+€ 456 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,458
+Price with discount
+€ 1,822
+Half Board
+€ 586 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,874
+Price with discount
+€ 2,342
+Endless Privileges®
+€ 856 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,738
+Price with discount
+€ 3,422
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add

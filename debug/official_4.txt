@@ -1,0 +1,174 @@
+=== 투림 공식(TURIM Club) 2027-09-17~2027-09-18 / 방 10개 ===
+- DOUBLE SUPERIOR | 1256자
+- TWIN SUPERIOR | 1297자
+- DOUBLE SUPERIOR AVENUE VIEW | 1300자
+- TWIN SUPERIOR AVENUE VIEW | 1264자
+- DOUBLE EXECUTIVE | 1245자
+- TWIN EXECUTIVE | 1250자
+- DOUBLE DELUXE AVENUE VIEW | 1298자
+- TWIN DELUXE AVENUE VIEW | 1299자
+- SUITE JUNIOR | 1286자
+- SUITE | 1276자
+
+선택: {'room': 'DOUBLE SUPERIOR', 'rate': 'Black Friday 2026 | Flexible Rate', 'meal': 'Bed & Breakfast', 'cancel': 'Free cancellation until 2027.09.15.!', 'cur': 'EUR', 'public': 228.69, 'member': None, 'per_night': False, 'raw': 'Bed & Breakfast\n€ 363.00\n-37%\nPrice with discount\n€ 228.69\nAdd\nIncluded: VAT (6%).\nDirect payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED'}
+
+=== 원문(첫 3000자) ===
+12345
+DOUBLE SUPERIOR
+
+A contemporary retreat in the heart of Lisbon, where every detail has been crafted for your comfort.
+21 m² featuring a contemporary design in warm beige tones and golden accents. Upholstered headboard, double bed, bathrobe and slippers, turndown service and bathroom with Alqvimia vegan amenities.
+
+See more
+Occupancy
+2 Adults
+MODIFY
+Black Friday 2026 | Best Available Rate – No Modifications
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 283.00
+-37%
+Price with discount
+€ 178.29
+Add
+Bed & Breakfast
+€ 333.00
+-37%
+Price with discount
+€ 209.79
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Black Friday 2026 | Flexible Rate
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Free cancellation until 2027.09.15.!
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 313.00
+-37%
+Price with discount
+€ 197.19
+Add
+Bed & Breakfast
+€ 363.00
+-37%
+Price with discount
+€ 228.69
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+---
+1234
+TWIN SUPERIOR
+
+A contemporary retreat in the heart of Lisbon, where every detail has been crafted for your comfort.
+21 m² featuring a contemporary design in warm beige tones and golden accents. Upholstered headboards, two single beds, bathrobe and slippers, turndown service and bathroom with Alqvimia vegan amenities.
+
+See more
+Occupancy
+2 Adults
+MODIFY
+Black Friday 2026 | Best Available Rate – No Modifications
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+ONLY 5 ROOMS LEFT!
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 283.00
+-37%
+Price with discount
+€ 178.29
+Add
+Bed & Breakfast
+€ 333.00
+-37%
+Price with discount
+€ 209.79
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Black Friday 2026 | Flexible Rate
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Free cancellation until 2027.09.15.!
+ONLY 5 ROOMS LEFT!
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 313.00
+-37%
+Price with discount
+€ 197.19
+Add
+Bed & Breakfast
+€ 363.00
+-37%
+Price with discount
+€ 228.69
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+---
+123456
+DOUBLE SUPERIOR AVENUE VIEW
+
+Wake up to Avenida da Liberdade at your window — one of Europe's most elegant boulevards.
+21 m² with direct views over Avenida da Liberdade. Contemporary design in warm tones and golden accents, double bed, bathrobe and slippers, turndown service and bathroom with Alqvimia vegan amenities.
+
+See more
+Occupancy
+2 Adults
+MODIFY
+Black Friday 2026 | Best Available Rate – No Modifications
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+ONLY 3 ROOMS LEFT!
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 303.00
+-37%
+Price with discount
+€ 190.89
+Add
+Bed & Breakfast
+€ 353.00
+-37%
+Price with discount
+€ 222.39
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Black Friday 2026 | Flexible Rate
+VAT INCLUDED. CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED
+Free cancellation until 2027.09.15.!
+ONLY 3 ROOMS LEFT!
+
+The perfect opportunity to secure the best price. Book now and save on your next stay.
+
+Booking conditions
+Room Only
+€ 325.00
+-37%
+Price with discount
+€ 204.75
+Add
+Bed & Breakfast
+€ 375.00
+-37%
+Price with discount
+€ 236.25
+Add
+Included: VAT (6%).
+Direct payment at the hotel: CITY TAX OF 4€ PER NIGHT / PERSON NOT INCLUDED

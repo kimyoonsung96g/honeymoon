@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 11:22",
+ "updated": "2026-11-26 11:35",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -38,8 +38,8 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
+   "gh_fc_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
    "gh_method": "gh-entity-v1",
    "gh_note": null
   },
@@ -52,7 +52,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -82,13 +82,13 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 2318457
+     "krw": 2313284
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 2567999
+     "krw": 2562359
     }
    ],
    "gh_ai_history": [],
@@ -107,7 +107,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -130,13 +130,13 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 979875
+     "krw": 936291
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 1223521
+     "krw": 1221498
     }
    ],
    "gh_ai_history": [],
@@ -154,7 +154,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -186,7 +186,7 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "error": null,
    "history": [
     {
@@ -198,19 +198,19 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-26 11:22",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
+   "last_check": "2026-11-26 11:35",
+   "error": null,
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 163518
+     "krw": 163186
     }
    ],
    "method": "list-v2"
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "error": null,
    "history": [
     {
@@ -226,7 +226,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -242,7 +242,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-26 11:22",
+   "last_check": "2026-11-26 11:35",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -255,6 +255,95 @@
     }
    ],
    "method": "list-v2"
+  }
+ },
+ "official": {
+  "1": {
+   "name": "올라 공식(Privilege Club)",
+   "last_check": "2026-11-26 11:35",
+   "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
+  },
+  "2": {
+   "name": "조에트리 공식(World of Hyatt)",
+   "last_check": "2026-11-26 11:35",
+   "error": null,
+   "room": "Ponent Room",
+   "rate": "Flexible Rate",
+   "cancel": "Free cancellation until 2027.09.09.!",
+   "meal": "Bed & Breakfast",
+   "cur": "EUR",
+   "public": {
+    "amt": 1726.0,
+    "krw": 2312840
+   },
+   "history": [
+    {
+     "date": "2026-11-26",
+     "krw": 2312840
+    }
+   ],
+   "member": {
+    "amt": 1381.0,
+    "krw": 1850540
+   },
+   "member_error": null,
+   "member_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1850540
+    }
+   ]
+  },
+  "3": {
+   "name": "아코르 공식(ALL 회원가)",
+   "last_check": "2026-11-26 11:35",
+   "error": null,
+   "room": "Superior room with 1 double bed and city view.",
+   "rate": "FLEXIBLE/무료취소·조식 필터",
+   "cancel": "Free cancellation 필터 적용",
+   "meal": "Breakfast included",
+   "cur": "EUR",
+   "public": {
+    "amt": 596.97,
+    "krw": 799940
+   },
+   "history": [
+    {
+     "date": "2026-11-26",
+     "krw": 799940
+    }
+   ],
+   "member": {
+    "amt": 568.02,
+    "krw": 761147
+   },
+   "member_error": null,
+   "member_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 761147
+    }
+   ]
+  },
+  "4": {
+   "name": "투림 공식(TURIM Club)",
+   "last_check": "2026-11-26 11:35",
+   "error": null,
+   "room": "DOUBLE SUPERIOR",
+   "rate": "Black Friday 2026 | Flexible Rate",
+   "cancel": "Free cancellation until 2027.09.15.!",
+   "meal": "Bed & Breakfast",
+   "cur": "EUR",
+   "public": {
+    "amt": 228.69,
+    "krw": 306445
+   },
+   "history": [
+    {
+     "date": "2026-11-26",
+     "krw": 306445
+    }
+   ]
   }
  }
 }
