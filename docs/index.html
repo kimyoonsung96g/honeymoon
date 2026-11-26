@@ -800,6 +800,11 @@ function renderS2Hotels(){
       box.append(srcLine('부킹닷컴',rec.history,rec.last_error,p.src==='booking'));
       box.append(srcLine('구글 호텔',rec.gh_history,rec.gh_error,p.src==='google'));
       const ol=s2OfficialLine(officialS2[h.id]); if(ol) box.append(ol);
+      if(rec && lastK(rec.history)==null && lastK(rec.gh_history)==null){
+        const t=document.createElement('div'); t.className='history';
+        t.textContent='※ 이 날짜에 예약 가능한 객실이 없어 자동 조회가가 없어요. 표시한 금액은 일정 1 날짜 기준 예상가예요.';
+        box.append(t);
+      }
       if(h.ai){
         const ai=document.createElement('div'); ai.className='history';
         ai.textContent=`※ 올인클루시브로 변경하면 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} 추가 — 2인 4박 기준 +€${S2_AI_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(S2_AI_TOTAL*fx)})`;
@@ -922,7 +927,9 @@ function s2Calc(){
     if(el){
       el.textContent=fmt(r.v);
       const sp=document.createElement('span'); sp.className='est'+(r.actual?' actual':'');
-      sp.textContent=r.actual?'실제 예약가 반영':(r.pending?'미정 (직접 입력 전)':(pricesS2[h.id]&&pricesS2[h.id].auto?'자동 조회가':'예상가 (자동 조회 전)'));
+      const rec2=pricesS2[h.id]&&pricesS2[h.id].rec;
+      const noData=!!(rec2 && lastK(rec2.history)==null && lastK(rec2.gh_history)==null);
+      sp.textContent=r.actual?'실제 예약가 반영':(r.pending?'미정 (직접 입력 전)':(pricesS2[h.id]&&pricesS2[h.id].auto?'자동 조회가':(noData?'조회 불가 · 예상가':'예상가 (자동 조회 전)')));
       el.append(sp);
     }
     const conv=document.querySelector('[data-s2actconv="'+h.id+'"]');

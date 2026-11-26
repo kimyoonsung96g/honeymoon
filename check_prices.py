@@ -161,7 +161,8 @@ EXTRAS_S2 = {
 }
 
 WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
-NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "no availability"]
+NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "예약 가능한 객실 없음",
+           "선택 날짜에는 본 사이트 상 예약 불가", "no availability"]
 BLOCK = ["로봇", "robot", "captcha", "보안 확인", "Please confirm", "unusual traffic", "비정상적인 트래픽", "실제 KAYAK 사용자임을 확인", "본인 확인:"]
 BREAKFAST = ["조식 포함", "조식이 포함", "breakfast included", "훌륭한 조식 포함"]
 FREE_CANCEL = ["무료 취소", "free cancellation"]
@@ -200,7 +201,7 @@ def fetch_booking_rows(page, h, hid, tag=""):
     body = page.inner_text("body")
     if any(k in body for k in NO_ROOM):
         save_debug(f"booking_{tag}{hid}.txt", body)
-        return None, "예약 미오픈 또는 매진"
+        return None, "해당 날짜 예약 가능한 객실 없음 (매진이거나 아직 판매 전)"
     rows, room = [], ""
     for tr in page.query_selector_all("#hprt-table tbody tr, table.hprt-table tbody tr"):
         t = (tr.inner_text() or "").strip()
@@ -737,18 +738,29 @@ def fetch_official_emascaro(page, key, cfg):
             pass
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     rooms = []
+    no_avail = False
     for attempt in range(2):
         for _ in range(10):
             page.wait_for_timeout(4000)
-            rooms = page.evaluate(OFF_FIG_JS) or []
+            # 해당 날짜에 객실이 없으면 엔진이 no-availability 화면으로 넘어간다
+            if "no-availability" in (page.url or ""):
+                no_avail = True
+                break
+            try:
+                rooms = page.evaluate(OFF_FIG_JS) or []
+            except Exception:
+                rooms = rooms or []
             if any(r.get("heads") and OFF_MONEY.search(r.get("text") or "") for r in rooms):
                 if not any("Nombre de la tarifa." in (r.get("text") or "") for r in rooms):
                     break
-        if rooms:
+        if no_avail or rooms:
             break
         # 첫 방문에서 화면이 비어 있으면 쿠키가 잡힌 뒤 한 번 더 들어간다
         page.wait_for_timeout(3000)
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    if no_avail:
+        save_debug(f"official_{key}.txt", f"=== {cfg['site']} {cfg['ci']}~{cfg['co']} / no-availability 화면 ===\n{page.url}")
+        return None, "공식 사이트에 해당 날짜 예약 가능한 객실 없음 (판매 전이거나 매진)"
     res = parse_emascaro(rooms, cfg)
     try:
         body_txt = page.inner_text("body")[:2000]
