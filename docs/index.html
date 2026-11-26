@@ -650,7 +650,7 @@ function calculate(){
   const agencyTotal = AGENCY_PRICE + intl + aiAdd;
   $('agencyTotal').textContent=fmt(agencyTotal);
   $('agencyNote').textContent = `기본 8,940,000원 + 국제선 ${intl>0?fmt(intl):'미입력 0원'}`
-    + (aiAdd>0 ? ` + 올인클루시브 ${fmt(aiAdd)} (€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')})` : ' (올인클루시브 미선택)');
+    + (aiAdd>0 ? ` + 올인클루시브 ${fmt(aiAdd)} (€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')})` : '');
   $('directLabel').textContent='직접 예약 합계 (국제선 포함)';
   $('directTotal').textContent=fmt(total);
   $('directNote').textContent=`현지 ${fmt(local)} + 국제선 ${intl>0?fmt(intl):'0원'}`;
@@ -1093,7 +1093,7 @@ function s2Calc(){
   $('s2bTotal').textContent=fmt(total);
   $('s2AgencyValue').textContent=fmt(agency);
   $('s2AgencyNote').textContent=`기본 8,940,000원 + 국제선 ${fmt(intl)}`
-    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S2_AI_TOTAL.toLocaleString('ko-KR')})`:' (올인클루시브 미선택)');
+    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S2_AI_TOTAL.toLocaleString('ko-KR')})`:'');
   $('s2DirectValue').textContent=fmt(total);
   $('s2DirectNote').textContent=`현지 ${fmt(local)} + 국제선 ${fmt(intl)}`;
   if(diff<0){$('s2DiffValue').textContent='−'+fmt(-diff);$('s2DiffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
@@ -1479,7 +1479,7 @@ function s3Calc(){
   $('s3bTotal').textContent=fmt(total);
   $('s3AgencyValue').textContent=fmt(agency);
   $('s3AgencyNote').textContent=`기본 8,940,000원 + 국제선 ${fmt(intl)}`
-    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S3_AI_TOTAL.toLocaleString('ko-KR')})`:' (올인클루시브 미선택)');
+    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S3_AI_TOTAL.toLocaleString('ko-KR')})`:'');
   $('s3DirectValue').textContent=fmt(total);
   $('s3DirectNote').textContent=`현지 ${fmt(local)} + 국제선 ${fmt(intl)}`;
   if(diff<0){$('s3DiffValue').textContent='−'+fmt(-diff);$('s3DiffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
