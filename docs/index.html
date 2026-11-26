@@ -173,6 +173,15 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
 <script>
 const AGENCY_PRICE = 8940000;
+const EUR_KRW = 1340;                 // 유로 표시 요금을 원화로 볼 때 쓰는 참고 환율
+const ZOETRY_AI_UPGRADE_EUR = 200;    // 조에트리 올인클루시브 변경: 인당·1박당 €200 추가
+const ZOETRY_AI_UPGRADE_TOTAL = ZOETRY_AI_UPGRADE_EUR * 2 * 4;  // 2인 4박 = €1,600
+const OFF_URL = {
+  '1': 'https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/2027-09-06/2027-09-10/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1',
+  '2': 'https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/2027-09-10/2027-09-14/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1',
+  '3': 'https://all.accor.com/booking/en/accor/hotel/1975?dateIn=2027-09-14&nights=3&compositions=2&stayplus=false',
+  '4': 'https://bookings.turim-hotels.com/en/bookcore/availability/turimboulevard/2027-09-17/2027-09-18/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1'
+};
 const TOUR_INSURANCE = 380000;
 const HOTELS = [
   {id:'1', city:'바르셀로나', nights:4, dates:'9/6~9/10', name:'Ohla Eixample', room:'ESSENTIAL, 조식 포함', est:2264000,
@@ -190,7 +199,7 @@ const OPTIONS = [
     {v:'free', t:'무료 취소 가능', p:'조회가'}]},
   {key:'meal', label:'식사 조건', items:[
     {v:'breakfast', t:'4곳 모두 조식 포함 (견적과 같음)', p:'조회가'},
-    {v:'allinc', t:'마요르카만 올인클루시브', p:'조회가'},
+    {v:'allinc', t:'마요르카만 올인클루시브', p:'인당·1박 €200 추가'},
     {v:'mallorcaOnly', t:'마요르카만 조식 포함', p:'조회가'}]},
   {key:'car', label:'마요르카 렌터카', items:[
     {v:'small', t:'최저가 차량 (견적과 같은 소형)', p:'조회가'},
@@ -203,7 +212,7 @@ const DEFAULT_OPTS = {cancel:'nonref', meal:'breakfast', car:'small', transfer:3
 const LS_KEY='honeymoon_opts_v3'; let manual={}; let extras={};
 let opts={...DEFAULT_OPTS};
 try{ const s=JSON.parse(localStorage.getItem(LS_KEY)); if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; } }catch(e){}
-let prices={}; let aiNote='';  // id -> {krw, auto, rec}
+let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
 const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const $=id=>document.getElementById(id);
 function toast(m){const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400);}
@@ -263,6 +272,23 @@ function renderHotels(){
       const bL=lastK(rec.history), kL=lastK(rec.gh_history);
       if(bL && kL && (kL<bL*0.6 || kL>bL*1.4)){ const x=document.createElement('span'); x.className='err'; x.textContent=' (부킹닷컴과 차이가 커서 계산에서 제외)'; kLine.append(x); }
       box.append(kLine);
+      const of=official[h.id];
+      if(of && (of.public||of.member||of.error)){
+        const ol=document.createElement('div'); ol.className='history';
+        const money=(c,a)=> c==='EUR' ? `€${Number(a).toLocaleString('ko-KR',{maximumFractionDigits:2})}` : `${Math.round(a).toLocaleString('ko-KR')}원`;
+        const parts=[];
+        if(of.public && of.public.amt) parts.push(`일반 ${money(of.cur, of.public.amt)} (약 ${fmt(of.public.krw)})`);
+        if(of.member && of.member.amt) parts.push(`회원 ${money(of.cur, of.member.amt)} (약 ${fmt(of.member.krw)})`);
+        const b=document.createElement('strong'); b.textContent='공식 홈페이지 무료취소·조식 ';
+        ol.append(b, document.createTextNode(parts.length?parts.join(' / '):(of.error||'아직 조회 전')));
+        if(of.rate){ const t=document.createElement('span'); t.className='history'; t.textContent=` · ${of.rate}${of.cancel?' · '+of.cancel:''}`; ol.append(t); }
+        box.append(ol);
+      }
+      if(h.id==='2'){
+        const ai=document.createElement('div'); ai.className='history';
+        ai.textContent=`※ 올인클루시브로 변경하면 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} 추가 — 2인 4박 기준 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW)})`;
+        box.append(ai);
+      }
       if(h.id==='2'){
         const ba=lastK(rec.ai_history), ka=lastK(rec.gh_ai_history);
         box.append(srcLine('올인클루시브 부킹닷컴', rec.ai_history, rec.ai_error, !!ba && (!ka || ba<=ka)));
@@ -275,7 +301,8 @@ function renderHotels(){
     const a=document.createElement('a'); a.className='btn'; a.href=h.url; a.target='_blank'; a.rel='noopener'; a.textContent='부킹닷컴';
     const a3=document.createElement('a'); a3.className='btn'; a3.href=GHL[h.id]; a3.target='_blank'; a3.rel='noopener'; a3.textContent='구글 호텔';
     const a2=document.createElement('a'); a2.className='btn'; a2.href=KAYAK[h.id]; a2.target='_blank'; a2.rel='noopener'; a2.textContent='카약';
-    act.append(a,a3,a2); box.append(act);
+    const a4=document.createElement('a'); a4.className='btn'; a4.href=OFF_URL[h.id]; a4.target='_blank'; a4.rel='noopener'; a4.textContent='공식 홈페이지';
+    act.append(a,a3,a2,a4); box.append(act);
     wrap.append(box);
   }
 }
@@ -332,7 +359,8 @@ function calculate(){
     let aiFc=null;
     if(opts.meal==='allinc' && h.id==='2'){
       const c=[lastK(rec.ai_history), lastK(rec.gh_ai_history)].filter(Boolean);
-      if(c.length) v=Math.min(...c); else { v+=1070000; aiMiss=true; }
+      if(c.length) v=Math.min(...c);
+      else { v+=ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW; aiMiss=true; }
       aiFc=lastK(rec.ai_fc_history); breakfast=false;
     }
     if(opts.meal==='mallorcaOnly' && h.id!=='2'){ const ro=lastK(rec.ro_history); if(ro) v=ro; else { v-=380000/3; roMiss++; } breakfast=false; }
@@ -345,7 +373,7 @@ function calculate(){
     }
     hotel+=v;
   }
-  if(aiMiss) notes.push('올인클루시브 조회 전: 예상 차액 1,070,000원 사용');
+  if(aiMiss) notes.push(`올인클루시브 전환 추가 요금 반영: 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} (2인 4박 +€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(ZOETRY_AI_UPGRADE_TOTAL*EUR_KRW)})`);
   if(roMiss) notes.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액 사용`);
   if(fcMiss) notes.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상치 사용`);
   $('aiNote').textContent=notes.join(' / ');
@@ -395,7 +423,7 @@ fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
     const best=cands.filter(c=>c.date===newest).sort((x,y)=>x.krw-y.krw)[0];
     prices[h.id]=best?{krw:best.krw,src:best.src,auto:true,rec}:{krw:h.est,auto:false,rec};
   }
-  extras=d.extras||{}; renderExtras();
+  extras=d.extras||{}; official=d.official||{}; renderExtras();
   if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 자동 조회해요.`;
   renderHotels(); calculate();
 }).catch(()=>{});

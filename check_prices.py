@@ -517,6 +517,226 @@ def fetch_car(page, url, key, prev_total):
     return min(vals), None
 
 
+
+# ---------------- 호텔 공식 홈페이지(무료 취소 회원가) ----------------
+# 오라·조에트리·투림은 같은 예약엔진(eMascaró bookcore), 메르쿠르는 아코르(all.accor.com).
+# 엔진 화면의 'Price with discount'(할인 적용가)와 회원가(Privilege Club / World of Hyatt / TURIM Club / ALL)를 읽는다.
+EUR_KRW = 1340  # 유로 표시 요금을 원화로 환산할 때 쓰는 참고 환율 (화면에는 €와 함께 표시)
+EMAS_OCC = ("%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D")
+OFFICIAL = {
+    "1": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
+          "url": "https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-06", "co": "2027-09-10", "nights": 4,
+          "room": ["essential"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+    "2": {"site": "조에트리 공식(World of Hyatt)", "engine": "emascaro", "cur": "auto",
+          "url": "https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-10", "co": "2027-09-14", "nights": 4,
+          "room": ["ponent"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+    "3": {"site": "아코르 공식(ALL 회원가)", "engine": "accor", "cur": "EUR",
+          "url": "https://all.accor.com/booking/en/accor/hotel/1975?dateIn={ci}&nights=3&compositions=2&stayplus=false",
+          "ci": "2027-09-14", "co": "2027-09-17", "nights": 3,
+          "room": ["superior room with 1 double bed"], "cancel": "Free cancellation", "meal": "Breakfast included"},
+    "4": {"site": "투림 공식(TURIM Club)", "engine": "emascaro", "cur": "auto",
+          "url": "https://bookings.turim-hotels.com/en/bookcore/availability/turimboulevard/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-17", "co": "2027-09-18", "nights": 1,
+          "room": ["double superior"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+}
+
+OFF_FIG_JS = r"""
+() => [...document.querySelectorAll('figure')].map(f => ({
+  heads: [...f.querySelectorAll('h3')].map(h => h.innerText.replace(/\s+/g, ' ').trim()),
+  text: f.innerText
+})).filter(r => /€|₩/.test(r.text))
+"""
+
+ACCOR_CARD_JS = r"""
+() => [...document.querySelectorAll('h3')].map(h => {
+  let el = h.parentElement, d = 0;
+  while (el && d < 6 && (el.innerText || '').length < 1600) { el = el.parentElement; d++; }
+  return {head: (h.innerText || '').trim(), text: ((el || h).innerText || '').slice(0, 1500)};
+}).filter(r => /€|₩/.test(r.text))
+"""
+
+OFF_MONEY = re.compile(r"(?:€|₩)\s*([\d.,]+)")
+PENSIONS = ("Bed & Breakfast", "Room Only", "Half Board", "All Inclusive", "Full Board")
+
+
+def _amt(s):
+    s = s.strip().replace(" ", "")
+    if "," in s and "." in s:
+        s = s.replace(",", "")
+    elif "," in s:
+        s = s.replace(",", "")
+    return float(s)
+
+
+def _money_in(text):
+    out = []
+    for m in OFF_MONEY.finditer(text):
+        try:
+            out.append(_amt(m.group(1)))
+        except ValueError:
+            pass
+    return out
+
+
+def parse_emascaro(rooms, cfg):
+    """예약엔진 화면의 방/요금 블록에서 (객실, 요금명, 무료취소 문구, 기준가, 회원가)를 뽑는다."""
+    nights = cfg["nights"]
+    for r in rooms:
+        heads = r.get("heads") or []
+        if not heads:
+            continue
+        room = heads[0]
+        if not any(w in room.lower() for w in cfg["room"]):
+            continue
+        text = r.get("text") or ""
+        # 요금 이름(h3) 위치로 블록을 나눈다
+        idx = []
+        for h in heads[1:]:
+            i = text.find(h)
+            if i >= 0:
+                idx.append((i, h))
+        idx.sort()
+        blocks = []
+        for n, (i, h) in enumerate(idx):
+            j = idx[n + 1][0] if n + 1 < len(idx) else len(text)
+            blocks.append((h, text[i:j]))
+        if not blocks:
+            blocks = [(heads[0], text)]
+        for rate, seg in blocks:
+            if cfg["cancel"].lower() not in seg.lower():
+                continue
+            lines = [l.strip() for l in seg.split("\n") if l.strip()]
+            # 식사 조건 단위로 나눔
+            chunks, cur = [], []
+            for l in lines:
+                if l in PENSIONS and cur:
+                    chunks.append(cur)
+                    cur = [l]
+                elif l in PENSIONS:
+                    cur = [l]
+                else:
+                    cur.append(l)
+            if cur:
+                chunks.append(cur)
+            for ch in chunks:
+                body = "\n".join(ch)
+                meal = ch[0] if ch and ch[0] in PENSIONS else ""
+                if cfg["meal"].lower() not in (meal or "").lower():
+                    continue
+                # 회원가: 'UNLOCK PRICE <프로그램>' 다음 금액
+                member = None
+                for k, l in enumerate(ch):
+                    if l.upper().startswith("UNLOCK PRICE"):
+                        v = _money_in(l)
+                        if not v:
+                            for l2 in ch[k + 1:k + 4]:
+                                v = _money_in(l2)
+                                if v:
+                                    break
+                        if v:
+                            member = v[0]
+                        break
+                # 할인 적용가: 'Price with discount' 다음 금액
+                base = disc = None
+                vals = _money_in("\n".join(l for l in ch if not l.upper().startswith("UNLOCK PRICE")))
+                if vals:
+                    base = vals[0]
+                for k, l in enumerate(ch):
+                    if l.lower().startswith("price with discount"):
+                        for l2 in ch[k + 1:k + 2]:
+                            v = _money_in(l2)
+                            if v:
+                                disc = v[0]
+                        break
+                if disc is None and vals:
+                    disc = vals[-1]
+                # 1박 요금으로 표시된 경우 숙박 전체로 환산
+                low = body.lower()
+                per_night = "average price/night" in low or "average price per night" in low
+                mult = nights if per_night else 1
+                cur_sym = "EUR" if "€" in body else ("KRW" if "₩" in body else cfg["cur"])
+                cancel = next((l for l in lines if "free cancellation" in l.lower()), "")
+                if disc:
+                    return {"room": room, "rate": rate, "meal": meal, "cancel": cancel.strip(),
+                            "cur": cur_sym, "public": disc * mult,
+                            "member": (member * mult) if member else None,
+                            "per_night": per_night, "raw": body[:600]}
+    return None
+
+
+def fetch_official_emascaro(page, hid, cfg):
+    url = cfg["url"].format(ci=cfg["ci"], co=cfg["co"])
+    page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    rooms = []
+    for _ in range(12):
+        page.wait_for_timeout(4000)
+        rooms = page.evaluate(OFF_FIG_JS) or []
+        if any(r.get("heads") and OFF_MONEY.search(r.get("text") or "") for r in rooms):
+            if not any("Nombre de la tarifa." in (r.get("text") or "") for r in rooms):
+                break
+    res = parse_emascaro(rooms, cfg)
+    save_debug(f"official_{hid}.txt",
+               f"=== {cfg['site']} {cfg['ci']}~{cfg['co']} / 방 {len(rooms)}개 ===\n" +
+               ("\n".join(f"- {r['heads'][0] if r.get('heads') else '?'} | {len(r.get('text',''))}자" for r in rooms[:12])) +
+               "\n\n" + (f"선택: {res}\n" if res else "요금 블록을 찾지 못함\n") +
+               "\n=== 원문(첫 3000자) ===\n" + "\n---\n".join((r.get("text") or "")[:1500] for r in rooms[:3]))
+    if not res:
+        return None, "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
+    return res, None
+
+
+def fetch_official_accor(page, hid, cfg):
+    url = cfg["url"].format(ci=cfg["ci"])
+    page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    cards = []
+    for _ in range(10):
+        page.wait_for_timeout(4000)
+        cards = page.evaluate(ACCOR_CARD_JS) or []
+        if any("member rate" in (c.get("text") or "").lower() for c in cards):
+            break
+    # 무료 취소 + 조식 포함 조건으로 거르기
+    for label in ("Free cancellation", "Breakfast included"):
+        try:
+            box = page.get_by_role("checkbox", name=label).first
+            if box.count() and not box.is_checked():
+                box.check(timeout=6000)
+                page.wait_for_timeout(5000)
+        except Exception:
+            pass
+    cards2 = page.evaluate(ACCOR_CARD_JS) or cards
+    res = None
+    for c in cards2:
+        head = (c.get("head") or "").lower()
+        if not any(w in head for w in cfg["room"]):
+            continue
+        t = c.get("text") or ""
+        m_mem = re.search(r"Member rate\s*\n?\s*From\s*€\s*([\d.,]+)", t)
+        m_pub = re.search(r"Public rate from\s*€\s*([\d.,]+)", t)
+        if not m_pub and not m_mem:
+            continue
+        res = {"room": c.get("head"), "rate": "FLEXIBLE/무료취소·조식 필터", "meal": "Breakfast included",
+               "cancel": "Free cancellation 필터 적용", "cur": "EUR",
+               "public": _amt(m_pub.group(1)) if m_pub else None,
+               "member": _amt(m_mem.group(1)) if m_mem else None,
+               "per_night": False, "raw": t[:600]}
+        break
+    save_debug(f"official_{hid}.txt",
+               f"=== {cfg['site']} {cfg['ci']} / 카드 {len(cards2)}개 ===\n" +
+               (f"선택: {res}\n" if res else "카드를 찾지 못함\n") +
+               "\n=== 원문 ===\n" + "\n---\n".join((c.get("text") or "")[:800] for c in cards2[:6]))
+    if not res:
+        return None, "아코르 공식에서 해당 객실 요금을 찾지 못함"
+    return res, None
+
+
+def fetch_official(page, hid, cfg):
+    if cfg["engine"] == "accor":
+        return fetch_official_accor(page, hid, cfg)
+    return fetch_official_emascaro(page, hid, cfg)
+
+
 # ---------------- 기록, 알림 ----------------
 def record(rec, key, price, today):
     hist = rec.setdefault(key, [])
@@ -621,6 +841,28 @@ def main():
                 put(rec, "gh_ai_history", ka, "gh_ai_error", aerr, "Google " + h["name"] + " 올인클루시브")
             rec["gh_note"] = "; ".join(notes) or None
             print(h["name"], r, "| google:", k, kerr2 or "", rec["gh_note"] or "")
+
+            oc = OFFICIAL.get(hid)
+            if oc:
+                orec = data.setdefault("official", {}).setdefault(hid, {})
+                orec["name"], orec["last_check"] = oc["site"], now.strftime("%Y-%m-%d %H:%M")
+                try:
+                    ov, oerr = fetch_official(page, hid, oc)
+                except Exception as e:
+                    ov, oerr = None, f"조회 오류: {str(e)[:100]}"
+                orec["error"] = oerr
+                if ov:
+                    def to_krw(v):
+                        return round(v * EUR_KRW) if ov["cur"] == "EUR" else round(v)
+                    orec["room"], orec["rate"], orec["cancel"], orec["meal"] = ov["room"], ov["rate"], ov["cancel"], ov["meal"]
+                    orec["cur"] = ov["cur"]
+                    if ov.get("public") is not None:
+                        orec["public"] = {"amt": round(ov["public"], 2), "krw": to_krw(ov["public"])}
+                        put(orec, "history", to_krw(ov["public"]), "error", None, oc["site"])
+                    if ov.get("member") is not None:
+                        orec["member"] = {"amt": round(ov["member"], 2), "krw": to_krw(ov["member"])}
+                        put(orec, "member_history", to_krw(ov["member"]), "member_error", None, oc["site"] + " 회원")
+                print("  official:", oc["site"], ov and {kk: ov[kk] for kk in ("room", "rate", "public", "member", "cur")}, oerr or "")
 
         ex = data.setdefault("extras", {})
         for key, e in EXTRAS.items():
