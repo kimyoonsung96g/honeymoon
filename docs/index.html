@@ -208,7 +208,16 @@ const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const $=id=>document.getElementById(id);
 function toast(m){const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400);}
 
-const GHQ=(q,ci,co)=>`https://www.google.com/travel/search?q=${encodeURIComponent(q)}&checkin=${ci}&checkout=${co}&adults=2&hl=ko&gl=kr&curr=KRW`;
+// 구글 호텔은 날짜·통화를 ts(protobuf) 파라미터로 받는다. 붙이지 않으면 오늘~내일 가격·달러로 열림.
+const pbV=n=>{const a=[];for(;;){const b=n&0x7f;n>>=7;if(n)a.push(b|0x80);else{a.push(b);return a}}};
+const pbL=(f,p)=>[...pbV(f<<3|2),...pbV(p.length),...p];
+const pbN=(f,n)=>[...pbV(f<<3),...pbV(n)];
+const ghTS=(ci,co)=>{const a=ci.split('-').map(Number),b=co.split('-').map(Number);
+  const d1=[...pbN(1,a[0]),...pbN(2,a[1]),...pbN(3,a[2])], d2=[...pbN(1,b[0]),...pbN(2,b[1]),...pbN(3,b[2])];
+  const inner=[...pbL(2,[...pbL(1,d1),...pbL(2,d2)]),...pbL(6,pbN(1,2))];
+  const bytes=[...pbN(1,0),...pbL(3,pbL(2,inner)),...pbL(5,pbL(1,pbL(7,[75,82,87])))];
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');};
+const GHQ=(q,ci,co)=>`https://www.google.com/travel/search?q=${encodeURIComponent(q)}&checkin=${ci}&checkout=${co}&adults=2&hl=ko&gl=kr&curr=KRW&ts=${ghTS(ci,co)}&ap=ugEGcHJpY2Vz`;
 const GHL={'1':GHQ('Ohla Eixample Barcelona','2027-09-06','2027-09-10'),'2':GHQ('Zoetry Mallorca Wellness Spa','2027-09-10','2027-09-14'),'3':GHQ('Mercure Porto Centro Santa Catarina','2027-09-14','2027-09-17'),'4':GHQ('TURIM Boulevard Hotel Lisbon','2027-09-17','2027-09-18')};
 const KAYAK={'1':'https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-06/2027-09-10/2adults?fs=freebies=free-breakfast',
  '2':'https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-10/2027-09-14/2adults?fs=freebies=free-breakfast',
