@@ -438,9 +438,11 @@ let opts={...DEFAULT_OPTS};
 try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
   if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; manualCur=s.manualCur||{};
          hotelActual=s.hotelActual||{}; picked=s.picked||{}; const r=Number(s.fx);
-         if(r>0){ fx=r;
+         if(r>0){
            // 예전 버전은 기본값 1340을 무조건 저장했다. 직접 입력한 기록(fxManual)이 없고 값이 옛 기본값이면 자동 환율로 본다.
-           fxManual = (typeof s.fxManual==='boolean') ? s.fxManual : Math.abs(r-FX_OLD_DEFAULT)>0.01; }
+           // 자동 환율일 때는 저장값을 쓰지 않고 최신 자동 환율(prices.json)을 기다린다 — 예전 기본값이 잠시 보이는 일이 없다.
+           fxManual = (typeof s.fxManual==='boolean') ? s.fxManual : Math.abs(r-FX_OLD_DEFAULT)>0.01;
+           if(fxManual) fx=r; }
          // 예전 저장값의 'breakfast'는 처음 기본값일 수 있으니, 직접 고른 기록이 없으면 새 기본값으로 맞춘다
          if((Number(s.dv)||1)<DEFAULTS_VER && !picked.meal && opts.meal!==DEFAULT_OPTS.meal){ opts.meal=DEFAULT_OPTS.meal; optsMigrated=true; } } }catch(e){}
 let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
