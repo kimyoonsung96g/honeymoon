@@ -678,15 +678,26 @@ def fetch_official_emascaro(page, hid, cfg):
             pass
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     rooms = []
-    for _ in range(15):
-        page.wait_for_timeout(4000)
-        rooms = page.evaluate(OFF_FIG_JS) or []
-        if any(r.get("heads") and OFF_MONEY.search(r.get("text") or "") for r in rooms):
-            if not any("Nombre de la tarifa." in (r.get("text") or "") for r in rooms):
-                break
+    for attempt in range(2):
+        for _ in range(10):
+            page.wait_for_timeout(4000)
+            rooms = page.evaluate(OFF_FIG_JS) or []
+            if any(r.get("heads") and OFF_MONEY.search(r.get("text") or "") for r in rooms):
+                if not any("Nombre de la tarifa." in (r.get("text") or "") for r in rooms):
+                    break
+        if rooms:
+            break
+        # 첫 방문에서 화면이 비어 있으면 쿠키가 잡힌 뒤 한 번 더 들어간다
+        page.wait_for_timeout(3000)
+        page.goto(url, wait_until="domcontentloaded", timeout=60000)
     res = parse_emascaro(rooms, cfg)
+    try:
+        body_txt = page.inner_text("body")[:2000]
+    except Exception:
+        body_txt = ""
     save_debug(f"official_{hid}.txt",
-               f"=== {cfg['site']} {cfg['ci']}~{cfg['co']} / 방 {len(rooms)}개 ===\n" +
+               f"=== {cfg['site']} {cfg['ci']}~{cfg['co']} / 방 {len(rooms)}개 ===\n"
+               f"=== 화면 앞부분 ===\n{body_txt}\n\n" +
                ("\n".join(f"- {r['heads'][0] if r.get('heads') else '?'} | {len(r.get('text',''))}자" for r in rooms[:12])) +
                "\n\n" + (f"선택: {res}\n" if res else "요금 블록을 찾지 못함\n") +
                "\n=== 원문(첫 3000자) ===\n" + "\n---\n".join((r.get("text") or "")[:1500] for r in rooms[:3]))
