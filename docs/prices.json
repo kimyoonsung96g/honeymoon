@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 11:45",
+ "updated": "2026-11-26 15:17",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -28,20 +28,20 @@
    "gh_history": [
     {
      "date": "2026-11-26",
-     "krw": 2196184
+     "krw": 1868515
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
-     "krw": 2196184
+     "krw": 1967286
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
-   "gh_fc_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
+   "gh_error": "견적 객실 없어 전체 최저가",
+   "gh_fc_error": "견적 객실 없어 전체 최저가",
    "gh_method": "gh-entity-v1",
-   "gh_note": null
+   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
   },
   "2": {
    "history": [
@@ -52,7 +52,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -107,7 +107,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -140,8 +140,8 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_method": "gh-entity-v1",
    "gh_note": null
   },
@@ -154,7 +154,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -186,32 +186,32 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": null,
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 99958
+     "krw": 100122
     }
    ],
    "method": "list-v2"
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": null,
    "history": [
     {
      "date": "2026-11-26",
-     "krw": 163186
+     "krw": 163452
     }
    ],
    "method": "list-v2"
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-26 11:45",
-   "error": null,
+   "last_check": "2026-11-26 15:17",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-25",
@@ -226,7 +226,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -242,7 +242,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -260,12 +260,12 @@
  "official": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -296,7 +296,7 @@
   },
   "3": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -327,7 +327,7 @@
   },
   "4": {
    "name": "투림 공식(TURIM Club)",
-   "last_check": "2026-11-26 11:45",
+   "last_check": "2026-11-26 15:17",
    "error": null,
    "room": "DOUBLE SUPERIOR",
    "rate": "Black Friday 2026 | Flexible Rate",

@@ -1,12 +1,12 @@
-=== Zoëtry Mallorca / 상세 화면 바로 열림 / 시도 1 / 날짜 {'체크인': '9월 10일 (금)', '체크아웃': '9월 14일 (화)'} (요청 2027-09-10~2027-09-14, 적용 확인) / ₩ 45회 US$ 0회 / 탭 ['개요', '가격', '리뷰', '사진', '정보', '주요 명소', '음식점', '공항'] ===
-=== 제목 ['마요르카 · 검색결과 15,000개', 'Zoëtry Mallorca'] ===
-[1,718,160] <None> Reserving | Reserving ₩429,540 사이트 방문
-[2,056,628] <None> Booking.com | Booking.com ₩514,157 사이트 방문
-[2,057,052] <None> Expedia.com | Expedia.com ₩514,263 사이트 방문
-[2,055,964] <None> Hotels.com | Hotels.com ₩513,991 사이트 방문
-[2,057,052] <None> Orbitz.com | Orbitz.com ₩514,263 사이트 방문
-[2,057,052] <None> Travelocity.com | Travelocity.com ₩514,263 사이트 방문
-[2,104,816] <None> Bluepillow.com | Bluepillow.com ₩526,204 사이트 방문
+=== Zoëtry Mallorca / 상세 화면 바로 열림 / 시도 1 / 날짜 {'체크인': '9월 10일 (금)', '체크아웃': '9월 14일 (화)'} (요청 2027-09-10~2027-09-14, 적용 확인) / ₩ 53회 US$ 0회 / 탭 ['개요', '가격', '리뷰', '사진', '정보', '주요 명소', '음식점', '공항'] ===
+=== 제목 ['마요르카 · 검색결과 3,519개', 'Zoëtry Mallorca'] ===
+[1,719,352] <None> Reserving | Reserving ₩429,838 사이트 방문
+[2,058,052] <None> Booking.com | Booking.com ₩514,513 사이트 방문
+[2,059,916] <None> Expedia.com | Expedia.com ₩514,979 사이트 방문
+[2,058,824] <None> Hotels.com | Hotels.com ₩514,706 사이트 방문
+[2,059,916] <None> Orbitz.com | Orbitz.com ₩514,979 사이트 방문
+[2,059,916] <None> Travelocity.com | Travelocity.com ₩514,979 사이트 방문
+[2,107,744] <None> Bluepillow.com | Bluepillow.com ₩526,936 사이트 방문
 
 === 화면 전체 ===
 주요 콘텐츠로 이동
@@ -19,153 +19,141 @@
 주요 콘텐츠로 이동
 모든 필터
 펼치기
-마요르카 · 검색결과 15,000개
-Grupotel Molins
-₩460,091 · 
-4.5
-(1.6천)
+마요르카 · 검색결과 3,519개
+Secrets Mallorca Villamil Resort & Spa
+₩313,971 · 
+4.2
+(1.2천)
 5성급 호텔 · 
-조식
+유료 조식
+파격 할인가 일반적인 가격 대비 39% 저렴
 가격 보기
-6명 숙박 가능한, 야외 그릴이 있는, 침실 3개짜리 베케이션 렌탈
-₩570,175 · 
-4.8
-(166)
-공유숙박 · 
-에어컨
-세부정보 보기
-Son Bunyola Hotel & Villas
-₩1,774,668 · 
-4.7
-(169)
+Zel Mallorca
+₩482,904 · 
+4.3
+(596)
+유료 조식
+ · 
+무료 Wi-Fi
+가격 보기
+Universal Grand León & Spa
+₩400,180 · 
+4.5
+(626)
 5성급 호텔 · 
-조식 포함
+유료 조식
+할인 상품 일반적인 가격 대비 20% 저렴
 가격 보기
 Hotel de Mar Gran Meliá - The Leading Hotels of the World - Adults only
-₩1,036,780 · 
+₩906,393 · 
 4.6
 (712)
 5성급 호텔 · 
 유료 조식
 가격 보기
-6명 숙박 가능한, 수영장이 있는, 침실 3개짜리 베케이션 렌탈
-₩539,122 · 
-4.8
-(236)
-공유숙박 · 
-에어컨
-세부정보 보기
-Universal Hotel Romántica
-₩162,927 · 
-4.4
-(1.6천)
-4성급 호텔 · 
-유료 조식
-파격 할인가 일반적인 가격 대비 26% 저렴
-가격 보기
 MiM Mallorca member of Meliá Collection
-₩224,609 · 
+₩234,760 · 
 4.5
 (1.5천)
 4성급 호텔 · 
 수영장
 가격 보기
+Hotel Galaxia
+₩100,315 · 
+3.6
+(709)
+1성급 호텔 · 
+조식 포함
+파격 할인가 일반적인 가격 대비 31% 저렴
+가격 보기
+Can Ferrereta
+₩1,246,015 · 
+4.7
+(248)
+5성급 호텔 · 
+조식
+가격 보기
 Valldemossa Hotel
-₩1,642,712 · 
+₩1,643,850 · 
 4.6
 (448)
 5성급 호텔 · 
 유료 조식
 가격 보기
+Son Bunyola Hotel & Villas
+₩1,779,036 · 
+4.7
+(169)
+5성급 호텔 · 
+조식 포함
+가격 보기
 Hotel Negresco
-₩231,355 · 
+₩234,082 · 
 4.5
 (1.1천)
 4성급 호텔 · 
 조식
-파격 할인가 일반적인 가격 대비 37% 저렴
+파격 할인가 일반적인 가격 대비 32% 저렴
 가격 보기
-5명 숙박 가능한, 야외 그릴이 있는, 침실 3개짜리 베케이션 렌탈
-₩357,307 · 
-4.5
-(17)
-공유숙박 · 
-에어컨
-세부정보 보기
-해변과 가까운, 반려동물 동반 가능 베케이션 렌탈
-₩464,043 · 
+VIVA Golf Adults Only 18+
+₩211,700 · 
+4.6
+(831)
+4성급 호텔 · 
+유료 조식
+파격 할인가 일반적인 가격 대비 51% 저렴
+가격 보기
+Zafiro Palace Andratx
+₩649,861 · 
 4.7
-(122)
-공유숙박 · 
-에어컨
-세부정보 보기
-반려동물 동반 가능 아파트
-₩214,540 · 
+(899)
+5성급 호텔 · 
+유료 조식
+가격 보기
+멜리아 팔마 베이
+₩267,879 · 
 4.3
-(7)
-공유숙박 · 
-에어컨
-세부정보 보기
-Hotel Galaxia
-₩96,646 · 
-3.6
-(709)
-1성급 호텔 · 
-조식 포함
-파격 할인가 일반적인 가격 대비 28% 저렴
-가격 보기
-Es Figueral Nou Hotel (+12)
-₩377,410 · 
-4.7
-(233)
+(3.0천)
 4성급 호텔 · 
-조식
+유료 조식
 가격 보기
-Palma Suites Hotel Residence
-₩334,924 · 
-4.7
-(306)
+Universal Hotel Romántica
+₩163,040 · 
+4.4
+(1.6천)
 4성급 호텔 · 
-조식
-할인 상품 일반적인 가격 대비 19% 저렴
+유료 조식
+할인 상품 일반적인 가격 대비 22% 저렴
+가격 보기
+MarSenses Puerto Pollensa Hotel & Spa
+₩411,307 · 
+4.8
+(1.5천)
+4성급 호텔 · 
+유료 조식
 가격 보기
 Hotel JS PortoColom Suites
-₩163,691 · 
+₩163,804 · 
 4.2
 (579)
 4성급 호텔 · 
 유료 조식
 할인 상품 일반적인 가격 대비 19% 저렴
 가격 보기
-Hotel Finca Son Gener
-₩668,342 · 
-4.6
-(81)
-4성급 호텔 · 
-조식 포함
-가격 보기
-Pure Salt Garonda
-₩348,496 · 
-4.6
-(2.2천)
+Cap Rocat
+₩2,543,162 · 
+4.7
+(1.3천)
 5성급 호텔 · 
 유료 조식
-파격 할인가 일반적인 가격 대비 32% 저렴
 가격 보기
-Universal Hotel Aquamarin
-₩340,822 · 
-4.4
-(886)
+Hotel Illa d´Or
+₩434,965 · 
+4.5
+(1.3천)
 4성급 호텔 · 
 유료 조식
-가격 보기
-Zhero Hotel Mallorca
-₩218,943 · 
-4.2
-(289)
-4성급 호텔 · 
-조식
-파격 할인가 일반적인 가격 대비 30% 저렴
+할인 상품 일반적인 가격 대비 16% 저렴
 가격 보기
 결과 더보기
 Zoëtry Mallorca
@@ -187,74 +175,153 @@ Zoetry Mallorca
  공식 사이트
 회원가, 10% 절약
 ,
-₩461,430
-₩415,434
+₩461,749
+₩415,722
 사이트 방문
 Reserving
-₩429,540
+₩429,838
 사이트 방문
 Booking.com
-₩514,157
+₩514,513
 사이트 방문
 Expedia.com
-₩514,263
+₩514,979
 사이트 방문
 Hotels.com
-₩513,991
+₩514,706
+사이트 방문
+Orbitz.com
+₩514,979
 사이트 방문
 Wego.com
 1박 요금(세금 및 수수료 포함)
-₩532,111
-사이트 방문
-Orbitz.com
-₩514,263
+₩532,851
 사이트 방문
 Travelocity.com
-₩514,263
+₩514,979
 사이트 방문
 Bluepillow.com
-₩526,204
+₩526,936
 사이트 방문
 호텔 가격 추적하기
 가격 변동에 관한 이메일을 받으세요.
+스폰서·비슷한 호텔
+Zoëtry Mallorca
+₩514,979
+ Expedia.com
+4.3/5
+(885)
+ · 5성급 호텔
+온수 욕조 · 스파
+Expedia.com 방문
+Universal Hotel Neptuno
+₩479,268
+ Booking.com
+4.5/5
+(797)
+ · 4성급 호텔
+온수 욕조 · 수영장
+Booking.com 방문
+Grupotel Playa de Palma Suites & Spa
+₩363,562
+ Hotels.com
+4.6/5
+(2.1천)
+ · 4성급 호텔
+무료 취소 · 온수 욕조
+Hotels.com 방문
+Hotel Gracia
+₩332,828
+ Hotel Gracia
+4.4/5
+(629)
+ · 3성급 호텔
+무료 취소 · 수영장
+공식 사이트 방문
+whala!beach
+₩196,952
+ whala!beach
+3.3/5
+(3.4천)
+ · 3성급 호텔
+수영장 · 무료 Wi-Fi
+공식 사이트 방문
+Hotel MySeaHouse Flamingo
+₩461,779
+ Travelocity.com
+4.8/5
+(2.7천)
+ · 4성급 호텔
+스파 · 수영장
+Travelocity.com 방문
+HM Dunas Blancas
+₩357,122
+ Expedia.com
+4.0/5
+(833)
+ · 4성급 호텔
+무료 취소 · 수영장
+Expedia.com 방문
+Hipotels Gran Playa de Palma
+₩389,176
+ Hotels.com
+4.6/5
+(4.2천)
+ · 4성급 호텔
+스파 · 수영장
+Hotels.com 방문
+Hotel Ipanema Park
+₩199,251
+ Booking.com
+3.5/5
+(1.3천)
+ · 4성급 호텔
+수영장 · 반려동물 허용
+Booking.com 방문
 관련 항목
-₩357,401
+₩357,898
 Iberostar Selection Llaut Palma
 4.8
 (4.1천)
-₩58,032 더 저렴한 5성급 호텔
+₩57,823 더 저렴한 5성급 호텔
 9.4km 거리
-₩356,216
-베녹 페티트 호텔
-4.6
-(248)
-6.3km 거리
-₩559,533
+₩559,920
 Son Julia Country House
 4.7
 (225)
 7.8km 거리
-₩445,072
+₩389,176
 Hipotels Gran Playa de Palma
 4.6
 (4.2천)
 9.6km 거리
-₩413,459
+₩440,276
 Iberostar Selection Playa de Palma
 4.7
 (3.8천)
 10.9km 거리
-₩363,057
+₩363,562
 Grupotel Playa de Palma Suites & Spa
 4.6
 (2.1천)
 9.3km 거리
+₩276,098
+BQ 아구아마리나 부티크 호텔
+4.6
+(661)
+₩139,624 더 저렴한 4성급 호텔
+13km 거리
 인기 호텔
 CASA DEL DIAMANTE
 5.0
 (103)
 더 높은 투숙객 평점
 8.7km 거리
+Sa Font Blava
+5.0
+(51)
+더 높은 투숙객 평점
+8.5km 거리
 THE CRYSTAL BAY
 5.0
 (31)
@@ -265,43 +332,38 @@ Villa Inés
 (18)
 더 높은 투숙객 평점
 4.5km 거리
-Ca’n Fosquet
-5.0
-(12)
+Agroturismo Petit Hotel Son Perdiu - Adults Only
+4.9
+(151)
 더 높은 투숙객 평점
-6.7km 거리
-Villa Xaloc
-5.0
-(5)
+11km 거리
+Fincahotel La Verana
+4.9
+(17)
 더 높은 투숙객 평점
-8.4km 거리
-Sa Bassa Crua Agroturismo
-5.0
-(4)
-더 높은 투숙객 평점
-2.7km 거리
+11.8km 거리
 근처 공유숙박
-₩1,725,313
-Villa 'Cunill' con vistas al mar, Wi-Fi y aire acondicionado
+₩1,552,425
+Preciosa villa con WiFi y aire acondicionado
 침실 4개8박
 4km 거리
-₩540,245
+₩540,619
 Villa 'Amelia Cerca De Cala Pi' con terraza privada, Wi-Fi y aire acondicionado
 침실 3개6박
 3.8km 거리
-₩884,405
+₩885,017
 Encantadora casa con piscina, amplia terraza, jardín y Wi-Fi
 침실 2개6박
 4.1km 거리
-₩917,794
+₩918,430
 Chalet Carrer Ondategui a pocos metros de la playa
 침실 4개8박
 4.1km 거리
-₩832,507
+₩833,084
 Casa 'Villa La Primera' con piscina compartida y Wi-Fi
 침실 3개6박
 4.1km 거리
-₩1,926,039
+₩1,927,373
 Villa 'Sa Torre' con vistas al mar, piscina privada y Wi-Fi
 침실 5개10박
 4.2km 거리
@@ -315,13 +377,13 @@ Zoëtry Mallorca에서 팔마데마요르카 국제공항까지 가는 데 얼�
 Zoëtry Mallorca의 공식 별표 평점은 무엇인가요?
 비슷한 호텔
 Iberostar Selection Llaut Palma
-베녹 페티트 호텔
 Son Julia Country House
 Hipotels Gran Playa de Palma
 Iberostar Selection Playa de Palma
+Grupotel Playa de Palma Suites & Spa
 BQ 아구아마리나 부티크 호텔
 근처 공유숙박
-Villa 'Cunill' con vistas al mar, Wi-Fi y aire acondicionado
+Preciosa villa con WiFi y aire acondicionado
 Villa 'Amelia Cerca De Cala Pi' con terraza privada, Wi-Fi y aire acondicionado
 Encantadora casa con piscina, amplia terraza, jardín y Wi-Fi
 Chalet Carrer Ondategui a pocos metros de la playa
@@ -329,11 +391,11 @@ Casa 'Villa La Primera' con piscina compartida y Wi-Fi
 Villa 'Sa Torre' con vistas al mar, piscina privada y Wi-Fi
 인기 호텔
 CASA DEL DIAMANTE
+Sa Font Blava
 THE CRYSTAL BAY
 Villa Inés
-Ca’n Fosquet
-Villa Xaloc
-Sa Bassa Crua Agroturismo
+Agroturismo Petit Hotel Son Perdiu - Adults Only
+Fincahotel La Verana
 통화​KRW
 결과가 타임라인을 기반으로 표시될 수도 있습니다. 자세히 알아보기
 정보
@@ -348,7 +410,7 @@ Sa Bassa Crua Agroturismo
 표시된 통화가 숙박 시설 예약 시 사용 가능한 통화와 다를 수 있습니다. 자세히 알아보기
 
 Zoëtry Mallorca
-₩415,434
+₩415,722
 •
 2027년 9월 10일~14일
 가격 보기
@@ -359,7 +421,7 @@ Zoëtry Mallorca
 식당 구역
 관광명소
 쇼핑 구역
-₩415,434
+₩415,722
 키보드 단축키
 지도 데이터 ©2026 Google, Inst. Geogr. Nacional
 50 m 
