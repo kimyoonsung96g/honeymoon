@@ -3,7 +3,8 @@
 """
 신혼여행 가격 자동 추적 (GitHub Actions에서 매일 자동 실행)
 
-일정 1(9/6~9/18)과 일정 2(9/8~9/22)를 함께 조회한다. 일정 2는 같은 호텔·객실 기준 날짜만 바꾼 값이다.
+일정 1(9/6~9/18)과 일정 2(9/8~9/22), 일정 3(9/8~9/22 · 마요르카→세비야→포르투→바르셀로나)를 함께 조회한다.
+일정 2·3은 같은 호텔·객실 기준 날짜만 바꾼 값이고, 같은 날짜(9/15~9/18 포르투 등)는 앞선 결과를 그대로 재사용해 중복 요청을 줄인다.
 
 호텔(부킹닷컴): 호텔 페이지의 '객실 표'를 한 줄씩 읽어서 조건별 최저가를 구함
   - 조식 포함 / 조식 포함 + 무료 취소 / 조식 미포함 / 올인클루시브
@@ -85,6 +86,37 @@ HOTELS_S2 = {
 }
 
 
+# ---------------- 일정 3 (2027-09-08~09-22, 14박) ----------------
+# 바르셀로나 입국(9/8) → 당일 마요르카 이동 · 마요르카 9/8~9/12(4박) · 세비야 9/12~9/15(숙소 미정)
+# · 포르투 9/15~9/18(3박) · 바르셀로나 9/18~9/22(4박) → 9/22 귀국
+# 포르투는 일정 2와 날짜(9/15~9/18)가 같아 일정 2 조회 결과를 그대로 재사용한다 (REUSE_HOTELS_S3).
+HOTELS_S3 = {
+    "1": {"name": "Zoëtry Mallorca", "dates": "9/8~9/12", "nights": 4, "room": ["=포넨트 더블룸", "Ponent Double", "Double Ponent"],
+          "k_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
+          "g_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
+          "gh_name": ["Zoëtry Mallorca", "Zoetry Mallorca"],
+          "gh": ("Zoetry Mallorca", "2027-09-08", "2027-09-12"),
+          "booking": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-08&checkout=2027-09-12" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-08/2027-09-12" + KQ,
+          "all_inclusive": True},
+    "2": {"name": "Mercure Porto Centro", "dates": "9/15~9/18", "nights": 3, "room": ["Standard Double", "스탠다드 더블"],
+          "k_room": (["Superior Double", "슈페리어 더블", "슈피리어룸, 더블", "슈페리어 더블"], ["Twin", "트윈", "Family", "패밀리", "Suite", "스위트"]),
+          "g_room": (["슈페리어룸", "Superior Double", "슈페리어 더블"], ["싱글", "트윈", "트리플", "스위트", "패밀리", "Twin", "Single", "Triple", "Suite", "Family"]),
+          "gh_name": ["호텔 머큐어 포르토 센트로", "Mercure Porto Centro Santa Catarina", "Hotel Mercure Porto Centro"],
+          "gh": ("Mercure Porto Centro Santa Catarina", "2027-09-15", "2027-09-18"),
+          "booking": "https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-15&checkout=2027-09-18" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-15/2027-09-18" + KQ},
+    "3": {"name": "Ohla Eixample", "dates": "9/18~9/22", "nights": 4, "room": ["Essential", "에센셜", "=더블룸"],
+          "k_room": (["더블룸", "Double Room"], ["디럭스", "Deluxe", "수페리어", "Superior", "스위트", "Suite", "트윈", "Twin"]),
+          "g_room": (["더블룸", "Double Room"], ["수페리어", "슈페리어", "디럭스", "Deluxe", "트윈", "Twin", "스위트", "Suite", "싱글", "Single"]),
+          "gh_name": ["Hotel Ohla Eixample Barcelona", "Ohla Eixample Barcelona"],
+          "gh": ("Hotel Ohla Eixample Barcelona", "2027-09-18", "2027-09-22"),
+          "booking": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-18&checkout=2027-09-22" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-18/2027-09-22" + KQ},
+}
+REUSE_HOTELS_S3 = {"2"}          # 포르투 9/15~9/18 = 일정 2와 동일 날짜·숙소 → hotels_s2/official_s2 결과 재사용
+
+
 # ---------------- 구글 호텔 검색 URL ----------------
 # 구글 호텔은 날짜와 통화를 URL의 ts(protobuf, base64url) 파라미터로 받는다.
 # checkin / checkout / curr 파라미터만 붙이면 무시되어 '오늘~내일' 가격이 US$(미국 러너 기준)로 뜬다.
@@ -159,6 +191,20 @@ EXTRAS_S2 = {
     "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/18~9/22, 4일)", "kind": "car",
                 "url": "https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a&fs=carclass=suv"},
 }
+
+# 일정 3 도시 간 이동·렌터카 (바르셀로나→마요르카 9/8, 마요르카→세비야 9/12, 세비야→포르투 9/15, 포르투→바르셀로나 9/18,
+# 마요르카 렌터카 9/8~9/12 4일). 세비야→포르투 9/15은 일정 2와 같은 날짜라 그 결과를 재사용한다.
+EXTRAS_S3 = {
+    "fl_bcn_pmi": {"name": "바르셀로나→마요르카 9/8", "kind": "flight", "url": _gf("BCN", "PMI", "2027-09-08")},
+    "fl_pmi_svq": {"name": "마요르카→세비야 9/12", "kind": "flight", "url": _gf("PMI", "SVQ", "2027-09-12")},
+    "fl_svq_opo": {"name": "세비야→포르투 9/15", "kind": "flight", "url": _gf("SVQ", "OPO", "2027-09-15")},
+    "fl_opo_bcn": {"name": "포르투→바르셀로나 9/18", "kind": "flight", "url": _gf("OPO", "BCN", "2027-09-18")},
+    "car_small": {"name": "마요르카 렌터카 자동 최저가 (9/8~9/12, 4일)", "kind": "car",
+                  "url": "https://www.kayak.co.kr/cars/PMI/2027-09-08-12h/2027-09-12-12h?sort=price_a"},
+    "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/8~9/12, 4일)", "kind": "car",
+                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-08-12h/2027-09-12-12h?sort=price_a&fs=carclass=suv"},
+}
+REUSE_EXTRAS_S3 = {"fl_svq_opo"}  # 세비야→포르투 9/15 = 일정 2와 동일 날짜 → extras_s2 결과 재사용
 
 WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
 NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "예약 가능한 객실 없음",
@@ -603,6 +649,23 @@ OFFICIAL_S2 = {
           "room": ["ponent"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
 }
 
+# 일정 3 공식 홈페이지 (마요르카 9/8~9/12 · 포르투 9/15~9/18은 일정 2 결과 재사용 · 오라 9/18~9/22)
+OFFICIAL_S3 = {
+    "1": {"site": "조에트리 공식(World of Hyatt)", "engine": "emascaro", "cur": "auto",
+          "url": "https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-08", "co": "2027-09-12", "nights": 4,
+          "room": ["ponent"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+    "2": {"site": "아코르 공식(ALL 회원가)", "engine": "accor", "cur": "EUR",
+          "url": "https://all.accor.com/booking/en/accor/hotel/1975?dateIn={ci}&nights=3&compositions=2&stayplus=false",
+          "ci": "2027-09-15", "co": "2027-09-18", "nights": 3,
+          "room": ["superior room with 1 double bed"], "cancel": "Free cancellation", "meal": "Breakfast included"},
+    "3": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
+          "home": "https://booking.ohlaboutiquehotels.com/en/",
+          "url": "https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-18", "co": "2027-09-22", "nights": 4,
+          "room": ["essential"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+}
+
 OFF_FIG_JS = r"""
 () => [...document.querySelectorAll('figure')].map(f => ({
   heads: [...f.querySelectorAll('h3')].map(h => h.innerText.replace(/\s+/g, ' ').trim()),
@@ -959,7 +1022,7 @@ def main():
     from playwright.sync_api import sync_playwright
     only = ""
     for a in sys.argv[1:]:
-        if a.lstrip("-") in ("s1", "s2"):
+        if a.lstrip("-") in ("s1", "s2", "s3"):
             only = a.lstrip("-")
     data = {"updated": None, "hotels": {}}
     if os.path.exists(DATA_PATH):
@@ -991,6 +1054,23 @@ def main():
             track_hotels(page, HOTELS_S2, OFFICIAL_S2, data.setdefault("hotels_s2", {}),
                          data.setdefault("official_s2", {}), "s2_", now, put)
             track_extras(page, EXTRAS_S2, data.setdefault("extras_s2", {}), "s2_", now, put)
+        if only in ("", "s3"):
+            s3hot = data.setdefault("hotels_s3", {})
+            s3off = data.setdefault("official_s3", {})
+            s3ex = data.setdefault("extras_s3", {})
+            track_hotels(page, {k: v for k, v in HOTELS_S3.items() if k not in REUSE_HOTELS_S3},
+                         {k: v for k, v in OFFICIAL_S3.items() if k not in REUSE_HOTELS_S3},
+                         s3hot, s3off, "s3_", now, put)
+            track_extras(page, {k: v for k, v in EXTRAS_S3.items() if k not in REUSE_EXTRAS_S3}, s3ex, "s3_", now, put)
+            # 같은 날짜(포르투 9/15~9/18, 세비야→포르투 9/15)는 일정 2 결과를 그대로 쓴다
+            for hid in REUSE_HOTELS_S3:
+                if data.get("hotels_s2", {}).get(hid):
+                    s3hot[hid] = json.loads(json.dumps(data["hotels_s2"][hid]))
+                if data.get("official_s2", {}).get(hid):
+                    s3off[hid] = json.loads(json.dumps(data["official_s2"][hid]))
+            for k in REUSE_EXTRAS_S3:
+                if data.get("extras_s2", {}).get(k):
+                    s3ex[k] = json.loads(json.dumps(data["extras_s2"][k]))
         browser.close()
 
     data["updated"] = now.strftime("%Y-%m-%d %H:%M")
