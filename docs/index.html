@@ -233,7 +233,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
       <div><span>마요르카 렌터카 (4일)<br><small class="hint" id="cNote"></small></span><strong class="num" id="bCar"></strong></div>
       <div><span>공항과 호텔 간 이동 (4회)<br><small class="hint">고정값 (자동 조회 불가)</small></span><strong class="num" id="bTransfer"></strong></div>
       <div><span>현지 투어 3개와 여행자보험<br><small class="hint">고정값 (자동 조회 불가)</small></span><strong class="num" id="bTour"></strong></div>
-      <div><span>현지 합계 (국제선 제외)</span><span class="num" id="bLocal"></span></div>
+      <div><span>현지 합계 (국제선 제외)</span><strong class="num" id="bLocal"></strong></div>
       <div class="total"><span>총합계 (국제선 포함)</span><span class="num" id="bTotal"></span></div>
     </div>
     <button class="btn reset" id="resetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
@@ -1287,7 +1287,7 @@ function renderS3Hotels(){
       box.append(srcLine('부킹닷컴',rec.history,rec.last_error,p.src==='booking'));
       box.append(srcLine('구글 호텔',rec.gh_history,rec.gh_error,p.src==='google'));
       const ol=s2OfficialLine(officialS3[h.id]); if(ol) box.append(ol);
-      if(rec && lastK(rec.history)==null && lastK(rec.gh_history)==null){
+      if(rec.last_check && lastK(rec.history)==null && lastK(rec.gh_history)==null){
         const t=document.createElement('div'); t.className='history';
         t.textContent='※ 이 날짜에 예약 가능한 객실이 없어 자동 조회가가 없어요. 표시한 금액은 다른 날짜 기준 예상가예요.';
         box.append(t);
