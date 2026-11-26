@@ -241,30 +241,32 @@ GH_EXTRACT_JS = r"""
     s = s.split(/무료|조식|회원가|취소|Wi-Fi|와이파이|·|정가|\d+월|\d+일|반려|주차|수영장|사이트 방문/)[0].trim();
     return /^[\x20-\x7e]{2,40}$/.test(s) ? s : null;
   };
-  const panes = [...document.querySelectorAll('[role=tabpanel]')];
-  const score = (p) => (p.innerText.match(/₩/g) || []).length + 20 * p.querySelectorAll('h3').length;
-  const root = panes.length ? panes.reduce((a, b) => score(b) > score(a) ? b : a, panes[0])
-                            : (document.querySelector('main') || document.body);
-  let lastProv = null;
-  for (const el of root.querySelectorAll('h3, a, div[role=link]')) {
-    if (el.tagName === 'H3') { lastProv = flat(el.innerText); continue; }
-    const t = flat(el.innerText);
-    const vals = [...t.matchAll(/₩\s?([\d,]+)/g)].map(m => parseInt(m[1].replace(/,/g, ''))).filter(v => v >= 10000);
-    if (!vals.length) continue;
-    let up = el.parentElement, sect = null, d = 0;
-    while (up && d < 15) {
-      d++;
-      const h2 = up.querySelector('h2');
-      if (h2) { sect = flat(h2.innerText); break; }
-      up = up.parentElement;
+  // 상세 화면은 탭마다(개요/가격) 가격 목록을 따로 그리므로 값이 있는 탭을 모두 읽어 합친다.
+  const panes = [...document.querySelectorAll('[role=tabpanel]')]
+    .filter(p => /사이트 방문|모든 옵션/.test(p.innerText));
+  const roots = panes.length ? panes : [document.querySelector('main') || document.body];
+  for (const root of roots) {
+    let lastProv = null;
+    for (const el of root.querySelectorAll('h3, a, div[role=link]')) {
+      if (el.tagName === 'H3') { lastProv = flat(el.innerText); continue; }
+      const t = flat(el.innerText);
+      const vals = [...t.matchAll(/₩\s?([\d,]+)/g)].map(m => parseInt(m[1].replace(/,/g, ''))).filter(v => v >= 10000);
+      if (!vals.length) continue;
+      let up = el.parentElement, sect = null, d = 0;
+      while (up && d < 15) {
+        d++;
+        const h2 = up.querySelector('h2');
+        if (h2) { sect = flat(h2.innerText); break; }
+        up = up.parentElement;
+      }
+      if (sect && EX.test(sect)) continue;
+      const h3 = el.querySelector('h3'), h4 = el.querySelector('h4');
+      const room = h4 ? flat(h4.innerText) : null;
+      let prov = h3 ? flat(h3.innerText) : null;
+      if (!prov) prov = h4 ? lastProv : provFromText(t);
+      if (!prov) continue;
+      out.offers.push({prov: prov, room: room, text: t.slice(0, 300), vals: vals});
     }
-    if (sect && EX.test(sect)) continue;
-    const h3 = el.querySelector('h3'), h4 = el.querySelector('h4');
-    const room = h4 ? flat(h4.innerText) : null;
-    let prov = h3 ? flat(h3.innerText) : null;
-    if (!prov) prov = h4 ? lastProv : provFromText(t);
-    if (!prov) continue;
-    out.offers.push({prov: prov, room: room, text: t.slice(0, 300), vals: vals});
   }
   return out;
 }
@@ -325,6 +327,23 @@ def _gh_price_tab(page):
     return False
 
 
+def gh_total(vals, nights):
+    """한 줄에 [할인 1박, 정가 1박, 정가 총액] 이 (중복 렌더로 두 번) 들어오는 구조를 처리.
+    값이 급락하면 새 묶음으로 보고, 묶음마다 가장 큰 값(그 묶음의 숙박 총액)을 쓴 뒤 가장 싼 묶음을 고른다.
+    총액이 없는 묶음(1박 요금만 있는 줄)은 1박 요금 x 숙박일수."""
+    groups, cur = [], []
+    for v in vals:
+        if cur and v < cur[-1] * 0.6:
+            groups.append(cur)
+            cur = [v]
+        else:
+            cur.append(v)
+    if cur:
+        groups.append(cur)
+    totals = [max(g) if len(g) > 1 else max(g) * nights for g in groups if g]
+    return min(totals) if totals else None
+
+
 def _gh_extract(page, ci):
     return page.evaluate(GH_EXTRACT_JS, {"ci": f"{ci[:4]}년 {int(ci[5:7])}월 {int(ci[8:10])}일"})
 
@@ -379,7 +398,9 @@ def google_hotel(page, hid, h):
     # 같은 요금이 두 레이아웃에 중복으로 잡히므로 (사이트, 객실, 금액) 기준으로 정리
     uniq = {}
     for o in info.get("offers", []):
-        total = min(o["vals"]) * nights
+        total = gh_total(o["vals"], nights)
+        if not total:
+            continue
         uniq.setdefault((o["prov"], o["room"], total), (total, o["text"], o["room"], o["prov"]))
     found = list(uniq.values())
     head = (f"=== {h['name']} / {how} / 가격탭 {'열림' if tabbed else '없음'} / "
