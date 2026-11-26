@@ -1233,14 +1233,23 @@ const S3_OPTIONS=[
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
 const S3_DEFAULT_OPTS={cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
-let s3={opts:{...S3_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:'', picked:{}};
+const S3_DEFAULT_HOTEL_ACTUAL={
+  '1':{v:'2731',cur:'EUR'},    // 조에트리 마요르카 예약확정 [esbgq9jtt] (9/8~12, 올인클루시브, 현장 도시세 €35 제외)
+  '3':{v:'1580.8',cur:'EUR'}   // 올라 에이샴플레 예약확정 [0236r6twm] (9/18~22, 조식 포함, 현장 도시세 €114.40 제외)
+};
+let s3={opts:{...S3_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, actualEdited:{}, sevName:'', picked:{}};
 let s3Migrated=false;
 let pricesS3={}, extrasS3={}, officialS3={};
 try{
   const st=JSON.parse(localStorage.getItem(S3_LS));
-  if(st){ s3={...s3, ...st, opts:{...S3_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+  if(st){ s3={...s3, ...st, opts:{...S3_DEFAULT_OPTS, ...(st.opts||{})}, actualEdited:st.actualEdited||{}, picked:st.picked||{}};
     if((Number(st.dv)||1)<DEFAULTS_VER && !s3.picked.meal && s3.opts.meal!==S3_DEFAULT_OPTS.meal){ s3.opts.meal=S3_DEFAULT_OPTS.meal; s3Migrated=true; } }
 }catch(e){}
+for(const id of Object.keys(S3_DEFAULT_HOTEL_ACTUAL)){
+  if(!s3.actualEdited[id] && (!s3.hotelActual[id] || !(Number(s3.hotelActual[id].v)>0))){
+    s3.hotelActual[id]={...S3_DEFAULT_HOTEL_ACTUAL[id]};
+  }
+}
 const s3Save=()=>{try{localStorage.setItem(S3_LS,JSON.stringify({...s3,dv:DEFAULTS_VER}));}catch(e){}};
 const s3Cur=k=>s3.manualCur[k]||'KRW';
 const s3Has=k=>s3.manual[k]!==undefined && s3.manual[k]!=='';
@@ -1333,12 +1342,14 @@ function renderS3Hotels(){
     inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
     ain.addEventListener('input',()=>{
       const v=ain.value;
+      s3.actualEdited[h.id]=true;
       if(v===''||!(Number(v)>0)) delete s3.hotelActual[h.id];
       else s3.hotelActual[h.id]={v:v,cur:asel.value};
       s3Save(); s3Calc();
     });
     asel.addEventListener('change',()=>{
       const a=s3.hotelActual[h.id]; const n=Number(a?a.v:ain.value);
+      s3.actualEdited[h.id]=true;
       if(n>0 && a && a.cur!==asel.value){
         const to=asel.value, c=to==='EUR'?n/fx:n*fx;
         const out=to==='EUR'?round2(c):Math.round(c/100)*100;
