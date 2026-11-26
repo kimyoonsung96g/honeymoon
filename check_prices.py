@@ -69,7 +69,7 @@ EXTRAS = {
     "car_small": {"name": "마요르카 렌터카 자동 최저가 (4일)", "kind": "car",
                   "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a"},
     "car_suv": {"name": "마요르카 렌터카 자동 SUV (4일)", "kind": "car",
-                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a"},
+                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-10-12h/2027-09-14-12h?sort=price_a&fs=carclass=suv"},
 }
 CAR_DAYS = 4
 
