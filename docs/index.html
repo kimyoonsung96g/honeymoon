@@ -162,19 +162,19 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
     <p class="diff num" id="diffValue">0원</p>
     <p class="diff-note" id="diffNote"></p>
     <div class="compare">
-      <div><span>여행사 견적</span><strong class="num" id="agencyTotal">8,940,000원</strong><small class="agency-note" id="agencyNote"></small></div>
-      <div><span id="directLabel">직접 예약 합계</span><strong class="num" id="directTotal">0원</strong><small class="agency-note" id="directNote"></small></div>
+      <div><span>여행사 견적 (국제선 포함)</span><strong class="num" id="agencyTotal">8,940,000원</strong><small class="agency-note" id="agencyNote"></small></div>
+      <div><span id="directLabel">직접 예약 합계 (국제선 포함)</span><strong class="num" id="directTotal">0원</strong><small class="agency-note" id="directNote"></small></div>
     </div>
     <p class="diff-note" id="s1CompareNote" style="margin:14px 0 0" hidden></p>
   </header>
 
   <section>
     <h2>국제선 (인천↔바르셀로나)</h2>
-    <p class="hint">인천↔바르셀로나 왕복(9/6~9/18, 2인) 금액을 넣으면 위 총합계에 더해요. 비워두면 견적서와 같이 국제선 제외로 계산해요.</p>
+    <p class="hint">인천↔바르셀로나 왕복(9/6~9/18, 2인) 금액을 넣으면 직접 예약 합계와 여행사 견적에 똑같이 더해져요. 비워두면 양쪽 모두 국제선 0원으로 계산해요.</p>
     <div class="hotel">
       <div class="hotel-head"><div><div class="hotel-name">인천 ↔ 바르셀로나</div><span class="room">왕복 · 2인</span></div><div class="hotel-meta">9/6~9/18, 12박</div></div>
       <div class="price-row">
-        <input type="number" inputmode="numeric" class="num" data-manual="intl" placeholder="입력 (비우면 국제선 제외)" aria-label="국제선 금액">
+        <input type="number" inputmode="numeric" class="num" data-manual="intl" placeholder="입력 (비우면 0원)" aria-label="국제선 금액">
         <select data-manual-cur="intl" aria-label="국제선 통화"><option value="KRW">원</option><option value="EUR">유로</option></select>
       </div>
       <div class="conv num" data-manual-conv="intl" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
@@ -244,12 +244,12 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
   <div class="panel" id="panel-s2" role="tabpanel" aria-labelledby="tab-s2" hidden>
     <header class="verdict" aria-live="polite">
       <h1>일정 2 견적 비교</h1>
-      <p class="trip">바르셀로나 4박 · 세비야 3박 · 포르투 3박 · 마요르카 4박 (2027년 9월 8일~22일, 2인)</p>
-      <p class="diff num" id="s2TotalValue">0원</p>
-      <p class="diff-note" id="s2TotalNote"></p>
+      <p class="trip">바르셀로나 4박 · 세비야 3박 · 포르투 3박 · 마요르카 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
+      <p class="diff num" id="s2DiffValue">0원</p>
+      <p class="diff-note" id="s2DiffNote"></p>
       <div class="compare">
-        <div><span>현지 비용 (국제선 제외)</span><strong class="num" id="s2LocalValue">0원</strong><small class="agency-note" id="s2LocalNote"></small></div>
-        <div><span>일정 1 여행사 견적</span><strong class="num">8,940,000원</strong><small class="agency-note">12박·세비야·국제선 제외</small></div>
+        <div><span>여행사 견적 (국제선 포함)</span><strong class="num" id="s2AgencyValue">0원</strong><small class="agency-note" id="s2AgencyNote"></small></div>
+        <div><span>직접 예약 합계 (국제선 포함)</span><strong class="num" id="s2DirectValue">0원</strong><small class="agency-note" id="s2DirectNote"></small></div>
       </div>
       <p class="diff-note" id="s2CompareNote" style="margin:14px 0 0"></p>
     </header>
@@ -304,12 +304,12 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
   <div class="panel" id="panel-s3" role="tabpanel" aria-labelledby="tab-s3" hidden>
     <header class="verdict" aria-live="polite">
       <h1>일정 3 견적 비교</h1>
-      <p class="trip">마요르카 4박 · 세비야 3박 · 포르투 3박 · 바르셀로나 4박 (2027년 9월 8일~22일, 2인)</p>
-      <p class="diff num" id="s3TotalValue">0원</p>
-      <p class="diff-note" id="s3TotalNote"></p>
+      <p class="trip">마요르카 4박 · 세비야 3박 · 포르투 3박 · 바르셀로나 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
+      <p class="diff num" id="s3DiffValue">0원</p>
+      <p class="diff-note" id="s3DiffNote"></p>
       <div class="compare">
-        <div><span>현지 비용 (국제선 제외)</span><strong class="num" id="s3LocalValue">0원</strong><small class="agency-note" id="s3LocalNote"></small></div>
-        <div><span>일정 1 여행사 견적</span><strong class="num">8,940,000원</strong><small class="agency-note">12박·세비야·국제선 제외</small></div>
+        <div><span>여행사 견적 (국제선 포함)</span><strong class="num" id="s3AgencyValue">0원</strong><small class="agency-note" id="s3AgencyNote"></small></div>
+        <div><span>직접 예약 합계 (국제선 포함)</span><strong class="num" id="s3DirectValue">0원</strong><small class="agency-note" id="s3DirectNote"></small></div>
       </div>
       <p class="diff-note" id="s3CompareNote" style="margin:14px 0 0"></p>
     </header>
@@ -364,7 +364,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const AGENCY_PRICE = 8940000;         // 견적서 기준 (4곳 조식 포함·국제선 제외)
+const AGENCY_PRICE = 8940000;         // 견적서 기본가 (4곳 조식 포함·국제선 제외). 화면에서 국제선·올인클루시브를 더해 비교
 const FX_DEFAULT = 1340;              // 1 EUR = 1,340원, 화면에서 바꾸면 localStorage에 저장
 let fx = FX_DEFAULT;                  // 페이지 안의 모든 유로→원 환산이 이 값을 따름
 const ZOETRY_AI_UPGRADE_EUR = 200;    // 조에트리 올인클루시브 변경: 인당·1박당 €200 추가
@@ -643,16 +643,18 @@ function calculate(){
   $('cNote').textContent=M('car')?'입력값':(cv?'카약 조회가 (기본 보험)':'조회 전이라 기존 예상값 사용');
 
   const aiAdd = opts.meal==='allinc' ? ZOETRY_AI_UPGRADE_TOTAL*fx : 0;
-  const agencyTotal = AGENCY_PRICE + aiAdd;
-  $('agencyTotal').textContent=fmt(agencyTotal);
-  $('agencyNote').textContent = opts.meal==='allinc'
-    ? `조식 기준 + 마요르카 올인클루시브 €${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(aiAdd)}) 포함`
-    : '견적서 조건 (4곳 모두 조식 포함)';
-
   const intl=M('intl');
   const local=hotel+flight+car+opts.transfer+TOUR_INSURANCE;
   const total=local+intl;
-  const diff=local-agencyTotal;   // 여행사 견적은 국제선 제외라 현지 비용끼리 비교
+  // 여행사 견적도 직접 예약과 같은 기준(기본 8,940,000 + 국제선 + 선택 시 올인클루시브)으로 맞춤
+  const agencyTotal = AGENCY_PRICE + intl + aiAdd;
+  $('agencyTotal').textContent=fmt(agencyTotal);
+  $('agencyNote').textContent = `기본 8,940,000원 + 국제선 ${intl>0?fmt(intl):'미입력 0원'}`
+    + (aiAdd>0 ? ` + 올인클루시브 ${fmt(aiAdd)} (€${ZOETRY_AI_UPGRADE_TOTAL.toLocaleString('ko-KR')})` : ' (올인클루시브 미선택)');
+  $('directLabel').textContent='직접 예약 합계 (국제선 포함)';
+  $('directTotal').textContent=fmt(total);
+  $('directNote').textContent=`현지 ${fmt(local)} + 국제선 ${intl>0?fmt(intl):'0원'}`;
+  const diff=total-agencyTotal;   // 같은 기준(국제선 포함 총액)끼리 비교
   $('bHotel').textContent=fmt(hotel); $('bFlight').textContent=fmt(flight); $('bCar').textContent=fmt(car);
   $('bTransfer').textContent=fmt(opts.transfer); $('bTour').textContent=fmt(TOUR_INSURANCE);
   $('bIntl').textContent=intl>0?fmt(intl):'미입력 (0원)';
@@ -661,23 +663,13 @@ function calculate(){
   $('bTotal').textContent=fmt(total);
   const S1_TRIP='바르셀로나 4박, 마요르카 4박, 포르투 3박, 리스본 1박 (2027년 9월 6일~18일, 2인, 국제선 '+(intl>0?'포함':'제외')+')';
   $('s1Trip').textContent=S1_TRIP;
-  if(intl>0){
-    $('diffValue').textContent=fmt(total);
-    $('diffNote').textContent=`국제선 포함 총합계 (2인) · 국제선 ${fmt(intl)} 포함`;
-    $('agencyNote').textContent+=' · 국제선 제외';
-    $('directLabel').textContent='현지 비용 (국제선 제외)';
-    $('directTotal').textContent=fmt(local);
-    $('directNote').textContent=`국제선 ${fmt(intl)} 별도`;
-    const cn=$('s1CompareNote'); cn.hidden=false;
-    cn.textContent=`국제선을 뺀 현지 비용끼리 비교: ${fmt(local)} vs 여행사 견적 ${fmt(agencyTotal)} → ${diff<=0?'−'+fmt(-diff)+' 아껴요':'+'+fmt(diff)+' 더 들어요'}. 국제선 금액은 양쪽 모두 빼고 비교했어요.`;
-  } else {
-    $('directLabel').textContent='직접 예약 합계';
-    $('directTotal').textContent=fmt(total);
-    $('directNote').textContent='';
-    const cn=$('s1CompareNote'); cn.hidden=true; cn.textContent='';
-    if(diff<=0){$('diffValue').textContent='−'+fmt(-diff);$('diffNote').textContent='직접 예약하면 이만큼 아낄 수 있어요.';}
-    else{$('diffValue').textContent='+'+fmt(diff);$('diffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요.';}
-  }
+  if(diff<0){$('diffValue').textContent='−'+fmt(-diff);$('diffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
+  else if(diff>0){$('diffValue').textContent='+'+fmt(diff);$('diffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요. (국제선 포함 총액 기준)';}
+  else {$('diffValue').textContent='0원';$('diffNote').textContent='두 방법 차액이 없어요. (국제선 포함 총액 기준)';}
+  const cn=$('s1CompareNote'); cn.hidden=false;
+  cn.textContent=intl>0
+    ? `같은 기준으로 비교: 직접 예약 ${fmt(total)} vs 여행사 견적 ${fmt(agencyTotal)}. 국제선 ${fmt(intl)}은 양쪽에 똑같이 들어가 차액에는 영향이 없어요.`
+    : '국제선 금액을 아직 넣지 않았어요. 넣으면 여행사 견적과 직접 예약 합계 양쪽에 같은 금액이 더해져 차액은 그대로예요.';
 }
 function paintManual(){
   document.querySelectorAll('[data-manual]').forEach(inp=>{
@@ -727,7 +719,7 @@ $('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();render
 
 /* ================= 일정 2 (2027-09-08~09-22, 14박) ================= */
 const S2_LS='honeymoon_s2_v1';
-const S2_AGENCY=8940000;              // 일정 1 여행사 견적 (12박·세비야·국제선 제외)
+const S2_AGENCY=8940000;              // 일정 1 여행사 견적 기본가 (12박·리스본, 국제선 제외) — 국제선·올인클루시브는 화면에서 더함
 const S2_INTL_DEFAULT=4586800;        // 트리니티항공 9/8~9/22 2인 (구글 항공 1인 2,293,400원 × 2)
 const S2_TOUR_DEFAULT=380000;         // 투어 3개 + 여행자보험 참고값
 const S2_AI_TOTAL=ZOETRY_AI_UPGRADE_TOTAL;   // €1,600 (2인 4박)
@@ -1086,7 +1078,10 @@ function s2Calc(){
   const intl=s2Money('intl')!==null?s2Money('intl'):S2_INTL_DEFAULT;
   const local=hotel+route+car.v+transfer+tour;
   const total=intl+local;
-  const diff=local-S2_AGENCY;
+  // 여행사 견적도 같은 기준: 기본 8,940,000 + 국제선 + 선택 시 마요르카 올인클루시브
+  const aiAdd=s2.opts.meal==='allinc'?S2_AI_TOTAL*fx:0;
+  const agency=S2_AGENCY+intl+aiAdd;
+  const diff=total-agency;
 
   $('s2bIntl').textContent=fmt(intl);
   $('s2bHotel').textContent=fmt(hotel);
@@ -1096,11 +1091,15 @@ function s2Calc(){
   $('s2bTour').textContent=fmt(tour);
   $('s2bLocal').textContent=fmt(local);
   $('s2bTotal').textContent=fmt(total);
-  $('s2TotalValue').textContent=fmt(total);
-  $('s2TotalNote').textContent=`총 예상 합계 · 국제선 ${fmt(intl)} 포함 (2인)`;
-  $('s2LocalValue').textContent=fmt(local);
-  $('s2LocalNote').textContent=`14박 숙소 ${fmt(hotel)} 포함${sevPending?' · 세비야 미정':''}`;
-  $('s2CompareNote').textContent=`일정 1 여행사 견적(8,940,000원)은 12박·세비야·국제선 제외라, 국제선을 뺀 현지 비용끼리 비교했어요: ${diff<=0?'−':'+'}${fmt(Math.abs(diff))} ${diff<=0?'덜 들어요':'더 들어요'}. 일정 2는 14박에 세비야 3박이 더해지고 리스본 1박이 빠진 일정이라 참고용이에요.`;
+  $('s2AgencyValue').textContent=fmt(agency);
+  $('s2AgencyNote').textContent=`기본 8,940,000원 + 국제선 ${fmt(intl)}`
+    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S2_AI_TOTAL.toLocaleString('ko-KR')})`:' (올인클루시브 미선택)');
+  $('s2DirectValue').textContent=fmt(total);
+  $('s2DirectNote').textContent=`현지 ${fmt(local)} + 국제선 ${fmt(intl)}`;
+  if(diff<0){$('s2DiffValue').textContent='−'+fmt(-diff);$('s2DiffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
+  else if(diff>0){$('s2DiffValue').textContent='+'+fmt(diff);$('s2DiffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요. (국제선 포함 총액 기준)';}
+  else {$('s2DiffValue').textContent='0원';$('s2DiffNote').textContent='두 방법 차액이 없어요. (국제선 포함 총액 기준)';}
+  $('s2CompareNote').textContent=`일정 1 여행사 견적(기본 8,940,000원)에 이 일정의 국제선 ${fmt(intl)}${aiAdd>0?`과 마요르카 올인클루시브 ${fmt(aiAdd)}`:''}을 더해 직접 예약 총액과 같은 기준으로 비교했어요. 일정 2는 14박에 세비야 3박이 더해지고 리스본 1박이 빠진 일정이라 참고용이에요.`;
 
   const hn=[];
   if(actualCnt) hn.push(`실제 예약가 ${actualCnt}곳 반영`);
@@ -1465,7 +1464,10 @@ function s3Calc(){
   const intl=s3Money('intl')!==null?s3Money('intl'):S3_INTL_DEFAULT;
   const local=hotel+route+car.v+transfer+tour;
   const total=intl+local;
-  const diff=local-S3_AGENCY;
+  // 여행사 견적도 같은 기준: 기본 8,940,000 + 국제선 + 선택 시 마요르카 올인클루시브
+  const aiAdd=s3.opts.meal==='allinc'?S3_AI_TOTAL*fx:0;
+  const agency=S3_AGENCY+intl+aiAdd;
+  const diff=total-agency;
 
   $('s3bIntl').textContent=fmt(intl);
   $('s3bHotel').textContent=fmt(hotel);
@@ -1475,11 +1477,15 @@ function s3Calc(){
   $('s3bTour').textContent=fmt(tour);
   $('s3bLocal').textContent=fmt(local);
   $('s3bTotal').textContent=fmt(total);
-  $('s3TotalValue').textContent=fmt(total);
-  $('s3TotalNote').textContent=`총 예상 합계 · 국제선 ${fmt(intl)} 포함 (2인)`;
-  $('s3LocalValue').textContent=fmt(local);
-  $('s3LocalNote').textContent=`14박 숙소 ${fmt(hotel)} 포함${sevPending?' · 세비야 미정':''}`;
-  $('s3CompareNote').textContent=`일정 1 여행사 견적(8,940,000원)은 12박·세비야·국제선 제외라, 국제선을 뺀 현지 비용끼리 비교했어요: ${diff<=0?'−':'+'}${fmt(Math.abs(diff))} ${diff<=0?'덜 들어요':'더 들어요'}. 일정 3은 14박에 세비야 3박이 더해지고, 마요르카를 먼저 가는 순서라 참고용이에요.`;
+  $('s3AgencyValue').textContent=fmt(agency);
+  $('s3AgencyNote').textContent=`기본 8,940,000원 + 국제선 ${fmt(intl)}`
+    +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S3_AI_TOTAL.toLocaleString('ko-KR')})`:' (올인클루시브 미선택)');
+  $('s3DirectValue').textContent=fmt(total);
+  $('s3DirectNote').textContent=`현지 ${fmt(local)} + 국제선 ${fmt(intl)}`;
+  if(diff<0){$('s3DiffValue').textContent='−'+fmt(-diff);$('s3DiffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
+  else if(diff>0){$('s3DiffValue').textContent='+'+fmt(diff);$('s3DiffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요. (국제선 포함 총액 기준)';}
+  else {$('s3DiffValue').textContent='0원';$('s3DiffNote').textContent='두 방법 차액이 없어요. (국제선 포함 총액 기준)';}
+  $('s3CompareNote').textContent=`일정 1 여행사 견적(기본 8,940,000원)에 이 일정의 국제선 ${fmt(intl)}${aiAdd>0?`과 마요르카 올인클루시브 ${fmt(aiAdd)}`:''}을 더해 직접 예약 총액과 같은 기준으로 비교했어요. 일정 3은 14박에 세비야 3박이 더해지고, 마요르카를 먼저 가는 순서라 참고용이에요.`;
 
   const hn=[];
   if(actualCnt) hn.push(`실제 예약가 ${actualCnt}곳 반영`);
