@@ -3,6 +3,8 @@
 """
 신혼여행 가격 자동 추적 (GitHub Actions에서 매일 자동 실행)
 
+일정 1(9/6~9/18)과 일정 2(9/8~9/22)를 함께 조회한다. 일정 2는 같은 호텔·객실 기준 날짜만 바꾼 값이다.
+
 호텔(부킹닷컴): 호텔 페이지의 '객실 표'를 한 줄씩 읽어서 조건별 최저가를 구함
   - 조식 포함 / 조식 포함 + 무료 취소 / 조식 미포함 / 올인클루시브
   (부킹닷컴 주소의 필터는 호텔 페이지에서 적용되지 않아서, 표의 조건 문구로 직접 구분)
@@ -13,7 +15,7 @@
 결과: docs/prices.json / 확인용 화면 글자: debug/ 폴더
 가격이 내려가면 휴대폰 푸시 알림 (ntfy 앱, NTFY_TOPIC 설정 시)
 """
-import base64, json, os, re, urllib.parse, urllib.request
+import base64, json, os, re, sys, urllib.parse, urllib.request
 from datetime import datetime, timezone, timedelta
 
 KST = timezone(timedelta(hours=9))
@@ -51,6 +53,35 @@ HOTELS = {
           "gh_name": ["TURIM Boulevard Hotel", "TURIM Boulevard Hotel Lisbon"],
           "booking": "https://www.booking.com/hotel/pt/turim-boulevard.ko.html?checkin=2027-09-17&checkout=2027-09-18" + BQ,
           "kayak": "https://www.kayak.co.kr/hotels/TURIM-Boulevard-Hotel,Lisbon,Portugal-c21721-h4855678-details/2027-09-17/2027-09-18" + KQ},
+}
+
+
+# ---------------- 일정 2 (2027-09-08~09-22, 14박) ----------------
+# 바르셀로나 9/8~9/12(4박) · 세비야 9/12~9/15(숙소 미정, 조회 대상 아님) · 포르투 9/15~9/18(3박) · 마요르카 9/18~9/22(4박)
+# 견적서와 같은 호텔·객실 기준으로 날짜만 바꿔 조회한다. 세비야는 견적서에 없는 도시라 화면에서 직접 입력.
+HOTELS_S2 = {
+    "1": {"name": "Ohla Eixample", "dates": "9/8~9/12", "nights": 4, "room": ["Essential", "에센셜", "=더블룸"],
+          "k_room": (["더블룸", "Double Room"], ["디럭스", "Deluxe", "수페리어", "Superior", "스위트", "Suite", "트윈", "Twin"]),
+          "g_room": (["더블룸", "Double Room"], ["수페리어", "슈페리어", "디럭스", "Deluxe", "트윈", "Twin", "스위트", "Suite", "싱글", "Single"]),
+          "gh_name": ["Hotel Ohla Eixample Barcelona", "Ohla Eixample Barcelona"],
+          "gh": ("Hotel Ohla Eixample Barcelona", "2027-09-08", "2027-09-12"),
+          "booking": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-08&checkout=2027-09-12" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-08/2027-09-12" + KQ},
+    "2": {"name": "Mercure Porto Centro", "dates": "9/15~9/18", "nights": 3, "room": ["Standard Double", "스탠다드 더블"],
+          "k_room": (["Superior Double", "슈페리어 더블", "슈피리어룸, 더블", "슈페리어 더블"], ["Twin", "트윈", "Family", "패밀리", "Suite", "스위트"]),
+          "g_room": (["슈페리어룸", "Superior Double", "슈페리어 더블"], ["싱글", "트윈", "트리플", "스위트", "패밀리", "Twin", "Single", "Triple", "Suite", "Family"]),
+          "gh_name": ["호텔 머큐어 포르토 센트로", "Mercure Porto Centro Santa Catarina", "Hotel Mercure Porto Centro"],
+          "gh": ("Mercure Porto Centro Santa Catarina", "2027-09-15", "2027-09-18"),
+          "booking": "https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-15&checkout=2027-09-18" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-15/2027-09-18" + KQ},
+    "3": {"name": "Zoëtry Mallorca", "dates": "9/18~9/22", "nights": 4, "room": ["=포넨트 더블룸", "Ponent Double", "Double Ponent"],
+          "k_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
+          "g_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
+          "gh_name": ["Zoëtry Mallorca", "Zoetry Mallorca"],
+          "gh": ("Zoetry Mallorca", "2027-09-18", "2027-09-22"),
+          "booking": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-18&checkout=2027-09-22" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-18/2027-09-22" + KQ,
+          "all_inclusive": True},
 }
 
 
@@ -118,6 +149,17 @@ EXTRAS = {
 }
 CAR_DAYS = 4
 
+# 일정 2 도시 간 이동·렌터카 (세비야→포르투 9/15, 포르투→마요르카 9/18, 마요르카→바르셀로나 9/22, 마요르카 렌터카 9/18~9/22 4일)
+EXTRAS_S2 = {
+    "fl_svq_opo": {"name": "세비야→포르투 9/15", "kind": "flight", "url": _gf("SVQ", "OPO", "2027-09-15")},
+    "fl_opo_pmi": {"name": "포르투→마요르카 9/18", "kind": "flight", "url": _gf("OPO", "PMI", "2027-09-18")},
+    "fl_pmi_bcn": {"name": "마요르카→바르셀로나 9/22", "kind": "flight", "url": _gf("PMI", "BCN", "2027-09-22")},
+    "car_small": {"name": "마요르카 렌터카 자동 최저가 (9/18~9/22, 4일)", "kind": "car",
+                  "url": "https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a"},
+    "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/18~9/22, 4일)", "kind": "car",
+                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a&fs=carclass=suv"},
+}
+
 WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
 NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "no availability"]
 BLOCK = ["로봇", "robot", "captcha", "보안 확인", "Please confirm", "unusual traffic", "비정상적인 트래픽", "실제 KAYAK 사용자임을 확인", "본인 확인:"]
@@ -151,13 +193,13 @@ def save_debug(name, text):
 
 
 # ---------------- 부킹닷컴: 객실 표 분석 ----------------
-def fetch_booking_rows(page, h, hid):
+def fetch_booking_rows(page, h, hid, tag=""):
     """객실 표의 각 줄을 (조건 문구, 숙박 전체 가격)으로 반환"""
     page.goto(h["booking"], wait_until="domcontentloaded", timeout=45000)
     page.wait_for_timeout(7000)
     body = page.inner_text("body")
     if any(k in body for k in NO_ROOM):
-        save_debug(f"booking_{hid}.txt", body)
+        save_debug(f"booking_{tag}{hid}.txt", body)
         return None, "예약 미오픈 또는 매진"
     rows, room = [], ""
     for tr in page.query_selector_all("#hprt-table tbody tr, table.hprt-table tbody tr"):
@@ -183,7 +225,7 @@ def fetch_booking_rows(page, h, hid):
                 continue
             rows.append((room, t1, price))
     fixed = rows
-    save_debug(f"booking_{hid}.txt", "\n\n".join(f"[{p:,}] <{r}> {t}" for r, t, p in fixed) or body)
+    save_debug(f"booking_{tag}{hid}.txt", "\n\n".join(f"[{p:,}] <{r}> {t}" for r, t, p in fixed) or body)
     if not fixed:
         return None, "객실 표를 찾지 못함 (사이트 차단 가능)"
     return fixed, None
@@ -363,7 +405,7 @@ def _gh_wait(page, ci, tries=6, delay=3000, need_room=False):
 
 def _gh_open(page, hid, h):
     """검색 → (필요하면) 목록에서 호텔 카드 클릭 → '가격' 탭. 화면 상태를 반환."""
-    q, ci, co = GH_Q[hid]
+    q, ci, co = h.get("gh") or GH_Q[hid]
     page.goto(_gh(q, ci, co), wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(9000)
     body = page.inner_text("body")
@@ -389,10 +431,10 @@ def _gh_open(page, hid, h):
     return info, how, body
 
 
-def google_hotel(page, hid, h):
+def google_hotel(page, hid, h, tag=""):
     """반환: ({'breakfast': [...], 'fc': [...], 'ai': [...]}, 오류)
     각 항목은 (숙박 전체 금액, 설명문, 객실명, 예약사이트)"""
-    q, ci, co = GH_Q[hid]
+    q, ci, co = h.get("gh") or GH_Q[hid]
     want_ci, want_co = _md(f"{ci[5:7]}월 {ci[8:10]}일"), _md(f"{co[5:7]}월 {co[8:10]}일")
     nights = h["nights"]
     err = "구글 호텔 조회 실패"
@@ -400,7 +442,7 @@ def google_hotel(page, hid, h):
         info, how, body = _gh_open(page, hid, h)
         if info is None:
             err = "구글이 자동 조회를 차단함"
-            save_debug(f"google_{hid}.txt", body)
+            save_debug(f"google_{tag}{hid}.txt", body)
             page.wait_for_timeout(4000)
             continue
         dates_ok = bool(info.get("date_ok")) or (
@@ -417,7 +459,7 @@ def google_hotel(page, hid, h):
                 f"날짜 {info.get('dates')} (요청 {ci}~{co}, 적용 {'확인' if dates_ok else '실패'}) / "
                 f"₩ {info.get('won', 0)}회 US$ {info.get('usd', 0)}회 / 탭 {info.get('tabs')} ===\n"
                 f"=== 제목 {info.get('heads')} ===\n")
-        save_debug(f"google_{hid}.txt", head +
+        save_debug(f"google_{tag}{hid}.txt", head +
                    "\n".join(f"[{t:,}] <{r}> {p} | {x}" for t, x, r, p in found[:250]) +
                    "\n\n=== 화면 전체 ===\n" + body[:12000])
         if not dates_ok:
@@ -500,7 +542,7 @@ def fetch_car(page, url, key, prev_total):
     save_debug(f"car_{key}.txt", body)
     if has(body, BLOCK):
         return None, "카약이 자동 조회를 차단함 (사용자 확인 요구)"
-    want_suv = key == "car_suv"
+    want_suv = "suv" in key
     vals = []
     for blk in body.split("상세 정보 보기")[1:]:
         if "광고" in blk.split("상품 확인")[0][-40:]:
@@ -541,6 +583,23 @@ OFFICIAL = {
           "url": "https://bookings.turim-hotels.com/en/bookcore/availability/turimboulevard/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
           "ci": "2027-09-17", "co": "2027-09-18", "nights": 1,
           "room": ["double superior"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+}
+
+# 일정 2 공식 홈페이지 (같은 호텔·같은 객실, 날짜만 9/8~9/22로 변경)
+OFFICIAL_S2 = {
+    "1": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
+          "home": "https://booking.ohlaboutiquehotels.com/en/",
+          "url": "https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-08", "co": "2027-09-12", "nights": 4,
+          "room": ["essential"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
+    "2": {"site": "아코르 공식(ALL 회원가)", "engine": "accor", "cur": "EUR",
+          "url": "https://all.accor.com/booking/en/accor/hotel/1975?dateIn={ci}&nights=3&compositions=2&stayplus=false",
+          "ci": "2027-09-15", "co": "2027-09-18", "nights": 3,
+          "room": ["superior room with 1 double bed"], "cancel": "Free cancellation", "meal": "Breakfast included"},
+    "3": {"site": "조에트리 공식(World of Hyatt)", "engine": "emascaro", "cur": "auto",
+          "url": "https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
+          "ci": "2027-09-18", "co": "2027-09-22", "nights": 4,
+          "room": ["ponent"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
 }
 
 OFF_FIG_JS = r"""
@@ -667,7 +726,7 @@ def parse_emascaro(rooms, cfg):
     return None
 
 
-def fetch_official_emascaro(page, hid, cfg):
+def fetch_official_emascaro(page, key, cfg):
     url = cfg["url"].format(ci=cfg["ci"], co=cfg["co"])
     # 일부 엔진(올라)은 예약 화면을 그리기 전에 사이트 첫 화면에서 받는 쿠키가 필요함
     if cfg.get("home"):
@@ -695,7 +754,7 @@ def fetch_official_emascaro(page, hid, cfg):
         body_txt = page.inner_text("body")[:2000]
     except Exception:
         body_txt = ""
-    save_debug(f"official_{hid}.txt",
+    save_debug(f"official_{key}.txt",
                f"=== {cfg['site']} {cfg['ci']}~{cfg['co']} / 방 {len(rooms)}개 ===\n"
                f"=== 화면 앞부분 ===\n{body_txt}\n\n" +
                ("\n".join(f"- {r['heads'][0] if r.get('heads') else '?'} | {len(r.get('text',''))}자" for r in rooms[:12])) +
@@ -706,7 +765,7 @@ def fetch_official_emascaro(page, hid, cfg):
     return res, None
 
 
-def fetch_official_accor(page, hid, cfg):
+def fetch_official_accor(page, key, cfg):
     url = cfg["url"].format(ci=cfg["ci"])
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     cards = []
@@ -741,7 +800,7 @@ def fetch_official_accor(page, hid, cfg):
                "member": _amt(m_mem.group(1)) if m_mem else None,
                "per_night": False, "raw": t[:600]}
         break
-    save_debug(f"official_{hid}.txt",
+    save_debug(f"official_{key}.txt",
                f"=== {cfg['site']} {cfg['ci']} / 카드 {len(cards2)}개 ===\n" +
                (f"선택: {res}\n" if res else "카드를 찾지 못함\n") +
                "\n=== 원문 ===\n" + "\n---\n".join((c.get("text") or "")[:800] for c in cards2[:6]))
@@ -750,10 +809,10 @@ def fetch_official_accor(page, hid, cfg):
     return res, None
 
 
-def fetch_official(page, hid, cfg):
+def fetch_official(page, key, cfg):
     if cfg["engine"] == "accor":
-        return fetch_official_accor(page, hid, cfg)
-    return fetch_official_emascaro(page, hid, cfg)
+        return fetch_official_accor(page, key, cfg)
+    return fetch_official_emascaro(page, key, cfg)
 
 
 # ---------------- 기록, 알림 ----------------
@@ -779,8 +838,117 @@ def notify(title, msg):
         print("알림 실패:", e)
 
 
+def track_hotels(page, hotels, off_map, store, off_store, tag, now, put):
+    """호텔 묶음(일정 1 또는 일정 2)을 부킹닷컴 → 구글 호텔 → 공식 홈페이지 순서로 조회해 기록한다.
+    tag는 debug 파일 이름 접두사('' 또는 's2_')로, 두 일정의 확인용 화면 글자가 섞이지 않게 한다."""
+    for hid, h in hotels.items():
+        rec = store.setdefault(hid, {})
+        rec["name"], rec["dates"] = h["name"], h["dates"]
+        rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
+        # 계산 방식이 바뀐 예전 기록(VAT 미포함 등)은 정확하지 않아 한 번 비움
+        # 구글 호텔 조회 방식이 바뀌어(상세 화면 + ts) 이전 구글 값은 한 번 비움
+        if rec.get("gh_method") != "gh-entity-v1":
+            rec["gh_history"], rec["gh_fc_history"], rec["gh_ai_history"] = [], [], []
+            rec["gh_method"] = "gh-entity-v1"
+        if rec.get("method") != "rows-v6":
+            for k in ("history", "fc_history", "ro_history", "ai_history", "ai_fc_history", "gh_history", "gh_fc_history", "gh_ai_history"):
+                rec[k] = []
+            rec["method"] = "rows-v6"
+            for k in [x for x in rec if x.startswith("kayak_")]:
+                rec.pop(k, None)
+
+        try:
+            rows, err = fetch_booking_rows(page, h, hid, tag)
+        except Exception as e:
+            rows, err = None, f"조회 오류: {str(e)[:80]}"
+        if rows:
+            r, room_used, rooms = analyze_rows(rows, h["room"])
+            rec["room_used"] = room_used or f"견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: {', '.join(rooms)[:150]})"
+        else:
+            r = {"breakfast": None, "fc": None, "ro": None, "ai": None, "ai_fc": None}
+        nb = "조식 포함 요금이 표에 없음" if rows and r["breakfast"] is None else err
+        put(rec, "history", r["breakfast"], "last_error", nb, h["name"])
+        put(rec, "fc_history", r["fc"], "fc_error", ("조식 포함 무료 취소 요금이 없음" if rows and r["fc"] is None else err), h["name"] + " 무료취소")
+        put(rec, "ro_history", r["ro"], "ro_error", ("조식 미포함 요금이 없음" if rows and r["ro"] is None else err), h["name"] + " 조식없음")
+        if h.get("all_inclusive"):
+            put(rec, "ai_history", r["ai"], "ai_error", ("올인클루시브 요금이 표에 없음" if rows and r["ai"] is None else err), h["name"] + " 올인클루시브")
+            put(rec, "ai_fc_history", r["ai_fc"], "ai_fc_error", ("올인클루시브 무료 취소 요금이 표에 없음" if rows and r["ai_fc"] is None else err), h["name"] + " 올인클루시브 무료취소")
+
+        try:
+            g, gerr = google_hotel(page, hid, h, tag)
+        except Exception as e:
+            g, gerr = None, f"조회 오류: {str(e)[:80]}"
+        notes = []
+
+        def gp(cands, ref, label):
+            v, e = gh_pick(cands, h, ref, label)
+            if v is not None and e:
+                notes.append(label + ": " + e)
+            return v, e
+
+        if g:
+            k, kerr2 = gp(g["breakfast"], r["breakfast"], "조식 포함")
+            kf, kferr = gp(g["fc"], r["fc"], "조식 포함 무료 취소")
+        else:
+            k, kerr2, kf, kferr = None, gerr, None, gerr
+        put(rec, "gh_history", k, "gh_error", kerr2, "Google " + h["name"])
+        put(rec, "gh_fc_history", kf, "gh_fc_error", kferr, "Google " + h["name"] + " 무료취소")
+        if h.get("all_inclusive"):
+            ka, aerr = gp(g["ai"], r["ai"], "올인클루시브") if g else (None, gerr)
+            put(rec, "gh_ai_history", ka, "gh_ai_error", aerr, "Google " + h["name"] + " 올인클루시브")
+        rec["gh_note"] = "; ".join(notes) or None
+        print(tag or "s1", h["name"], r, "| google:", k, kerr2 or "", rec["gh_note"] or "")
+
+        oc = off_map.get(hid)
+        if oc:
+            orec = off_store.setdefault(hid, {})
+            orec["name"], orec["last_check"] = oc["site"], now.strftime("%Y-%m-%d %H:%M")
+            try:
+                ov, oerr = fetch_official(page, tag + hid, oc)
+            except Exception as e:
+                ov, oerr = None, f"조회 오류: {str(e)[:100]}"
+            orec["error"] = oerr
+            if ov:
+                def to_krw(v):
+                    return round(v * EUR_KRW) if ov["cur"] == "EUR" else round(v)
+                orec["room"], orec["rate"], orec["cancel"], orec["meal"] = ov["room"], ov["rate"], ov["cancel"], ov["meal"]
+                orec["cur"] = ov["cur"]
+                if ov.get("public") is not None:
+                    orec["public"] = {"amt": round(ov["public"], 2), "krw": to_krw(ov["public"])}
+                    put(orec, "history", to_krw(ov["public"]), "error", None, oc["site"])
+                if ov.get("member") is not None:
+                    orec["member"] = {"amt": round(ov["member"], 2), "krw": to_krw(ov["member"])}
+                    put(orec, "member_history", to_krw(ov["member"]), "member_error", None, oc["site"] + " 회원")
+            print("  official:", oc["site"], ov and {kk: ov[kk] for kk in ("room", "rate", "public", "member", "cur")}, oerr or "")
+
+
+def track_extras(page, extra_map, store, tag, now, put):
+    """도시 간 항공·렌터카 참고가를 조회해 기록한다."""
+    for key, e in extra_map.items():
+        rec = store.setdefault(key, {})
+        rec["name"] = e["name"]
+        rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
+        if rec.get("method") != "list-v2":
+            rec["history"] = []
+            rec["method"] = "list-v2"
+        prev_hist = rec.get("history") or []
+        try:
+            if e["kind"] == "flight":
+                v, verr = fetch_flight(page, e["url"], tag + key)
+            else:
+                v, verr = fetch_car(page, e["url"], tag + key, prev_hist[-1]["krw"] if prev_hist else None)
+        except Exception as err:
+            v, verr = None, f"조회 오류: {str(err)[:80]}"
+        put(rec, "history", v, "error", verr, e["name"])
+        print(e["name"], v, verr or "")
+
+
 def main():
     from playwright.sync_api import sync_playwright
+    only = ""
+    for a in sys.argv[1:]:
+        if a.lstrip("-") in ("s1", "s2"):
+            only = a.lstrip("-")
     data = {"updated": None, "hotels": {}}
     if os.path.exists(DATA_PATH):
         with open(DATA_PATH, encoding="utf-8") as f:
@@ -803,104 +971,14 @@ def main():
                                              "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
         page = ctx.new_page()
 
-        for hid, h in HOTELS.items():
-            rec = data["hotels"].setdefault(hid, {})
-            rec["name"], rec["dates"] = h["name"], h["dates"]
-            rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-            # 계산 방식이 바뀐 예전 기록(VAT 미포함 등)은 정확하지 않아 한 번 비움
-            # 구글 호텔 조회 방식이 바뀌어(상세 화면 + ts) 이전 구글 값은 한 번 비움
-            if rec.get("gh_method") != "gh-entity-v1":
-                rec["gh_history"], rec["gh_fc_history"], rec["gh_ai_history"] = [], [], []
-                rec["gh_method"] = "gh-entity-v1"
-            if rec.get("method") != "rows-v6":
-                for k in ("history", "fc_history", "ro_history", "ai_history", "ai_fc_history", "gh_history", "gh_fc_history", "gh_ai_history"):
-                    rec[k] = []
-                rec["method"] = "rows-v6"
-                for k in [x for x in rec if x.startswith("kayak_")]:
-                    rec.pop(k, None)
-
-            try:
-                rows, err = fetch_booking_rows(page, h, hid)
-            except Exception as e:
-                rows, err = None, f"조회 오류: {str(e)[:80]}"
-            if rows:
-                r, room_used, rooms = analyze_rows(rows, h["room"])
-                rec["room_used"] = room_used or f"견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: {', '.join(rooms)[:150]})"
-            else:
-                r = {"breakfast": None, "fc": None, "ro": None, "ai": None, "ai_fc": None}
-            nb = "조식 포함 요금이 표에 없음" if rows and r["breakfast"] is None else err
-            put(rec, "history", r["breakfast"], "last_error", nb, h["name"])
-            put(rec, "fc_history", r["fc"], "fc_error", ("조식 포함 무료 취소 요금이 없음" if rows and r["fc"] is None else err), h["name"] + " 무료취소")
-            put(rec, "ro_history", r["ro"], "ro_error", ("조식 미포함 요금이 없음" if rows and r["ro"] is None else err), h["name"] + " 조식없음")
-            if h.get("all_inclusive"):
-                put(rec, "ai_history", r["ai"], "ai_error", ("올인클루시브 요금이 표에 없음" if rows and r["ai"] is None else err), h["name"] + " 올인클루시브")
-                put(rec, "ai_fc_history", r["ai_fc"], "ai_fc_error", ("올인클루시브 무료 취소 요금이 없음" if rows and r["ai_fc"] is None else err), h["name"] + " 올인클루시브 무료취소")
-
-            try:
-                g, gerr = google_hotel(page, hid, h)
-            except Exception as e:
-                g, gerr = None, f"조회 오류: {str(e)[:80]}"
-            notes = []
-
-            def gp(cands, ref, label):
-                v, e = gh_pick(cands, h, ref, label)
-                if v is not None and e:
-                    notes.append(label + ": " + e)
-                return v, e
-
-            if g:
-                k, kerr2 = gp(g["breakfast"], r["breakfast"], "조식 포함")
-                kf, kferr = gp(g["fc"], r["fc"], "조식 포함 무료 취소")
-            else:
-                k, kerr2, kf, kferr = None, gerr, None, gerr
-            put(rec, "gh_history", k, "gh_error", kerr2, "Google " + h["name"])
-            put(rec, "gh_fc_history", kf, "gh_fc_error", kferr, "Google " + h["name"] + " 무료취소")
-            if h.get("all_inclusive"):
-                ka, aerr = gp(g["ai"], r["ai"], "올인클루시브") if g else (None, gerr)
-                put(rec, "gh_ai_history", ka, "gh_ai_error", aerr, "Google " + h["name"] + " 올인클루시브")
-            rec["gh_note"] = "; ".join(notes) or None
-            print(h["name"], r, "| google:", k, kerr2 or "", rec["gh_note"] or "")
-
-            oc = OFFICIAL.get(hid)
-            if oc:
-                orec = data.setdefault("official", {}).setdefault(hid, {})
-                orec["name"], orec["last_check"] = oc["site"], now.strftime("%Y-%m-%d %H:%M")
-                try:
-                    ov, oerr = fetch_official(page, hid, oc)
-                except Exception as e:
-                    ov, oerr = None, f"조회 오류: {str(e)[:100]}"
-                orec["error"] = oerr
-                if ov:
-                    def to_krw(v):
-                        return round(v * EUR_KRW) if ov["cur"] == "EUR" else round(v)
-                    orec["room"], orec["rate"], orec["cancel"], orec["meal"] = ov["room"], ov["rate"], ov["cancel"], ov["meal"]
-                    orec["cur"] = ov["cur"]
-                    if ov.get("public") is not None:
-                        orec["public"] = {"amt": round(ov["public"], 2), "krw": to_krw(ov["public"])}
-                        put(orec, "history", to_krw(ov["public"]), "error", None, oc["site"])
-                    if ov.get("member") is not None:
-                        orec["member"] = {"amt": round(ov["member"], 2), "krw": to_krw(ov["member"])}
-                        put(orec, "member_history", to_krw(ov["member"]), "member_error", None, oc["site"] + " 회원")
-                print("  official:", oc["site"], ov and {kk: ov[kk] for kk in ("room", "rate", "public", "member", "cur")}, oerr or "")
-
-        ex = data.setdefault("extras", {})
-        for key, e in EXTRAS.items():
-            rec = ex.setdefault(key, {})
-            rec["name"] = e["name"]
-            rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-            if rec.get("method") != "list-v2":
-                rec["history"] = []
-                rec["method"] = "list-v2"
-            prev_hist = rec.get("history") or []
-            try:
-                if e["kind"] == "flight":
-                    v, verr = fetch_flight(page, e["url"], key)
-                else:
-                    v, verr = fetch_car(page, e["url"], key, prev_hist[-1]["krw"] if prev_hist else None)
-            except Exception as err:
-                v, verr = None, f"조회 오류: {str(err)[:80]}"
-            put(rec, "history", v, "error", verr, key)
-            print(e["name"], v, verr or "")
+        if only in ("", "s1"):
+            track_hotels(page, HOTELS, OFFICIAL, data.setdefault("hotels", {}),
+                         data.setdefault("official", {}), "", now, put)
+            track_extras(page, EXTRAS, data.setdefault("extras", {}), "", now, put)
+        if only in ("", "s2"):
+            track_hotels(page, HOTELS_S2, OFFICIAL_S2, data.setdefault("hotels_s2", {}),
+                         data.setdefault("official_s2", {}), "s2_", now, put)
+            track_extras(page, EXTRAS_S2, data.setdefault("extras_s2", {}), "s2_", now, put)
         browser.close()
 
     data["updated"] = now.strftime("%Y-%m-%d %H:%M")

@@ -125,10 +125,35 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* 일정 탭 */
+.tabs{display:flex;gap:8px;padding:16px 20px 0}
+.tabs button{flex:1;font:inherit;font-weight:600;line-height:1.25;padding:10px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs button small{display:block;font-weight:500;font-size:.72rem;opacity:.9;margin-top:1px}
+.tabs button[aria-selected="true"]{background:var(--cobalt);color:var(--on-cobalt);border-color:var(--cobalt)}
+.panel[hidden]{display:none}
+.nameIn{width:100%;font:inherit;font-weight:600;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.nameIn+.room{margin-top:4px}
 </style>
 </head>
 <body>
 <main>
+  <nav class="tabs" role="tablist" aria-label="일정 선택">
+    <button type="button" role="tab" id="tab-s1" aria-controls="panel-s1" aria-selected="true">일정 1<small>9/6~18 · 12박</small></button>
+    <button type="button" role="tab" id="tab-s2" aria-controls="panel-s2" aria-selected="false">일정 2<small>9/8~22 · 14박</small></button>
+  </nav>
+
+  <section>
+    <h2>환율</h2>
+    <p class="hint">유로 요금을 원화로 바꿀 때 쓰는 환율이에요. 두 일정에 같이 적용되고, 숫자를 바꾸면 모든 계산(올인클루시브 추가금, 유로 입력 금액, 참고 금액)에 바로 반영돼 이 브라우저에 저장돼요.</p>
+    <div class="fxbox">
+      <label class="rate">1 EUR = <input type="number" id="fxRate" class="num" inputmode="decimal" min="1" step="0.01" aria-label="1유로당 원 환율"> 원</label>
+      <div class="conv-in"><span class="tag">유로 → 원</span><input type="number" id="convEur" class="num" inputmode="decimal" placeholder="EUR" aria-label="유로 금액"><span class="conv-out num" id="convEurOut">—</span></div>
+      <div class="conv-in"><span class="tag">원 → 유로</span><input type="number" id="convKrw" class="num" inputmode="numeric" placeholder="원" aria-label="원 금액"><span class="conv-out num" id="convKrwOut">—</span></div>
+    </div>
+  </section>
+
+  <div class="panel" id="panel-s1" role="tabpanel" aria-labelledby="tab-s1">
   <header class="verdict" aria-live="polite">
     <h1>신혼여행 견적 비교</h1>
     <p class="trip">바르셀로나 4박, 마요르카 4박, 포르투 3박, 리스본 1박 (2027년 9월 6일~18일, 2인, 국제선 제외)</p>
@@ -139,16 +164,6 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
       <div><span>직접 예약 합계</span><strong class="num" id="directTotal">0원</strong></div>
     </div>
   </header>
-
-  <section>
-    <h2>환율</h2>
-    <p class="hint">유로 요금을 원화로 바꿀 때 쓰는 환율이에요. 숫자를 바꾸면 아래 모든 계산(올인클루시브 추가금, 유로 입력 금액, 참고 금액)에 바로 반영되고 이 브라우저에 저장돼요.</p>
-    <div class="fxbox">
-      <label class="rate">1 EUR = <input type="number" id="fxRate" class="num" inputmode="decimal" min="1" step="0.01" aria-label="1유로당 원 환율"> 원</label>
-      <div class="conv-in"><span class="tag">유로 → 원</span><input type="number" id="convEur" class="num" inputmode="decimal" placeholder="EUR" aria-label="유로 금액"><span class="conv-out num" id="convEurOut">—</span></div>
-      <div class="conv-in"><span class="tag">원 → 유로</span><input type="number" id="convKrw" class="num" inputmode="numeric" placeholder="원" aria-label="원 금액"><span class="conv-out num" id="convKrwOut">—</span></div>
-    </div>
-  </section>
 
   <section>
     <h2>호텔 가격</h2>
@@ -200,6 +215,67 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
     <button class="btn reset" id="resetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
   </section>
   <p class="foot">가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
+  </div>
+
+  <div class="panel" id="panel-s2" role="tabpanel" aria-labelledby="tab-s2" hidden>
+    <header class="verdict" aria-live="polite">
+      <h1>일정 2 견적 비교</h1>
+      <p class="trip">바르셀로나 4박 · 세비야 3박 · 포르투 3박 · 마요르카 4박 (2027년 9월 8일~22일, 2인)</p>
+      <p class="diff num" id="s2TotalValue">0원</p>
+      <p class="diff-note" id="s2TotalNote"></p>
+      <div class="compare">
+        <div><span>현지 비용 (국제선 제외)</span><strong class="num" id="s2LocalValue">0원</strong><small class="agency-note" id="s2LocalNote"></small></div>
+        <div><span>일정 1 여행사 견적</span><strong class="num">8,940,000원</strong><small class="agency-note">12박·세비야·국제선 제외</small></div>
+      </div>
+      <p class="diff-note" id="s2CompareNote" style="margin:14px 0 0"></p>
+    </header>
+
+    <section>
+      <h2>국제선 (고정)</h2>
+      <p class="hint">바르셀로나 in/out · 트리니티항공 직항으로 고정한 일정이에요. 금액은 직접 고칠 수 있어요.</p>
+      <div id="s2intl"></div>
+    </section>
+
+    <section>
+      <h2>호텔 가격</h2>
+      <p class="hint" id="s2UpdatedHint">매일 오전 9시에 부킹닷컴·구글 호텔·공식 홈페이지 요금을 자동 조회해요. 견적서와 같은 호텔·객실에 날짜만 9/8~22로 바꾼 값이에요.</p>
+      <div id="s2hotels"></div>
+    </section>
+
+    <section>
+      <h2>도시 간 이동과 렌터카</h2>
+      <p class="hint">항공 조회가는 구글 항공편 편도 최저가(2인, 수하물 미포함) 참고용이에요. 합계에는 직접 입력한 20kg 포함 금액을 먼저 쓰고, 입력 전에는 조회가나 예상값으로 계산해요.</p>
+      <div id="s2moves"></div>
+    </section>
+
+    <section>
+      <h2>투어와 보험 (선택)</h2>
+      <p class="hint">견적서처럼 한국인 가이드 투어와 여행자보험을 넣는 경우의 참고값이에요. 비우면 참고값으로 계산하고 0을 넣으면 빼요.</p>
+      <div id="s2tour"></div>
+    </section>
+
+    <section>
+      <h2>옵션</h2>
+      <p class="hint">처음 선택값이 견적서와 같은 조건이에요.</p>
+      <div id="s2options"></div>
+    </section>
+
+    <section>
+      <h2>항목별 내역 (2인)</h2>
+      <div class="rows">
+        <div><span>국제선 (트리니티항공 직항, 9/8~22)<br><small class="hint">1인 2,293,400원 × 2 기준가, 직접 수정 가능</small></span><strong class="num" id="s2bIntl"></strong></div>
+        <div><span>호텔 14박<br><small class="hint" id="s2bHotelNote"></small></span><strong class="num" id="s2bHotel"></strong></div>
+        <div><span>도시 간 이동 (항공 3회, 기차 1회)<br><small class="hint" id="s2bRouteNote"></small></span><strong class="num" id="s2bRoute"></strong></div>
+        <div><span>마요르카 렌터카 (9/18~9/22, 4일)<br><small class="hint" id="s2bCarNote"></small></span><strong class="num" id="s2bCar"></strong></div>
+        <div><span>공항·기차역 이동 (고정값)</span><strong class="num" id="s2bTransfer"></strong></div>
+        <div><span>투어·보험 (선택)<br><small class="hint">참고값, 위에서 수정 가능</small></span><strong class="num" id="s2bTour"></strong></div>
+        <div><span>현지 비용 합계 (국제선 제외)</span><strong class="num" id="s2bLocal"></strong></div>
+        <div class="total"><span>총 예상 합계 (국제선 포함)</span><span class="num" id="s2bTotal"></span></div>
+      </div>
+      <button class="btn reset" id="s2ResetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
+    </section>
+    <p class="foot">일정 1과 같은 방식으로 부킹닷컴·구글 호텔·공식 홈페이지를 날짜만 바꿔 조회해요. 가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
+  </div>
 </main>
 <div class="toast" id="toast" role="status"></div>
 
@@ -533,6 +609,7 @@ fxIn.value=fx;
 fxIn.addEventListener('input',()=>{
   const n=Number(fxIn.value); if(!(n>0)) return;
   fx=n; save(); renderHotels(); renderExtras(); paintManual(); paintConv(); calculate();
+  renderS2(); s2Calc();
 });
 fxIn.addEventListener('blur',()=>{ if(!(Number(fxIn.value)>0)) fxIn.value=fx; });
 cE.addEventListener('input',()=>{ cK.value=''; paintConv(); });
@@ -540,7 +617,405 @@ cK.addEventListener('input',()=>{ cE.value=''; paintConv(); });
 
 $('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액과 환율은 그대로예요.');});
 
+/* ================= 일정 2 (2027-09-08~09-22, 14박) ================= */
+const S2_LS='honeymoon_s2_v1';
+const S2_AGENCY=8940000;              // 일정 1 여행사 견적 (12박·세비야·국제선 제외)
+const S2_INTL_DEFAULT=4586800;        // 트리니티항공 9/8~9/22 2인 (구글 항공 1인 2,293,400원 × 2)
+const S2_TOUR_DEFAULT=380000;         // 투어 3개 + 여행자보험 참고값
+const S2_AI_TOTAL=ZOETRY_AI_UPGRADE_TOTAL;   // €1,600 (2인 4박)
+const S2_CAR='https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a';
+const S2_CAR_SUV=S2_CAR+'&fs=carclass=suv';
+const S2_OFF={
+ '1':'https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/2027-09-08/2027-09-12/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1',
+ '2':'https://all.accor.com/booking/en/accor/hotel/1975?dateIn=2027-09-15&nights=3&compositions=2&stayplus=false',
+ '3':'https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/2027-09-18/2027-09-22/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1'
+};
+const GHL2={'1':GHQ('Ohla Eixample Barcelona','2027-09-08','2027-09-12'),
+ '2':GHQ('Mercure Porto Centro Santa Catarina','2027-09-15','2027-09-18'),
+ '3':GHQ('Zoetry Mallorca','2027-09-18','2027-09-22')};
+const S2_HOTELS=[
+ {id:'1',city:'바르셀로나',nights:4,dates:'9/8~9/12',name:'Ohla Eixample',room:'ESSENTIAL, 조식 포함',est:2038115,
+  booking:'https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-08&checkout=2027-09-12&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL2['1'],
+  kayak:'https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-08/2027-09-12/2adults?fs=freebies=free-breakfast'},
+ {id:'sev',city:'세비야',nights:3,dates:'9/12~9/15',name:'세비야 숙소',room:'숙소 미정 · 직접 입력',est:0,custom:true},
+ {id:'2',city:'포르투',nights:3,dates:'9/15~9/18',name:'Mercure Porto Centro',room:'Standard Double, 조식 포함',est:1037366,
+  booking:'https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-15&checkout=2027-09-18&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL2['2'],
+  kayak:'https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-15/2027-09-18/2adults?fs=freebies=free-breakfast'},
+ {id:'3',city:'마요르카',nights:4,dates:'9/18~9/22',name:'Zoëtry Mallorca',room:'Double Ponent, 조식 포함',est:2262514,ai:true,
+  booking:'https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-18&checkout=2027-09-22&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL2['3'],
+  kayak:'https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-18/2027-09-22/2adults?fs=freebies=free-breakfast'}
+];
+const S2_ROUTES=[
+ {key:'train',label:'바르셀로나→세비야 기차/이동 (9/12)',sub:'AVE 약 5시간 30분 · 출발 몇 달 전부터 판매',est:240000,
+  links:[['렌페(Renfe)','https://www.renfe.com/es/en'],['트레인라인','https://www.thetrainline.com/'],['오미오(Omio)','https://www.omio.com/']]},
+ {key:'fl_svq_opo',label:'세비야→포르투 항공 (9/15, 20kg 포함)',est:130000,
+  links:[['구글 항공편',GF('SVQ','OPO','2027-09-15')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/svq/opo/270915/?adultsv2=2']]},
+ {key:'fl_opo_pmi',label:'포르투→마요르카 항공 (9/18, 20kg 포함)',est:170000,
+  links:[['구글 항공편',GF('OPO','PMI','2027-09-18')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/opo/pmi/270918/?adultsv2=2']]},
+ {key:'fl_pmi_bcn',label:'마요르카→바르셀로나 항공 (9/22, 20kg 포함)',est:95000,
+  links:[['구글 항공편',GF('PMI','BCN','2027-09-22')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/pmi/bcn/270922/?adultsv2=2']]}
+];
+const S2_OPTIONS=[
+  {key:'cancel', label:'호텔 예약 조건 (세비야 제외 3곳 공통)', items:[
+    {v:'nonref', t:'환불 불가 (견적과 같음)', p:'조회가'},
+    {v:'free', t:'무료 취소 가능', p:'조회가'}]},
+  {key:'meal', label:'식사 조건', items:[
+    {v:'breakfast', t:'3곳 모두 조식 포함 (견적과 같음)', p:'조회가'},
+    {v:'allinc', t:'마요르카만 올인클루시브', p:'인당·1박 €200 추가'},
+    {v:'mallorcaOnly', t:'마요르카만 조식 포함', p:'조회가'}]},
+  {key:'car', label:'마요르카 렌터카', items:[
+    {v:'small', t:'최저가 차량 (견적과 같은 소형)', p:'조회가'},
+    {v:'suv', t:'SUV', p:'조회가'}]},
+  {key:'transfer', label:'공항·기차역 이동 (고정값)', items:[
+    {v:390000, t:'전용차량 픽업 (견적과 같음)', p:'390,000원'},
+    {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
+];
+const S2_DEFAULT_OPTS={cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
+let s2={opts:{...S2_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:''};
+let pricesS2={}, extrasS2={}, officialS2={};
+try{
+  const st=JSON.parse(localStorage.getItem(S2_LS));
+  if(st) s2={...s2, ...st, opts:{...S2_DEFAULT_OPTS, ...(st.opts||{})}};
+}catch(e){}
+const s2Save=()=>{try{localStorage.setItem(S2_LS,JSON.stringify(s2));}catch(e){}};
+const s2Cur=k=>s2.manualCur[k]||'KRW';
+const s2Has=k=>s2.manual[k]!==undefined && s2.manual[k]!=='';
+const s2Money=k=>s2Has(k)?toKRW(Number(s2.manual[k])||0,s2Cur(k)):null;
+
+function s2RouteInfo(m){
+  const rec=extrasS2[m.key]||{};
+  const auto=lastK(rec.history);
+  const money=s2Money(m.key);
+  const v=money!==null?money:(auto!==null&&auto!==undefined?auto:m.est);
+  const src=money!==null?'input':((auto!==null&&auto!==undefined)?'auto':'est');
+  return {v,src,auto,err:rec.error};
+}
+function s2CarInfo(){
+  const key=s2.opts.car==='suv'?'car_suv':'car_small';
+  const rec=extrasS2[key]||{};
+  const auto=lastK(rec.history);
+  const money=s2Money('car');
+  const v=money!==null?money:(auto!==null&&auto!==undefined?auto:(s2.opts.car==='suv'?580000:420000));
+  const src=money!==null?'input':((auto!==null&&auto!==undefined)?'auto':'est');
+  return {v,src,auto,key,err:rec.error};
+}
+function moneyRowHTML(k,label,sub,links,placeholder){
+  const cur=s2Cur(k);
+  const val=s2Has(k)?s2.manual[k]:'';
+  const btns=(links||[]).map(([t,u])=>`<a class="btn" href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
+  return `<div class="hotel">
+    <div class="hotel-head"><div><div class="hotel-name">${label}</div>${sub?`<span class="room">${sub}</span>`:''}</div></div>
+    <div class="price-row">
+      <input type="number" inputmode="numeric" class="num" data-s2in="${k}" value="${val}" placeholder="${placeholder||'입력'}" aria-label="${label} 금액">
+      <select data-s2cur="${k}" aria-label="${label} 통화"><option value="KRW"${cur==='KRW'?' selected':''}>원</option><option value="EUR"${cur==='EUR'?' selected':''}>유로</option></select>
+    </div>
+    <div class="conv num" data-s2conv="${k}" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
+    <div class="history" data-s2ref="${k}"></div>
+    ${btns?`<div class="hotel-actions">${btns}</div>`:''}
+  </div>`;
+}
+function renderS2Intl(){
+  $('s2intl').innerHTML=`<div class="hotel">
+    <div class="hotel-head"><div><div class="hotel-name">인천 ↔ 바르셀로나</div><span class="room">트리니티항공 직항 · 2인</span></div><div class="hotel-meta">9/8~9/22, 14박</div></div>
+    <div class="price-row">
+      <input type="number" inputmode="numeric" class="num" data-s2in="intl" value="${s2Has('intl')?s2.manual['intl']:''}" placeholder="4,586,800" aria-label="국제선 금액">
+      <select data-s2cur="intl" aria-label="국제선 통화"><option value="KRW"${s2Cur('intl')==='KRW'?' selected':''}>원</option><option value="EUR"${s2Cur('intl')==='EUR'?' selected':''}>유로</option></select>
+    </div>
+    <div class="conv num" data-s2conv="intl" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
+    <div class="history">기본값 4,586,800원 · 소정 님 확인 구글 항공 기준가 1인 2,293,400원 × 2. 비우면 기본값으로 계산해요.</div>
+    <div class="history">트리니티항공 직항은 월·수·금·토 운항, 9/8(수) 인천 11:20 → 바르셀로나 19:00 / 9/22(수) 바르셀로나 21:00 → 인천 16:40+1.</div>
+    <div class="hotel-actions">
+      <a class="btn" href="https://www.google.com/travel/flights?q=${encodeURIComponent('Flights from ICN to BCN on 2027-09-08 through 2027-09-22')}&curr=KRW&hl=ko&gl=KR" target="_blank" rel="noopener">구글 항공편</a>
+      <a class="btn" href="https://www.kayak.co.kr/flights/ICN-BCN/2027-09-08/2027-09-22?sort=bestflight_a" target="_blank" rel="noopener">카약</a>
+      <a class="btn" href="https://flytrinity.com" target="_blank" rel="noopener">트리니티항공</a>
+    </div>
+  </div>`;
+}
+function s2OfficialLine(of){
+  if(!of || !(of.public||of.member||of.error)) return null;
+  const ol=document.createElement('div'); ol.className='history';
+  const money=a=>of.cur==='EUR'?`€${Number(a).toLocaleString('ko-KR',{maximumFractionDigits:2})}`:`${Math.round(a).toLocaleString('ko-KR')}원`;
+  const krwOf=o=>(of.cur==='EUR'&&o&&o.amt)?Math.round(o.amt*fx):((o&&o.krw)||0);
+  const parts=[];
+  if(of.public&&of.public.amt) parts.push(`일반 ${money(of.public.amt)} (약 ${fmt(krwOf(of.public))})`);
+  if(of.member&&of.member.amt) parts.push(`회원 ${money(of.member.amt)} (약 ${fmt(krwOf(of.member))})`);
+  const b=document.createElement('strong'); b.textContent='공식 홈페이지 무료취소·조식 ';
+  ol.append(b, document.createTextNode(parts.length?parts.join(' / '):(of.error||'아직 조회 전')));
+  if(of.rate){const t=document.createElement('span');t.textContent=` · ${of.rate}${of.cancel?' · '+of.cancel:''}`;ol.append(t);}
+  return ol;
+}
+function renderS2Hotels(){
+  const wrap=$('s2hotels'); wrap.textContent='';
+  for(const h of S2_HOTELS){
+    const p=pricesS2[h.id]||{krw:h.est||0,auto:false};
+    const rec=p.rec||{};
+    const box=document.createElement('div'); box.className='hotel';
+    const head=document.createElement('div'); head.className='hotel-head';
+    const left=document.createElement('div');
+    if(h.custom){
+      const nmIn=document.createElement('input'); nmIn.type='text'; nmIn.className='nameIn';
+      nmIn.placeholder='숙소명 (선택)'; nmIn.value=s2.sevName||''; nmIn.setAttribute('aria-label','세비야 숙소 이름');
+      nmIn.addEventListener('input',()=>{s2.sevName=nmIn.value;s2Save();});
+      const rm=document.createElement('span'); rm.className='room'; rm.textContent='숙소 미정 · 직접 입력';
+      left.append(nmIn,rm);
+    }else{
+      const nm=document.createElement('div'); nm.className='hotel-name'; nm.textContent=h.name;
+      const rm=document.createElement('span'); rm.className='room'; rm.textContent=h.room;
+      left.append(nm,rm);
+    }
+    const meta=document.createElement('div'); meta.className='hotel-meta'; meta.textContent=`${h.city} ${h.nights}박, ${h.dates}`;
+    head.append(left,meta);
+    const price=document.createElement('div'); price.className='krw num'; price.dataset.s2price=h.id;
+    box.append(head,price);
+
+    const ab=document.createElement('div'); ab.className='actual';
+    const lb=document.createElement('div'); lb.className='lbl';
+    lb.textContent=h.custom?'실제 예약 금액 (비우면 0원 · 미정)':'실제 예약 금액 (비우면 자동 조회가로 돌아감)';
+    const inRow=document.createElement('div'); inRow.className='in';
+    const ain=document.createElement('input'); ain.type='number'; ain.inputMode='decimal'; ain.className='num'; ain.placeholder='입력';
+    ain.dataset.s2act=h.id; ain.setAttribute('aria-label',h.name+' 실제 예약 금액');
+    const asel=document.createElement('select'); asel.dataset.s2actcur=h.id; asel.setAttribute('aria-label',h.name+' 실제 예약 금액 통화');
+    for(const [v,t] of [['KRW','원'],['EUR','유로']]){const o=document.createElement('option');o.value=v;o.textContent=t;asel.append(o);}
+    const a0=s2.hotelActual[h.id];
+    if(a0){ ain.value=(a0.v===''||a0.v==null)?'':a0.v; asel.value=a0.cur||'KRW'; }
+    const aconv=document.createElement('div'); aconv.className='conv num'; aconv.dataset.s2actconv=h.id;
+    inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
+    ain.addEventListener('input',()=>{
+      const v=ain.value;
+      if(v===''||!(Number(v)>0)) delete s2.hotelActual[h.id];
+      else s2.hotelActual[h.id]={v:v,cur:asel.value};
+      s2Save(); s2Calc();
+    });
+    asel.addEventListener('change',()=>{
+      const a=s2.hotelActual[h.id]; const n=Number(a?a.v:ain.value);
+      if(n>0 && a && a.cur!==asel.value){
+        const to=asel.value, c=to==='EUR'?n/fx:n*fx;
+        const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+        ain.value=out; s2.hotelActual[h.id]={v:String(out),cur:to};
+      } else if(a){ s2.hotelActual[h.id]={v:a.v,cur:asel.value}; }
+      s2Save(); s2Calc();
+    });
+
+    if(!h.custom){
+      box.append(srcLine('부킹닷컴',rec.history,rec.last_error,p.src==='booking'));
+      box.append(srcLine('구글 호텔',rec.gh_history,rec.gh_error,p.src==='google'));
+      const ol=s2OfficialLine(officialS2[h.id]); if(ol) box.append(ol);
+      if(h.ai){
+        const ai=document.createElement('div'); ai.className='history';
+        ai.textContent=`※ 올인클루시브로 변경하면 인당·1박당 €${ZOETRY_AI_UPGRADE_EUR} 추가 — 2인 4박 기준 +€${S2_AI_TOTAL.toLocaleString('ko-KR')} (약 ${fmt(S2_AI_TOTAL*fx)})`;
+        box.append(ai);
+        box.append(srcLine('올인클루시브 부킹닷컴',rec.ai_history,rec.ai_error,false));
+        box.append(srcLine('올인클루시브 구글 호텔',rec.gh_ai_history,rec.gh_ai_error,false));
+      }
+      if(rec.room_used){const r=document.createElement('div');r.className='history';r.textContent='부킹닷컴 기준 객실: '+rec.room_used;box.append(r);}
+      if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
+    }else{
+      const t=document.createElement('div'); t.className='history';
+      t.textContent='견적서에 없는 도시예요. 숙소명과 금액을 넣으면 합계에 반영되고, 비우면 0원(미정)으로 계산해요.';
+      box.append(t);
+    }
+
+    const act=document.createElement('div'); act.className='hotel-actions';
+    const links=h.custom
+      ? [['부킹닷컴 세비야 검색','https://www.booking.com/searchresults.ko.html?ss=Sevilla&checkin=2027-09-12&checkout=2027-09-15&group_adults=2&no_rooms=1&selected_currency=KRW']]
+      : [['부킹닷컴',h.booking],['구글 호텔',h.google],['카약',h.kayak],['공식 홈페이지',S2_OFF[h.id]]];
+    for(const [t,u] of links){ const a=document.createElement('a'); a.className='btn'; a.href=u; a.target='_blank'; a.rel='noopener'; a.textContent=t; act.append(a); }
+    box.append(act);
+    wrap.append(box);
+  }
+}
+function renderS2Moves(){
+  const car=s2CarInfo();
+  const rows=S2_ROUTES.map(m=>moneyRowHTML(m.key,m.label,m.sub,m.links,'')).join('');
+  const carSub=s2.opts.car==='suv'?'SUV':'소형';
+  $('s2moves').innerHTML=rows+moneyRowHTML('car','마요르카 렌터카 (9/18~9/22, 4일)',carSub+' · 자동 변속기',
+    [['카약 렌터카',S2_CAR],['카약 SUV',S2_CAR_SUV]],'');
+}
+function renderS2Tour(){
+  $('s2tour').innerHTML=moneyRowHTML('tour','투어·보험 (선택)','견적서와 같은 투어 3개 + 여행자보험 기준',[],fmt(S2_TOUR_DEFAULT));
+}
+function renderS2Options(){
+  const wrap=$('s2options'); wrap.textContent='';
+  for(const g of S2_OPTIONS){
+    const box=document.createElement('div'); box.className='opt';
+    const lb=document.createElement('div'); lb.className='opt-label'; lb.textContent=g.label;
+    const seg=document.createElement('div'); seg.className='seg';
+    for(const it of g.items){
+      const b=document.createElement('button'); b.type='button'; b.setAttribute('aria-pressed',String(s2.opts[g.key]===it.v));
+      const t=document.createElement('span'); t.textContent=it.t;
+      const p=document.createElement('span'); p.className='p num'; p.textContent=it.p;
+      b.append(t,p);
+      b.addEventListener('click',()=>{
+        s2.opts[g.key]=it.v; s2Save();
+        if(g.key==='car') renderS2(); else renderS2Options();
+        s2Calc();
+      });
+      seg.append(b);
+    }
+    box.append(lb,seg); wrap.append(box);
+  }
+}
+function bindS2Rows(){
+  document.querySelectorAll('[data-s2in]').forEach(inp=>{
+    const k=inp.dataset.s2in;
+    if(s2Has(k)) inp.value=s2.manual[k];
+    inp.addEventListener('input',()=>{
+      if(inp.value==='') s2.manual[k]=''; else s2.manual[k]=inp.value;
+      s2Save(); s2Calc();
+    });
+  });
+  document.querySelectorAll('[data-s2cur]').forEach(sel=>{
+    const k=sel.dataset.s2cur;
+    sel.addEventListener('change',()=>{
+      const inp=document.querySelector('[data-s2in="'+k+'"]');
+      const n=inp?Number(inp.value)||0:0;
+      const from=s2Cur(k), to=sel.value;
+      if(n>0 && from!==to){
+        const c=to==='EUR'?n/fx:n*fx;
+        const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+        if(inp) inp.value=out;
+        s2.manual[k]=String(out);
+      }
+      s2.manualCur[k]=to; s2Save(); s2Calc();
+    });
+  });
+}
+function renderS2(){
+  renderS2Intl(); renderS2Hotels(); renderS2Moves(); renderS2Tour(); renderS2Options(); bindS2Rows();
+}
+function s2HotelCalc(h){
+  const p=pricesS2[h.id]||{krw:h.est||0,auto:false};
+  const rec=p.rec||{};
+  const a=s2.hotelActual[h.id]; const av=a?Number(a.v):0;
+  if(a && av>0) return {v:toKRW(av,a.cur||'KRW'),actual:true};
+  if(h.custom) return {v:0,pending:true};
+  let v=p.krw, breakfast=true, aiFc=null, aiMiss=false, roMiss=false, fcMiss=false;
+  if(s2.opts.meal==='allinc' && h.ai){
+    const c=[lastK(rec.ai_history),lastK(rec.gh_ai_history)].filter(Boolean);
+    if(c.length) v=Math.min(...c); else {v+=S2_AI_TOTAL*fx; aiMiss=true;}
+    aiFc=lastK(rec.ai_fc_history); breakfast=false;
+  }
+  if(s2.opts.meal==='mallorcaOnly' && !h.ai){
+    const ro=lastK(rec.ro_history);
+    if(ro) v=ro; else {v-=380000/3; roMiss=true;}
+    breakfast=false;
+  }
+  if(s2.opts.cancel==='free'){
+    const fcs=[lastK(rec.fc_history),lastK(rec.gh_fc_history)].filter(Boolean);
+    const fc=fcs.length?Math.min(...fcs):null;
+    if(breakfast && fc) v=fc;
+    else if(aiFc) v=aiFc;
+    else {v*=1.12; fcMiss=true;}
+  }
+  return {v,actual:false,aiMiss,roMiss,fcMiss};
+}
+function s2Calc(){
+  let hotel=0, actualCnt=0, aiMiss=false, fcMiss=0, roMiss=0, sevPending=false;
+  for(const h of S2_HOTELS){
+    const r=s2HotelCalc(h); hotel+=r.v;
+    if(r.actual) actualCnt++;
+    if(r.aiMiss) aiMiss=true;
+    if(r.fcMiss) fcMiss++;
+    if(r.roMiss) roMiss++;
+    if(h.custom && !r.actual) sevPending=true;
+    const el=document.querySelector('[data-s2price="'+h.id+'"]');
+    if(el){
+      el.textContent=fmt(r.v);
+      const sp=document.createElement('span'); sp.className='est'+(r.actual?' actual':'');
+      sp.textContent=r.actual?'실제 예약가 반영':(r.pending?'미정 (직접 입력 전)':(pricesS2[h.id]&&pricesS2[h.id].auto?'자동 조회가':'예상가 (자동 조회 전)'));
+      el.append(sp);
+    }
+    const conv=document.querySelector('[data-s2actconv="'+h.id+'"]');
+    if(conv){
+      const a=s2.hotelActual[h.id]; const v=a?Number(a.v):0;
+      if(a&&v>0){conv.hidden=false;conv.textContent=a.cur==='EUR'?`= 약 ${fmt(v*fx)}`:`= 약 ${fmtEur(round2(v/fx))}`;}
+      else {conv.hidden=true;conv.textContent='';}
+    }
+  }
+  const srcCount={input:0,auto:0,est:0};
+  let route=0;
+  for(const m of S2_ROUTES){
+    const info=s2RouteInfo(m); route+=info.v; srcCount[info.src]++;
+    const ref=document.querySelector('[data-s2ref="'+m.key+'"]');
+    if(ref){
+      const bits=[];
+      if(info.src==='input') bits.push(`직접 입력값 사용${info.auto!=null?` (조회 참고가 ${fmt(info.auto)})`:''}`);
+      else if(info.src==='auto') bits.push(`조회 참고가 ${fmt(info.auto)} 사용 (수하물 미포함) · 직접 입력하면 그 금액으로 바뀌어요`);
+      else bits.push(`조회 전 예상값 ${fmt(m.est)} 사용`);
+      if(info.err) bits.push(`조회: ${info.err}`);
+      ref.textContent=bits.join(' · ');
+    }
+  }
+  const car=s2CarInfo();
+  const carRef=document.querySelector('[data-s2ref="car"]');
+  if(carRef){
+    const bits=[];
+    if(car.src==='input') bits.push(`직접 입력값 사용${car.auto!=null?` (카약 조회가 ${fmt(car.auto)})`:''}`);
+    else if(car.src==='auto') bits.push(`카약 조회가 ${fmt(car.auto)} 사용 (기본 보험, 풀보험 별도)`);
+    else bits.push(`조회 전 예상값 ${fmt(car.v)} 사용 (기본 보험, 풀보험 별도)`);
+    if(car.err) bits.push(`조회: ${car.err}`);
+    carRef.textContent=bits.join(' · ');
+  }
+  const tourRef=document.querySelector('[data-s2ref="tour"]');
+  if(tourRef) tourRef.textContent=s2Has('tour')?'직접 입력값 사용':`비우면 ${fmt(S2_TOUR_DEFAULT)} 참고값으로 계산해요 (0을 넣으면 빼요)`;
+
+  document.querySelectorAll('[data-s2conv]').forEach(el=>{
+    const k=el.dataset.s2conv; const n=s2Money(k);
+    if(n!==null) el.textContent=s2Cur(k)==='EUR'?`= 약 ${fmt(n)}`:`= 약 ${fmtEur(round2(n/fx))}`;
+    else if(k==='intl') el.textContent=`기본값 ${fmt(S2_INTL_DEFAULT)} 사용`;
+    else el.textContent='';
+  });
+
+  const transfer=Number(s2.opts.transfer)||0;
+  const tour=s2Money('tour')!==null?s2Money('tour'):S2_TOUR_DEFAULT;
+  const intl=s2Money('intl')!==null?s2Money('intl'):S2_INTL_DEFAULT;
+  const local=hotel+route+car.v+transfer+tour;
+  const total=intl+local;
+  const diff=local-S2_AGENCY;
+
+  $('s2bIntl').textContent=fmt(intl);
+  $('s2bHotel').textContent=fmt(hotel);
+  $('s2bRoute').textContent=fmt(route);
+  $('s2bCar').textContent=fmt(car.v);
+  $('s2bTransfer').textContent=fmt(transfer);
+  $('s2bTour').textContent=fmt(tour);
+  $('s2bLocal').textContent=fmt(local);
+  $('s2bTotal').textContent=fmt(total);
+  $('s2TotalValue').textContent=fmt(total);
+  $('s2TotalNote').textContent=`총 예상 합계 · 국제선 ${fmt(intl)} 포함 (2인)`;
+  $('s2LocalValue').textContent=fmt(local);
+  $('s2LocalNote').textContent=`14박 숙소 ${fmt(hotel)} 포함${sevPending?' · 세비야 미정':''}`;
+  $('s2CompareNote').textContent=`일정 1 여행사 견적(8,940,000원)은 12박·세비야·국제선 제외라, 국제선을 뺀 현지 비용끼리 비교했어요: ${diff<=0?'−':'+'}${fmt(Math.abs(diff))} ${diff<=0?'덜 들어요':'더 들어요'}. 일정 2는 14박에 세비야 3박이 더해지고 리스본 1박이 빠진 일정이라 참고용이에요.`;
+
+  const hn=[];
+  if(actualCnt) hn.push(`실제 예약가 ${actualCnt}곳 반영`);
+  if(sevPending) hn.push('세비야 미정(0원)');
+  if(aiMiss) hn.push(`올인클루시브 전환 +€${S2_AI_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(S2_AI_TOTAL*fx)}`);
+  if(roMiss) hn.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액`);
+  if(fcMiss) hn.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상`);
+  if(!hn.length) hn.push('3곳 모두 조식 포함 자동 조회가 기준');
+  $('s2bHotelNote').textContent=hn.join(' / ');
+  $('s2bRouteNote').textContent=`직접 입력 ${srcCount.input} · 조회 참고가 ${srcCount.auto} · 예상값 ${srcCount.est}`;
+  $('s2bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s2.opts.car==='suv'?' · SUV':' · 소형');
+}
+$('s2ResetBtn').addEventListener('click',()=>{
+  s2.opts={...S2_DEFAULT_OPTS}; s2Save(); renderS2Options(); s2Calc();
+  toast('일정 2 옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액·입력값·환율은 그대로예요.');
+});
+function showTab(t){
+  const is1=t!=='s2';
+  $('panel-s1').hidden=!is1; $('panel-s2').hidden=is1;
+  $('tab-s1').setAttribute('aria-selected',String(is1));
+  $('tab-s2').setAttribute('aria-selected',String(!is1));
+  try{localStorage.setItem('honeymoon_tab',is1?'s1':'s2');}catch(e){}
+  window.scrollTo({top:0});
+}
+$('tab-s1').addEventListener('click',()=>showTab('s1'));
+$('tab-s2').addEventListener('click',()=>showTab('s2'));
+try{ if(localStorage.getItem('honeymoon_tab')==='s2') showTab('s2'); }catch(e){}
+
 renderHotels(); renderExtras(); renderOptions(); paintManual(); paintConv(); calculate();
+renderS2(); s2Calc();
 const RAW='https://raw.githubusercontent.com/kimyoonsung96g/honeymoon/main/docs/prices.json';
 fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
  .catch(()=>fetch('prices.json?t='+Date.now()).then(r=>r.json()))
@@ -559,8 +1034,24 @@ fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
     prices[h.id]=best?{krw:best.krw,src:best.src,auto:true,rec}:{krw:h.est,auto:false,rec};
   }
   extras=d.extras||{}; official=d.official||{}; renderExtras();
+  // 일정 2 (같은 호텔·같은 객실, 날짜만 9/8~22)
+  for(const h of S2_HOTELS){
+    if(h.custom) continue;
+    const rec=d.hotels_s2&&d.hotels_s2[h.id]; if(!rec) continue;
+    const latest2=hs=>hs&&hs.length?hs[hs.length-1]:null;
+    const bl=latest2(rec.history), kl=latest2(rec.gh_history);
+    const cands=[];
+    if(bl) cands.push({krw:bl.krw,src:'booking',date:bl.date});
+    if(kl && (!bl || (kl.krw>=bl.krw*0.6 && kl.krw<=bl.krw*1.4))) cands.push({krw:kl.krw,src:'google',date:kl.date});
+    const newest=cands.length?cands.map(c=>c.date).sort().pop():null;
+    const best=cands.filter(c=>c.date===newest).sort((x,y)=>x.krw-y.krw)[0];
+    pricesS2[h.id]=best?{krw:best.krw,src:best.src,auto:true,rec}:{krw:h.est,auto:false,rec};
+  }
+  extrasS2=d.extras_s2||{}; officialS2=d.official_s2||{};
   if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 자동 조회해요.`;
+  if(d.updated) $('s2UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 1과 같은 호텔을 날짜만 9/8~22로 바꿔 조회해요.`;
   renderHotels(); calculate();
+  renderS2(); s2Calc();
 }).catch(()=>{});
 </script>
 </body>
