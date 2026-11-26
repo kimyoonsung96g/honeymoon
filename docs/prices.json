@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 10:23",
+ "updated": "2026-11-26 10:51",
  "hotels": {
   "1": {
    "history": [
@@ -10,7 +10,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -25,11 +25,23 @@
    "method": "rows-v6",
    "ai_fc_history": [],
    "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 더블룸 투숙 가능 인원: 성인 2명 더블침대 1개 이 세련된 객실은 현지 뒤뜰 전망을 자랑합니다. 침대에서 투명하게 보이는 레인 샤워기가 구비되어 있습니다. 객실, 디럭스 더블룸 - 다락 투숙 가능 인원: 성인 2명 대형 더블침대 1개 이 객실은 인더스트리얼 장식, 독)",
-   "gh_history": [],
-   "gh_fc_history": [],
+   "gh_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1637676
+    }
+   ],
+   "gh_fc_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1637676
+    }
+   ],
    "gh_ai_history": [],
-   "gh_error": "사이트별 가격 목록을 찾지 못함",
-   "gh_fc_error": "사이트별 가격 목록을 찾지 못함"
+   "gh_error": "견적 객실 없어 전체 최저가",
+   "gh_fc_error": "견적 객실 없어 전체 최저가",
+   "gh_method": "gh-entity-v1",
+   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
   },
   "2": {
    "history": [
@@ -40,7 +52,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -67,12 +79,24 @@
    ],
    "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스룸 - Ponent 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개 방음 시설과 발코니를 갖춘 이 트윈룸/더블룸에는 에어컨이 설치되어 있습니다. 객실, 디럭스룸 - Tramuntana 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개)",
    "ai_fc_error": null,
-   "gh_history": [],
-   "gh_fc_history": [],
+   "gh_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 2060524
+    }
+   ],
+   "gh_fc_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 2287396
+    }
+   ],
    "gh_ai_history": [],
-   "gh_error": "사이트별 가격 목록을 찾지 못함",
-   "gh_fc_error": "사이트별 가격 목록을 찾지 못함",
-   "gh_ai_error": "사이트별 가격 목록을 찾지 못함"
+   "gh_error": null,
+   "gh_fc_error": null,
+   "gh_ai_error": "구글 호텔에 올인클루시브 표시 요금이 없음",
+   "gh_method": "gh-entity-v1",
+   "gh_note": null
   },
   "3": {
    "history": [
@@ -83,7 +107,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -103,11 +127,23 @@
    "method": "rows-v6",
    "ai_fc_history": [],
    "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: Junior Family Suite with Double Bed and Sofa Bed 소파베드 1개 및 대형 더블침대 1개 단독으로 사용하는 스위트룸, Privilege Double Room with Panoramic City View 더블침대 1개 객실, Super)",
-   "gh_history": [],
-   "gh_fc_history": [],
+   "gh_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 979875
+    }
+   ],
+   "gh_fc_history": [
+    {
+     "date": "2026-11-26",
+     "krw": 1129260
+    }
+   ],
    "gh_ai_history": [],
-   "gh_error": "사이트별 가격 목록을 찾지 못함",
-   "gh_fc_error": "사이트별 가격 목록을 찾지 못함"
+   "gh_error": null,
+   "gh_fc_error": null,
+   "gh_method": "gh-entity-v1",
+   "gh_note": null
   },
   "4": {
    "history": [
@@ -118,7 +154,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -131,7 +167,7 @@
    "ro_history": [
     {
      "date": "2026-11-26",
-     "krw": 411990
+     "krw": 303556
     }
    ],
    "ai_history": [],
@@ -141,15 +177,17 @@
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
-   "gh_error": "사이트별 가격 목록을 찾지 못함",
-   "gh_fc_error": "사이트별 가격 목록을 찾지 못함"
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_method": "gh-entity-v1",
+   "gh_note": null
   }
  },
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-26 10:23",
-   "error": null,
+   "last_check": "2026-11-26 10:51",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-26",
@@ -160,7 +198,7 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "error": null,
    "history": [
     {
@@ -172,7 +210,7 @@
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "error": null,
    "history": [
     {
@@ -188,7 +226,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -204,7 +242,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-26 10:23",
+   "last_check": "2026-11-26 10:51",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
