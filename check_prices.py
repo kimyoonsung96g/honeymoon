@@ -525,6 +525,7 @@ EUR_KRW = 1340  # 유로 표시 요금을 원화로 환산할 때 쓰는 참고 
 EMAS_OCC = ("%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D")
 OFFICIAL = {
     "1": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
+          "home": "https://booking.ohlaboutiquehotels.com/en/",
           "url": "https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
           "ci": "2027-09-06", "co": "2027-09-10", "nights": 4,
           "room": ["essential"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
@@ -668,9 +669,16 @@ def parse_emascaro(rooms, cfg):
 
 def fetch_official_emascaro(page, hid, cfg):
     url = cfg["url"].format(ci=cfg["ci"], co=cfg["co"])
+    # 일부 엔진(올라)은 예약 화면을 그리기 전에 사이트 첫 화면에서 받는 쿠키가 필요함
+    if cfg.get("home"):
+        try:
+            page.goto(cfg["home"], wait_until="domcontentloaded", timeout=60000)
+            page.wait_for_timeout(4000)
+        except Exception:
+            pass
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     rooms = []
-    for _ in range(12):
+    for _ in range(15):
         page.wait_for_timeout(4000)
         rooms = page.evaluate(OFF_FIG_JS) or []
         if any(r.get("heads") and OFF_MONEY.search(r.get("text") or "") for r in rooms):
