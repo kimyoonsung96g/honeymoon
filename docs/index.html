@@ -430,14 +430,19 @@ const DEFAULTS_VER = 2;   // 2: 식사 조건 기본값을 '마요르카만 올�
 const LS_KEY='honeymoon_opts_v3';
 let manual={};        // 직접 입력값 (고른 통화 그대로)
 let manualCur={};     // 직접 입력값 통화 'KRW'|'EUR' (없으면 원)
+const DEFAULT_HOTEL_ACTUAL={
+  '1':{v:'1222.65',cur:'EUR'}, // 올라 에이샴플레 예약확정 [w3c0u2was1] (9/6~10, 조식 포함, 현장 도시세 €114.40 제외)
+  '2':{v:'2661',cur:'EUR'}     // 조에트리 마요르카 예약확정 [grscmdzhf] (9/10~14, 올인클루시브, 현장 도시세 €35 제외)
+};
 let hotelActual={};   // 호텔 id -> {v, cur} : 실제 예약 금액
+let actualEdited={};  // 사용자가 직접 수정/삭제한 호텔 id
 let extras={};
 let picked={};        // 화면에서 직접 고른 옵션 (기본값과 구분)
 let optsMigrated=false;
 let opts={...DEFAULT_OPTS};
 try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
   if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; manualCur=s.manualCur||{};
-         hotelActual=s.hotelActual||{}; picked=s.picked||{}; const r=Number(s.fx);
+         hotelActual=s.hotelActual||{}; actualEdited=s.actualEdited||{}; picked=s.picked||{}; const r=Number(s.fx);
          if(r>0){
            // 예전 버전은 기본값 1340을 무조건 저장했다. 직접 입력한 기록(fxManual)이 없고 값이 옛 기본값이면 자동 환율로 본다.
            // 자동 환율일 때는 저장값을 쓰지 않고 최신 자동 환율(prices.json)을 기다린다 — 예전 기본값이 잠시 보이는 일이 없다.
@@ -445,6 +450,11 @@ try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
            if(fxManual) fx=r; }
          // 예전 저장값의 'breakfast'는 처음 기본값일 수 있으니, 직접 고른 기록이 없으면 새 기본값으로 맞춘다
          if((Number(s.dv)||1)<DEFAULTS_VER && !picked.meal && opts.meal!==DEFAULT_OPTS.meal){ opts.meal=DEFAULT_OPTS.meal; optsMigrated=true; } } }catch(e){}
+for(const id of Object.keys(DEFAULT_HOTEL_ACTUAL)){
+  if(!actualEdited[id] && (!hotelActual[id] || !(Number(hotelActual[id].v)>0))){
+    hotelActual[id]={...DEFAULT_HOTEL_ACTUAL[id]};
+  }
+}
 let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
 const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const fmtEur=n=>'€'+Number(n).toLocaleString('ko-KR',{maximumFractionDigits:2});
@@ -524,11 +534,13 @@ function renderHotels(){
     };
     ain.addEventListener('input',()=>{
       const v=ain.value;
+      actualEdited[h.id]=true;
       if(v===''||!(Number(v)>0)) delete hotelActual[h.id];
       else hotelActual[h.id]={v:v,cur:asel.value};
       save(); paint(); calculate();
     });
     asel.addEventListener('change',()=>{
+      actualEdited[h.id]=true;
       const a=hotelActual[h.id]; const n=Number(a?a.v:ain.value);
       if(n>0 && a && a.cur!==asel.value){
         const to=asel.value, c=to==='EUR'?n/fx:n*fx;
@@ -597,7 +609,7 @@ function renderOptions(){
     box.append(lb,seg); wrap.append(box);
   }
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx,fxManual,dv:DEFAULTS_VER,picked}));}catch(e){}}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,actualEdited,fx,fxManual,dv:DEFAULTS_VER,picked}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
 const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (참고, 수하물 미포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (참고, 수하물 미포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (참고, 수하물 미포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
