@@ -121,6 +121,10 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 .rows div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.9rem}
 .rows div.total{border-bottom:none;font-weight:700;font-size:1.02rem}
 .reset{margin-top:14px}
+.notice{margin:14px 20px 0;border:1px solid var(--saffron);border-radius:10px;padding:10px 12px;background:var(--surface);display:flex;gap:10px;align-items:flex-start;font-size:.82rem}
+.notice p{margin:0;flex:1}
+.notice button{font:inherit;font-size:.95rem;line-height:1.2;border:0;background:transparent;color:var(--muted);cursor:pointer;padding:2px 4px}
+.notice[hidden]{display:none}
 .foot{color:var(--muted);font-size:.78rem;padding:10px 20px 0}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
@@ -156,6 +160,10 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
   </section>
 
   <div class="panel" id="panel-s1" role="tabpanel" aria-labelledby="tab-s1">
+  <div class="notice" id="s1Notice" hidden>
+    <p>식사 조건 기본값을 <strong>마요르카만 올인클루시브</strong>로 바꿨어요. 이 브라우저에 저장돼 있던 '4곳 모두 조식 포함'은 처음 기본값이었기 때문에 새 기본값으로 맞췄어요. 조식 포함으로 보시려면 아래 식사 조건에서 다시 골라 주세요.</p>
+    <button type="button" id="s1NoticeClose" aria-label="안내 닫기">✕</button>
+  </div>
   <header class="verdict" aria-live="polite">
     <h1>신혼여행 견적 비교</h1>
     <p class="trip" id="s1Trip">바르셀로나 4박, 마요르카 4박, 포르투 3박, 리스본 1박 (2027년 9월 6일~18일, 2인, 국제선 제외)</p>
@@ -189,7 +197,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>호텔 가격</h2>
-    <p class="hint" id="updatedHint">매일 오전 9시에 부킹닷컴과 구글 호텔의 조식 포함 최저가(숙박 전체, 2인)를 자동으로 조회하고, 더 싼 쪽으로 계산해요.</p>
+    <p class="hint" id="updatedHint">매일 오전 9시에 부킹닷컴과 구글 호텔 요금(숙박 전체, 2인)을 자동으로 조회하고, 더 싼 쪽으로 계산해요. 마요르카(조에트리)는 기본으로 올인클루시브 요금을 봐요.</p>
     <div id="hotels"></div>
   </section>
 
@@ -210,7 +218,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>옵션</h2>
-    <p class="hint">처음 선택값이 견적서와 같은 조건이에요.</p>
+    <p class="hint">처음에는 마요르카만 올인클루시브로 잡혀 있어요. 조건을 바꾸면 합계가 바로 다시 계산돼요.</p>
     <div id="options"></div>
   </section>
 
@@ -236,12 +244,16 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
       <div><span>현지 합계 (국제선 제외)</span><strong class="num" id="bLocal"></strong></div>
       <div class="total"><span>총합계 (국제선 포함)</span><span class="num" id="bTotal"></span></div>
     </div>
-    <button class="btn reset" id="resetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
+    <button class="btn reset" id="resetBtn" type="button">옵션을 기본값으로 되돌리기</button>
   </section>
   <p class="foot">가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
   </div>
 
   <div class="panel" id="panel-s2" role="tabpanel" aria-labelledby="tab-s2" hidden>
+    <div class="notice" id="s2Notice" hidden>
+      <p>식사 조건 기본값을 <strong>마요르카만 올인클루시브</strong>로 바꿨어요. 이 브라우저에 저장돼 있던 '3곳 모두 조식 포함'은 처음 기본값이었기 때문에 새 기본값으로 맞췄어요. 조식 포함으로 보시려면 아래 식사 조건에서 다시 골라 주세요.</p>
+      <button type="button" id="s2NoticeClose" aria-label="안내 닫기">✕</button>
+    </div>
     <header class="verdict" aria-live="polite">
       <h1>일정 2 견적 비교</h1>
       <p class="trip">바르셀로나 4박 · 세비야 3박 · 포르투 3박 · 마요르카 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
@@ -280,7 +292,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>옵션</h2>
-      <p class="hint">처음 선택값이 견적서와 같은 조건이에요.</p>
+      <p class="hint">처음에는 마요르카만 올인클루시브로 잡혀 있어요. 조건을 바꾸면 합계가 바로 다시 계산돼요.</p>
       <div id="s2options"></div>
     </section>
 
@@ -296,12 +308,16 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
         <div><span>현지 비용 합계 (국제선 제외)</span><strong class="num" id="s2bLocal"></strong></div>
         <div class="total"><span>총 예상 합계 (국제선 포함)</span><span class="num" id="s2bTotal"></span></div>
       </div>
-      <button class="btn reset" id="s2ResetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
+      <button class="btn reset" id="s2ResetBtn" type="button">옵션을 기본값으로 되돌리기</button>
     </section>
     <p class="foot">일정 1과 같은 방식으로 부킹닷컴·구글 호텔·공식 홈페이지를 날짜만 바꿔 조회해요. 가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
   </div>
 
   <div class="panel" id="panel-s3" role="tabpanel" aria-labelledby="tab-s3" hidden>
+    <div class="notice" id="s3Notice" hidden>
+      <p>식사 조건 기본값을 <strong>마요르카만 올인클루시브</strong>로 바꿨어요. 이 브라우저에 저장돼 있던 '3곳 모두 조식 포함'은 처음 기본값이었기 때문에 새 기본값으로 맞췄어요. 조식 포함으로 보시려면 아래 식사 조건에서 다시 골라 주세요.</p>
+      <button type="button" id="s3NoticeClose" aria-label="안내 닫기">✕</button>
+    </div>
     <header class="verdict" aria-live="polite">
       <h1>일정 3 견적 비교</h1>
       <p class="trip">마요르카 4박 · 세비야 3박 · 포르투 3박 · 바르셀로나 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
@@ -340,7 +356,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>옵션</h2>
-      <p class="hint">처음 선택값이 견적서와 같은 조건이에요.</p>
+      <p class="hint">처음에는 마요르카만 올인클루시브로 잡혀 있어요. 조건을 바꾸면 합계가 바로 다시 계산돼요.</p>
       <div id="s3options"></div>
     </section>
 
@@ -356,7 +372,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
         <div><span>현지 비용 합계 (국제선 제외)</span><strong class="num" id="s3bLocal"></strong></div>
         <div class="total"><span>총 예상 합계 (국제선 포함)</span><span class="num" id="s3bTotal"></span></div>
       </div>
-      <button class="btn reset" id="s3ResetBtn" type="button">옵션을 견적서 조건으로 되돌리기</button>
+      <button class="btn reset" id="s3ResetBtn" type="button">옵션을 기본값으로 되돌리기</button>
     </section>
     <p class="foot">일정 2와 같은 방식으로 부킹닷컴·구글 호텔·공식 홈페이지를 날짜만 바꿔 조회해요. 가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
   </div>
@@ -401,16 +417,21 @@ const OPTIONS = [
     {v:390000, t:'전용차량 픽업 (견적과 같음)', p:'390,000원'},
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
-const DEFAULT_OPTS = {cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
+const DEFAULT_OPTS = {cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
+const DEFAULTS_VER = 2;   // 2: 식사 조건 기본값을 '마요르카만 올인클루시브'(allinc)로 바꾼 버전
 const LS_KEY='honeymoon_opts_v3';
 let manual={};        // 직접 입력값 (고른 통화 그대로)
 let manualCur={};     // 직접 입력값 통화 'KRW'|'EUR' (없으면 원)
 let hotelActual={};   // 호텔 id -> {v, cur} : 실제 예약 금액
 let extras={};
+let picked={};        // 화면에서 직접 고른 옵션 (기본값과 구분)
+let optsMigrated=false;
 let opts={...DEFAULT_OPTS};
 try{ const s=JSON.parse(localStorage.getItem(LS_KEY));
   if(s){ opts={...DEFAULT_OPTS,...(s.opts||{})}; manual=s.manual||{}; manualCur=s.manualCur||{};
-         hotelActual=s.hotelActual||{}; const r=Number(s.fx); if(r>0) fx=r; } }catch(e){}
+         hotelActual=s.hotelActual||{}; picked=s.picked||{}; const r=Number(s.fx); if(r>0) fx=r;
+         // 예전 저장값의 'breakfast'는 처음 기본값일 수 있으니, 직접 고른 기록이 없으면 새 기본값으로 맞춘다
+         if((Number(s.dv)||1)<DEFAULTS_VER && !picked.meal && opts.meal!==DEFAULT_OPTS.meal){ opts.meal=DEFAULT_OPTS.meal; optsMigrated=true; } } }catch(e){}
 let prices={}; let aiNote=''; let official={};  // id -> {krw, auto, rec} / 공식 홈페이지 요금
 const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const fmtEur=n=>'€'+Number(n).toLocaleString('ko-KR',{maximumFractionDigits:2});
@@ -557,13 +578,13 @@ function renderOptions(){
       const t=document.createElement('span'); t.textContent=it.t;
       const p=document.createElement('span'); p.className='p num'; p.textContent=it.p;
       b.append(t,p);
-      b.addEventListener('click',()=>{opts[g.key]=it.v; save(); renderOptions(); calculate();});
+      b.addEventListener('click',()=>{opts[g.key]=it.v; picked[g.key]=it.v; save(); renderOptions(); calculate();});
       seg.append(b);
     }
     box.append(lb,seg); wrap.append(box);
   }
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx}));}catch(e){}}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,fx,dv:DEFAULTS_VER,picked}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
 const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (참고, 수하물 미포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (참고, 수하물 미포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (참고, 수하물 미포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
@@ -626,6 +647,7 @@ function calculate(){
   if(roMiss) notes.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액 사용`);
   if(fcMiss) notes.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상치 사용`);
   if(actualCnt) notes.push(`실제 예약가 반영 ${actualCnt}곳`);
+  if(!notes.length) notes.push(opts.meal==='allinc'?'마요르카는 올인클루시브, 나머지 3곳은 조식 포함 자동 조회가 기준':'4곳 모두 조식 포함 자동 조회가 기준');
   $('aiNote').textContent=notes.join(' / ');
 
   const M=k=>toKRW(Number(manual[k])||0, curOf(k));
@@ -715,7 +737,7 @@ fxIn.addEventListener('blur',()=>{ if(!(Number(fxIn.value)>0)) fxIn.value=fx; })
 cE.addEventListener('input',()=>{ cK.value=''; paintConv(); });
 cK.addEventListener('input',()=>{ cE.value=''; paintConv(); });
 
-$('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};save();renderOptions();calculate();toast('옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액과 환율은 그대로예요.');});
+$('resetBtn').addEventListener('click',()=>{opts={...DEFAULT_OPTS};picked={};save();renderOptions();calculate();toast('옵션을 기본값으로 되돌렸어요(마요르카만 올인클루시브). 실제 예약 금액과 환율은 그대로예요.');});
 
 /* ================= 일정 2 (2027-09-08~09-22, 14박) ================= */
 const S2_LS='honeymoon_s2_v1';
@@ -770,14 +792,16 @@ const S2_OPTIONS=[
     {v:390000, t:'전용차량 픽업 (견적과 같음)', p:'390,000원'},
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
-const S2_DEFAULT_OPTS={cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
-let s2={opts:{...S2_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:''};
+const S2_DEFAULT_OPTS={cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
+let s2={opts:{...S2_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:'', picked:{}};
+let s2Migrated=false;
 let pricesS2={}, extrasS2={}, officialS2={};
 try{
   const st=JSON.parse(localStorage.getItem(S2_LS));
-  if(st) s2={...s2, ...st, opts:{...S2_DEFAULT_OPTS, ...(st.opts||{})}};
+  if(st){ s2={...s2, ...st, opts:{...S2_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+    if((Number(st.dv)||1)<DEFAULTS_VER && !s2.picked.meal && s2.opts.meal!==S2_DEFAULT_OPTS.meal){ s2.opts.meal=S2_DEFAULT_OPTS.meal; s2Migrated=true; } }
 }catch(e){}
-const s2Save=()=>{try{localStorage.setItem(S2_LS,JSON.stringify(s2));}catch(e){}};
+const s2Save=()=>{try{localStorage.setItem(S2_LS,JSON.stringify({...s2,dv:DEFAULTS_VER}));}catch(e){}};
 const s2Cur=k=>s2.manualCur[k]||'KRW';
 const s2Has=k=>s2.manual[k]!==undefined && s2.manual[k]!=='';
 const s2Money=k=>s2Has(k)?toKRW(Number(s2.manual[k])||0,s2Cur(k)):null;
@@ -951,7 +975,7 @@ function renderS2Options(){
       const p=document.createElement('span'); p.className='p num'; p.textContent=it.p;
       b.append(t,p);
       b.addEventListener('click',()=>{
-        s2.opts[g.key]=it.v; s2Save();
+        s2.opts[g.key]=it.v; s2.picked[g.key]=it.v; s2Save();
         if(g.key==='car') renderS2(); else renderS2Options();
         s2Calc();
       });
@@ -1107,14 +1131,14 @@ function s2Calc(){
   if(aiMiss) hn.push(`올인클루시브 전환 +€${S2_AI_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(S2_AI_TOTAL*fx)}`);
   if(roMiss) hn.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액`);
   if(fcMiss) hn.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상`);
-  if(!hn.length) hn.push('3곳 모두 조식 포함 자동 조회가 기준');
+  if(!hn.length) hn.push(s2.opts.meal==='allinc'?'마요르카는 올인클루시브, 나머지 2곳은 조식 포함 자동 조회가 기준':'3곳 모두 조식 포함 자동 조회가 기준');
   $('s2bHotelNote').textContent=hn.join(' / ');
   $('s2bRouteNote').textContent=`직접 입력 ${srcCount.input} · 조회 참고가 ${srcCount.auto} · 예상값 ${srcCount.est}`;
   $('s2bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s2.opts.car==='suv'?' · SUV':' · 소형');
 }
 $('s2ResetBtn').addEventListener('click',()=>{
-  s2.opts={...S2_DEFAULT_OPTS}; s2Save(); renderS2(); s2Calc();
-  toast('일정 2 옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액·입력값·환율은 그대로예요.');
+  s2.opts={...S2_DEFAULT_OPTS}; s2.picked={}; s2Save(); renderS2(); s2Calc();
+  toast('일정 2 옵션을 기본값으로 되돌렸어요(마요르카만 올인클루시브). 실제 예약 금액·입력값·환율은 그대로예요.');
 });
 /* ================= 일정 3 (2027-09-08~09-22, 14박: 마요르카→세비야→포르투→바르셀로나) ================= */
 const S3_LS='honeymoon_s3_v1';
@@ -1169,14 +1193,16 @@ const S3_OPTIONS=[
     {v:390000, t:'전용차량 픽업 (견적과 같음)', p:'390,000원'},
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
-const S3_DEFAULT_OPTS={cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
-let s3={opts:{...S3_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:''};
+const S3_DEFAULT_OPTS={cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
+let s3={opts:{...S3_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:'', picked:{}};
+let s3Migrated=false;
 let pricesS3={}, extrasS3={}, officialS3={};
 try{
   const st=JSON.parse(localStorage.getItem(S3_LS));
-  if(st) s3={...s3, ...st, opts:{...S3_DEFAULT_OPTS, ...(st.opts||{})}};
+  if(st){ s3={...s3, ...st, opts:{...S3_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+    if((Number(st.dv)||1)<DEFAULTS_VER && !s3.picked.meal && s3.opts.meal!==S3_DEFAULT_OPTS.meal){ s3.opts.meal=S3_DEFAULT_OPTS.meal; s3Migrated=true; } }
 }catch(e){}
-const s3Save=()=>{try{localStorage.setItem(S3_LS,JSON.stringify(s3));}catch(e){}};
+const s3Save=()=>{try{localStorage.setItem(S3_LS,JSON.stringify({...s3,dv:DEFAULTS_VER}));}catch(e){}};
 const s3Cur=k=>s3.manualCur[k]||'KRW';
 const s3Has=k=>s3.manual[k]!==undefined && s3.manual[k]!=='';
 const s3Money=k=>s3Has(k)?toKRW(Number(s3.manual[k])||0,s3Cur(k)):null;
@@ -1337,7 +1363,7 @@ function renderS3Options(){
       const p=document.createElement('span'); p.className='p num'; p.textContent=it.p;
       b.append(t,p);
       b.addEventListener('click',()=>{
-        s3.opts[g.key]=it.v; s3Save();
+        s3.opts[g.key]=it.v; s3.picked[g.key]=it.v; s3Save();
         if(g.key==='car') renderS3(); else renderS3Options();
         s3Calc();
       });
@@ -1493,14 +1519,14 @@ function s3Calc(){
   if(aiMiss) hn.push(`올인클루시브 전환 +€${S3_AI_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(S3_AI_TOTAL*fx)}`);
   if(roMiss) hn.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액`);
   if(fcMiss) hn.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상`);
-  if(!hn.length) hn.push('3곳 모두 조식 포함 자동 조회가 기준');
+  if(!hn.length) hn.push(s3.opts.meal==='allinc'?'마요르카는 올인클루시브, 나머지 2곳은 조식 포함 자동 조회가 기준':'3곳 모두 조식 포함 자동 조회가 기준');
   $('s3bHotelNote').textContent=hn.join(' / ');
   $('s3bRouteNote').textContent=`직접 입력 ${srcCount.input} · 조회 참고가 ${srcCount.auto} · 예상값 ${srcCount.est}`;
   $('s3bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s3.opts.car==='suv'?' · SUV':' · 소형');
 }
 $('s3ResetBtn').addEventListener('click',()=>{
-  s3.opts={...S3_DEFAULT_OPTS}; s3Save(); renderS3(); s3Calc();
-  toast('일정 3 옵션만 견적서 조건으로 되돌렸어요. 실제 예약 금액·입력값·환율은 그대로예요.');
+  s3.opts={...S3_DEFAULT_OPTS}; s3.picked={}; s3Save(); renderS3(); s3Calc();
+  toast('일정 3 옵션을 기본값으로 되돌렸어요(마요르카만 올인클루시브). 실제 예약 금액·입력값·환율은 그대로예요.');
 });
 function showTab(t){
   const tab=(t==='s2'||t==='s3')?t:'s1';
@@ -1519,6 +1545,13 @@ try{ const t=localStorage.getItem('honeymoon_tab'); if(t==='s2'||t==='s3') showT
 renderHotels(); renderExtras(); renderOptions(); paintManual(); paintConv(); calculate();
 renderS2(); s2Calc();
 renderS3(); s3Calc();
+// 식사 조건 기본값 변경(DEFAULTS_VER 2) 전에 저장된 '조식 포함'은 기본값이었으므로 새 기본값으로 한 번만 옮기고 알려준다
+if(optsMigrated){ save(); $('s1Notice').hidden=false; }
+if(s2Migrated){ s2Save(); $('s2Notice').hidden=false; }
+if(s3Migrated){ s3Save(); $('s3Notice').hidden=false; }
+$('s1NoticeClose').addEventListener('click',()=>{ $('s1Notice').hidden=true; });
+$('s2NoticeClose').addEventListener('click',()=>{ $('s2Notice').hidden=true; });
+$('s3NoticeClose').addEventListener('click',()=>{ $('s3Notice').hidden=true; });
 const RAW='https://raw.githubusercontent.com/kimyoonsung96g/honeymoon/main/docs/prices.json';
 fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
  .catch(()=>fetch('prices.json?t='+Date.now()).then(r=>r.json()))
@@ -1565,7 +1598,7 @@ fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
     pricesS3[h.id]=best?{krw:best.krw,src:best.src,auto:true,rec}:{krw:h.est,auto:false,rec};
   }
   extrasS3=d.extras_s3||{}; officialS3=d.official_s3||{};
-  if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 자동 조회해요.`;
+  if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 조회하고, 마요르카(조에트리)는 기본으로 올인클루시브 요금을 봐요.`;
   if(d.updated) $('s2UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 1과 같은 호텔을 날짜만 9/8~22로 바꿔 조회해요.`;
   if(d.updated) $('s3UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 3 날짜(9/8~22)로 같은 호텔·객실을 조회해요.`;
   renderHotels(); calculate();
