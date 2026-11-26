@@ -741,7 +741,7 @@ function paintConv(){
 function fxStatus(){
   const el=$('fxHint'), btn=$('fxAutoBtn');
   if(el) el.textContent = fxManual
-    ? `직접 입력한 환율을 쓰고 있어요. 자동 조회 환율은 1 EUR = ${fmt(fxAuto)}원이에요.`
+    ? `직접 입력한 환율을 쓰고 있어요. 자동 조회 환율은 1 EUR = ${fmt(fxAuto)}이에요.`
     : `매일 자동으로 조회한 환율이 반영돼요${fxAutoDate?` (${fxAutoDate} 기준)`:''}. 숫자를 직접 바꾸면 그 값이 저장돼요.`;
   if(btn) btn.hidden = !fxManual;
 }
@@ -757,7 +757,7 @@ fxIn.addEventListener('input',()=>{
   applyFx(n, true);
 });
 fxIn.addEventListener('blur',()=>{ if(!(Number(fxIn.value)>0)) fxIn.value=fx; });
-$('fxAutoBtn').addEventListener('click',()=>{ applyFx(fxAuto,false); toast(`자동 조회 환율 1 EUR = ${fmt(fxAuto)}원으로 되돌렸어요.`); });
+$('fxAutoBtn').addEventListener('click',()=>{ applyFx(fxAuto,false); toast(`자동 조회 환율 1 EUR = ${fmt(fxAuto)}으로 되돌렸어요.`); });
 fxStatus();
 cE.addEventListener('input',()=>{ cK.value=''; paintConv(); });
 cK.addEventListener('input',()=>{ cE.value=''; paintConv(); });
