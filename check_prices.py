@@ -420,7 +420,7 @@ def _gh_price_tab(page):
 def gh_total(vals, nights):
     """한 줄에 [할인 1박, 정가 1박, 정가 총액] 이 (중복 렌더로 두 번) 들어오는 구조를 처리.
     값이 급락하면 새 묶음으로 보고, 묶음마다 가장 큰 값(그 묶음의 숙박 총액)을 쓴 뒤 가장 싼 묶음을 고른다.
-    총액이 없는 묶음(1박 요금만 있는 줄)은 1박 요금 x 숙박일수."""
+    총액이 없는 묶음(1박 요금만 있는 줄: 할인·정가 두 값이 비슷함)은 1박 요금 x 숙박일수."""
     groups, cur = [], []
     for v in vals:
         if cur and v < cur[-1] * 0.6:
@@ -430,7 +430,17 @@ def gh_total(vals, nights):
             cur.append(v)
     if cur:
         groups.append(cur)
-    totals = [max(g) if len(g) > 1 else max(g) * nights for g in groups if g]
+    totals = []
+    for g in groups:
+        if not g:
+            continue
+        m = max(g)
+        # 값이 둘뿐이고 서로 비슷하면 숙박 총액 없이 1박 요금(할인·정가)만 있는 줄이다
+        # (예: 2027-09-18~22 오라 — ₩556,961 ₩529,116). 이걸 총액으로 읽으면 4배 가량 낮아진다.
+        if len(g) == 1 or (len(g) == 2 and m < min(g) * 1.5):
+            totals.append(m * nights)
+        else:
+            totals.append(m)
     return min(totals) if totals else None
 
 
