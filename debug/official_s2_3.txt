@@ -1,0 +1,2 @@
+=== 조에트리 공식(World of Hyatt) 2027-09-18~2027-09-22 / no-availability 화면 ===
+https://bookings.hyattinclusivecollection.com/bookcore/no-availability-v2/?adults=2&babies=0&checkin=2027-09-18&checkout=2027-09-22&children-ages=&cp=&hotelCode=satorre&isDesktop=true&ninos=0&occp=1&occupancies=%5B%7B%22adults%22%3A+2%2C+%22children%22%3A+0%2C+%22ages%22%3A+%22%22%7D%5D&rrc=1&lang=en
