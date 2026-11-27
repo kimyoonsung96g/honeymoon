@@ -148,7 +148,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
   <nav class="tabs" role="tablist" aria-label="일정 선택">
     <button type="button" role="tab" id="tab-s1" aria-controls="panel-s1" aria-selected="true">일정 1<small>9/6~18 · 12박</small><small class="rt">BCN→PMI→OPO→LIS</small></button>
     <button type="button" role="tab" id="tab-s2" aria-controls="panel-s2" aria-selected="false">일정 2<small>9/8~22 · 14박</small><small class="rt">BCN→PMI→SVQ→OPO</small></button>
-    <button type="button" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false">일정 3<small>9/8~22 · 14박</small><small class="rt">PMI→SVQ→OPO→BCN</small></button>
+    <button type="button" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false">일정 3<small>9/8~22 · 14박</small><small class="rt">PMI→OPO→SVQ→BCN</small></button>
   </nav>
 
   <section>
@@ -319,12 +319,12 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <div class="panel" id="panel-s3" role="tabpanel" aria-labelledby="tab-s3" hidden>
     <div class="notice" id="s3Notice" hidden>
-      <p>식사 조건 기본값을 <strong>마요르카만 올인클루시브</strong>로 바꿨어요. 이 브라우저에 저장돼 있던 '3곳 모두 조식 포함'은 처음 기본값이었기 때문에 새 기본값으로 맞췄어요. 조식 포함으로 보시려면 아래 식사 조건에서 다시 골라 주세요.</p>
+      <p>식사 조건 기본값을 <strong>마요르카만 올인클루시브</strong>로 바꿨어요. 이 브라우저에 저장돼 있던 '4곳 모두 조식 포함'은 처음 기본값이었기 때문에 새 기본값으로 맞췄어요. 조식 포함으로 보시려면 아래 식사 조건에서 다시 골라 주세요.</p>
       <button type="button" id="s3NoticeClose" aria-label="안내 닫기">✕</button>
     </div>
     <header class="verdict" aria-live="polite">
       <h1>일정 3 견적 비교</h1>
-      <p class="trip">마요르카 4박 · 세비야 3박 · 포르투 3박 · 바르셀로나 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
+      <p class="trip">마요르카 4박 · 포르투 3박 · 세비야 3박 · 바르셀로나 4박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
       <p class="diff num" id="s3DiffValue">0원</p>
       <p class="diff-note" id="s3DiffNote"></p>
       <div class="compare">
@@ -342,7 +342,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>호텔 가격</h2>
-      <p class="hint" id="s3UpdatedHint">매일 오전 9시에 부킹닷컴·구글 호텔·공식 홈페이지 요금을 자동 조회해요. 일정 2와 같은 호텔·객실을 이 일정 날짜로 바꾼 값이에요.</p>
+      <p class="hint" id="s3UpdatedHint">매일 오전 9시에 부킹닷컴·구글 호텔·공식 홈페이지 요금을 자동 조회해요. 11/27 허니문리조트 마요르카 선투숙 견적서(4도시 14박)와 같은 호텔·객실 기준이에요.</p>
       <div id="s3hotels"></div>
     </section>
 
@@ -1183,9 +1183,9 @@ $('s2ResetBtn').addEventListener('click',()=>{
   s2.opts={...S2_DEFAULT_OPTS}; s2.picked={}; s2Save(); renderS2(); s2Calc();
   toast('일정 2 옵션을 기본값으로 되돌렸어요(마요르카만 올인클루시브). 실제 예약 금액·입력값·환율은 그대로예요.');
 });
-/* ================= 일정 3 (2027-09-08~09-22, 14박: 마요르카→세비야→포르투→바르셀로나) ================= */
-const S3_LS='honeymoon_s3_v1';
-const S3_AGENCY=AGENCY_PRICE;                 // 일정 1 여행사 견적 (현지 비용 비교 참고)
+/* ================= 일정 3 (2027-09-08~09-22, 14박 · 11/27 마요르카 선투숙 견적서 기준: 마요르카→포르투→세비야→바르셀로나) ================= */
+const S3_LS='honeymoon_s3_v2';
+const S3_AGENCY=10780000;                     // 11/27 마요르카 선투숙 견적 (1인 5,590,000 - 삼성박람회 200,000 = 5,390,000 × 2, 국제선 제외)
 const S3_INTL_DEFAULT=4586800;                // 트리니티항공 9/8~9/22 2인 (구글 항공 1인 2,293,400원 × 2)
 const S3_TOUR_DEFAULT=380000;                 // 투어 3개 + 여행자보험 참고값
 const S3_AI_TOTAL=ZOETRY_AI_UPGRADE_TOTAL;    // €1,600 (2인 4박)
@@ -1193,40 +1193,44 @@ const S3_CAR='https://www.kayak.co.kr/cars/PMI/2027-09-08-12h/2027-09-12-12h?sor
 const S3_CAR_SUV=S3_CAR+'&fs=carclass=suv';
 const S3_OFF={
  '1':'https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/2027-09-08/2027-09-12/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1',
- '2':'https://all.accor.com/booking/en/accor/hotel/1975?dateIn=2027-09-15&nights=3&compositions=2&stayplus=false',
- '3':'https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/2027-09-18/2027-09-22/2/0/?rrc=1&adults=2&occupancies=%5B%7B%22adults%22%3A%202%2C%20%22children%22%3A%200%2C%20%22ages%22%3A%20%22%22%7D%5D&occp=1'
+ '2':'https://www.oneshothotels.com/en/hotels/porto/aliados-goldsmith/',
+ '3':'https://www.hotelescenter.es/en/hotel-sevilla-center/',
+ '4':'https://www.pestana.com/en/hotel/pestana-arena-barcelona'
 };
 const GHL3={'1':GHQ('Zoetry Mallorca','2027-09-08','2027-09-12'),
- '2':GHQ('Mercure Porto Centro Santa Catarina','2027-09-15','2027-09-18'),
- '3':GHQ('Ohla Eixample Barcelona','2027-09-18','2027-09-22')};
+ '2':GHQ('One Shot Aliados Goldsmith','2027-09-12','2027-09-15'),
+ '3':GHQ('Hotel Sevilla Center','2027-09-15','2027-09-18'),
+ '4':GHQ('Pestana Arena Barcelona','2027-09-18','2027-09-22')};
 const S3_HOTELS=[
  {id:'1',city:'마요르카',nights:4,dates:'9/8~9/12',name:'Zoëtry Mallorca',room:'Double Ponent, 조식 포함',est:2262514,ai:true,
   booking:'https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-08&checkout=2027-09-12&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['1'],
   kayak:'https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-08/2027-09-12/2adults?fs=freebies=free-breakfast'},
- {id:'sev',city:'세비야',nights:3,dates:'9/12~9/15',name:'세비야 숙소',room:'숙소 미정 · 직접 입력',est:0,custom:true},
- {id:'2',city:'포르투',nights:3,dates:'9/15~9/18',name:'Mercure Porto Centro',room:'Standard Double, 조식 포함',est:1037366,
-  booking:'https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-15&checkout=2027-09-18&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['2'],
-  kayak:'https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-15/2027-09-18/2adults?fs=freebies=free-breakfast'},
- {id:'3',city:'바르셀로나',nights:4,dates:'9/18~9/22',name:'Ohla Eixample',room:'Essential, 조식 포함',est:2038115,
-  booking:'https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-18&checkout=2027-09-22&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['3'],
-  kayak:'https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-18/2027-09-22/2adults?fs=freebies=free-breakfast'}
+ {id:'2',city:'포르투',nights:3,dates:'9/12~9/15',name:'One Shot Aliados Goldsmith',room:'Standard, 조식 포함',est:850000,
+  booking:'https://www.booking.com/hotel/pt/one-shot-aliados-goldsmith-12.ko.html?checkin=2027-09-12&checkout=2027-09-15&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['2'],
+  kayak:'https://www.kayak.co.kr/hotels/One-Shot-Aliados-Goldsmith,Porto,Portugal-h6179049-details/2027-09-12/2027-09-15/2adults?fs=freebies=free-breakfast'},
+ {id:'3',city:'세비야',nights:3,dates:'9/15~9/18',name:'Hotel Sevilla Center',room:'STANDARD ROOM, 조식 포함',est:750000,
+  booking:'https://www.booking.com/hotel/es/sevillacenter.ko.html?checkin=2027-09-15&checkout=2027-09-18&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['3'],
+  kayak:'https://www.kayak.co.kr/hotels/Hotel-Sevilla-Center,Seville,Spain-h45565-details/2027-09-15/2027-09-18/2adults?fs=freebies=free-breakfast'},
+ {id:'4',city:'바르셀로나',nights:4,dates:'9/18~9/22',name:'Pestana Arena Barcelona',room:'Standard room, 조식 포함 (예약 후 환불불가)',est:1400000,
+  booking:'https://www.booking.com/hotel/es/pestana-arena-barcelona.ko.html?checkin=2027-09-18&checkout=2027-09-22&group_adults=2&no_rooms=1&selected_currency=KRW&nflt=mealplan%3D1',google:GHL3['4'],
+  kayak:'https://www.kayak.co.kr/hotels/Pestana-Arena-Barcelona,Barcelona,Spain-c22567-h106172-details/2027-09-18/2027-09-22/2adults?fs=freebies=free-breakfast'}
 ];
 const S3_ROUTES=[
- {key:'fl_bcn_pmi',label:'바르셀로나→마요르카 항공 (9/8, 20kg 포함)',sub:'입국 당일 이동 · 약 1시간',est:95000,
+ {key:'fl_bcn_pmi',label:'바르셀로나→마요르카 항공 (9/8, 20kg 포함)',sub:'견적 기준 UX6103 (22:05→23:05) · 입국 당일 이동',est:95000,
   links:[['구글 항공편',GF('BCN','PMI','2027-09-08')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/bcn/pmi/270908/?adultsv2=2']]},
- {key:'fl_pmi_svq',label:'마요르카→세비야 항공 (9/12, 20kg 포함)',est:170000,
-  links:[['구글 항공편',GF('PMI','SVQ','2027-09-12')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/pmi/svq/270912/?adultsv2=2']]},
- {key:'fl_svq_opo',label:'세비야→포르투 항공 (9/15, 20kg 포함)',est:130000,
-  links:[['구글 항공편',GF('SVQ','OPO','2027-09-15')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/svq/opo/270915/?adultsv2=2']]},
- {key:'fl_opo_bcn',label:'포르투→바르셀로나 항공 (9/18, 20kg 포함)',est:170000,
-  links:[['구글 항공편',GF('OPO','BCN','2027-09-18')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/opo/bcn/270918/?adultsv2=2']]}
+ {key:'fl_pmi_opo',label:'마요르카→포르투 항공 (9/12, 20kg 포함)',sub:'견적 기준 FR6751 (13:50→14:45) · 약 1시간 55분',est:170000,
+  links:[['구글 항공편',GF('PMI','OPO','2027-09-12')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/pmi/opo/270912/?adultsv2=2']]},
+ {key:'fl_opo_svq',label:'포르투→세비야 항공 (9/15, 20kg 포함)',sub:'견적 기준 FR5467 (20:50→23:05) · 약 1시간 15분',est:130000,
+  links:[['구글 항공편',GF('OPO','SVQ','2027-09-15')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/opo/svq/270915/?adultsv2=2']]},
+ {key:'fl_svq_bcn',label:'세비야→바르셀로나 항공 (9/18, 20kg 포함)',sub:'견적 기준 VY1391 (16:15→18:00) · 약 1시간 45분',est:170000,
+  links:[['구글 항공편',GF('SVQ','BCN','2027-09-18')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/svq/bcn/270918/?adultsv2=2']]}
 ];
 const S3_OPTIONS=[
-  {key:'cancel', label:'호텔 예약 조건 (세비야 제외 3곳 공통)', items:[
+  {key:'cancel', label:'호텔 예약 조건 (4곳 공통)', items:[
     {v:'nonref', t:'환불 불가 (견적과 같음)', p:'조회가'},
     {v:'free', t:'무료 취소 가능', p:'조회가'}]},
   {key:'meal', label:'식사 조건', items:[
-    {v:'breakfast', t:'3곳 모두 조식 포함 (견적과 같음)', p:'조회가'},
+    {v:'breakfast', t:'4곳 모두 조식 포함 (견적과 같음)', p:'조회가'},
     {v:'allinc', t:'마요르카만 올인클루시브', p:'인당·1박 €200 추가'},
     {v:'mallorcaOnly', t:'마요르카만 조식 포함', p:'조회가'}]},
   {key:'car', label:'마요르카 렌터카', items:[
@@ -1238,8 +1242,7 @@ const S3_OPTIONS=[
 ];
 const S3_DEFAULT_OPTS={cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
 const S3_DEFAULT_HOTEL_ACTUAL={
-  '1':{v:'2731',cur:'EUR'},    // 조에트리 마요르카 예약확정 [esbgq9jtt] (9/8~12, 올인클루시브, 현장 도시세 €35 제외)
-  '3':{v:'1580.8',cur:'EUR'}   // 올라 에이샴플레 예약확정 [0236r6twm] (9/18~22, 조식 포함, 현장 도시세 €114.40 제외)
+  '1':{v:'2731',cur:'EUR'}    // 조에트리 마요르카 예약확정 [esbgq9jtt] (9/8~12, 올인클루시브, 현장 도시세 €35 제외)
 };
 let s3={opts:{...S3_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, actualEdited:{}, sevName:'', picked:{}};
 let s3Migrated=false;
@@ -1300,7 +1303,7 @@ function renderS3Intl(){
     </div>
     <div class="conv num" data-s3conv="intl" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
     <div class="history">기본값 4,586,800원 · 구글 항공 기준가 1인 2,293,400원 × 2. 비우면 기본값으로 계산해요.</div>
-    <div class="history">트리니티항공 직항은 월·수·금·토 운항, 9/8(수) 인천 11:20 → 바르셀로나 19:00 / 9/22(수) 바르셀로나 21:00 → 인천 16:40+1. 입국 당일 바르셀로나→마요르카로 바로 이동해요.</div>
+    <div class="history">트리니티항공 직항은 9/8(수) 인천 11:20 → 바르셀로나 19:00 / 9/22(수) 바르셀로나 21:00 → 인천 16:40+1. (견적서 추천편: 대한항공 KE915/916 개별발권)</div>
     <div class="hotel-actions">
       <a class="btn" href="https://www.google.com/travel/flights?q=${encodeURIComponent('Flights from ICN to BCN on 2027-09-08 through 2027-09-22')}&curr=KRW&hl=ko&gl=KR" target="_blank" rel="noopener">구글 항공편</a>
       <a class="btn" href="https://www.kayak.co.kr/flights/ICN-BCN/2027-09-08/2027-09-22?sort=bestflight_a" target="_blank" rel="noopener">카약</a>
@@ -1368,7 +1371,7 @@ function renderS3Hotels(){
       const ol=s2OfficialLine(officialS3[h.id]); if(ol) box.append(ol);
       if(rec.last_check && lastK(rec.history)==null && lastK(rec.gh_history)==null){
         const t=document.createElement('div'); t.className='history';
-        t.textContent='※ 이 날짜에 예약 가능한 객실이 없어 자동 조회가가 없어요. 표시한 금액은 다른 날짜 기준 예상가예요.';
+        t.textContent='※ 이 날짜에 예약 가능한 객실이 아직 열리지 않아 자동 조회가가 없어요. 표시한 금액은 참고 예상가예요.';
         box.append(t);
       }
       if(h.ai){
@@ -1398,7 +1401,7 @@ function renderS3Hotels(){
 function renderS3Moves(){
   const car=s3CarInfo();
   const rows=S3_ROUTES.map(m=>moneyRow3(m.key,m.label,m.sub,m.links,'')).join('');
-  const carSub=s3.opts.car==='suv'?'SUV':'소형';
+  const carSub=s3.opts.car==='suv'?'SUV':'소형 (견적 Peugeot 208 동급)';
   $('s3moves').innerHTML=rows+moneyRow3('car','마요르카 렌터카 (9/8~9/12, 4일)',carSub+' · 자동 변속기',
     [['카약 렌터카',S3_CAR],['카약 SUV',S3_CAR_SUV]],'');
 }
@@ -1544,7 +1547,7 @@ function s3Calc(){
   const intl=s3Money('intl')!==null?s3Money('intl'):S3_INTL_DEFAULT;
   const local=hotel+route+car.v+transfer+tour;
   const total=intl+local;
-  // 여행사 견적도 같은 기준: 기본 8,940,000 + 국제선 + 선택 시 마요르카 올인클루시브
+  // 여행사 견적도 같은 기준: 기본 10,780,000 + 국제선 + 선택 시 마요르카 올인클루시브
   const aiAdd=s3.opts.meal==='allinc'?S3_AI_TOTAL*fx:0;
   const agency=S3_AGENCY+intl+aiAdd;
   const diff=total-agency;
@@ -1558,14 +1561,14 @@ function s3Calc(){
   $('s3bLocal').textContent=fmt(local);
   $('s3bTotal').textContent=fmt(total);
   $('s3AgencyValue').textContent=fmt(agency);
-  $('s3AgencyNote').textContent=`기본 8,940,000원 + 국제선 ${fmt(intl)}`
+  $('s3AgencyNote').textContent=`기본 10,780,000원 (삼성박람회 20만 할인) + 국제선 ${fmt(intl)}`
     +(aiAdd>0?` + 올인클루시브 ${fmt(aiAdd)} (€${S3_AI_TOTAL.toLocaleString('ko-KR')})`:'');
   $('s3DirectValue').textContent=fmt(total);
   $('s3DirectNote').textContent=`현지 ${fmt(local)} + 국제선 ${fmt(intl)}`;
   if(diff<0){$('s3DiffValue').textContent='−'+fmt(-diff);$('s3DiffNote').textContent='직접 예약하면 이만큼 아껴요. (국제선 포함 총액 기준)';}
   else if(diff>0){$('s3DiffValue').textContent='+'+fmt(diff);$('s3DiffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요. (국제선 포함 총액 기준)';}
   else {$('s3DiffValue').textContent='0원';$('s3DiffNote').textContent='두 방법 차액이 없어요. (국제선 포함 총액 기준)';}
-  $('s3CompareNote').textContent=`일정 1 여행사 견적(기본 8,940,000원)에 이 일정의 국제선 ${fmt(intl)}${aiAdd>0?`과 마요르카 올인클루시브 ${fmt(aiAdd)}`:''}을 더해 직접 예약 총액과 같은 기준으로 비교했어요. 일정 3은 14박에 세비야 3박이 더해지고, 마요르카를 먼저 가는 순서라 참고용이에요.`;
+  $('s3CompareNote').textContent=`11/27 허니문리조트 마요르카 선투숙(일정 3) 견적서(2인 10,780,000원 · 마요르카4·포르투3·세비야3·바르셀로나4, 국제선 별도)에 국제선 ${fmt(intl)}${aiAdd>0?`과 마요르카 올인클루시브 ${fmt(aiAdd)}`:''}을 더해 같은 기준으로 비교했어요.`;
 
   const hn=[];
   if(actualCnt) hn.push(`실제 예약가 ${actualCnt}곳 반영`);
@@ -1573,7 +1576,7 @@ function s3Calc(){
   if(aiMiss) hn.push(`올인클루시브 전환 +€${S3_AI_TOTAL.toLocaleString('ko-KR')} ≈ ${fmt(S3_AI_TOTAL*fx)}`);
   if(roMiss) hn.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액`);
   if(fcMiss) hn.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상`);
-  if(!hn.length) hn.push(s3.opts.meal==='allinc'?'마요르카는 올인클루시브, 나머지 2곳은 조식 포함 자동 조회가 기준':'3곳 모두 조식 포함 자동 조회가 기준');
+  if(!hn.length) hn.push(s3.opts.meal==='allinc'?'마요르카는 올인클루시브, 나머지 3곳은 조식 포함 자동 조회가 기준':'4곳 모두 조식 포함 자동 조회가 기준');
   $('s3bHotelNote').textContent=hn.join(' / ');
   $('s3bRouteNote').textContent=`직접 입력 ${srcCount.input} · 조회 참고가 ${srcCount.auto} · 예상값 ${srcCount.est}`;
   $('s3bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s3.opts.car==='suv'?' · SUV':' · 소형');
