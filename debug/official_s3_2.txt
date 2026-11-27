@@ -1,0 +1,410 @@
+=== 아코르 공식(ALL 회원가) 2027-09-15 / 카드 7개 ===
+선택: {'room': 'Superior room with 1 double bed and city view.', 'rate': 'FLEXIBLE/무료취소·조식 필터', 'meal': 'Breakfast included', 'cancel': 'Free cancellation 필터 적용', 'cur': 'EUR', 'public': 597.78, 'member': 568.79, 'per_night': False, 'raw': 'Superior room with 1 double bed and city view.\n\n1/2\n\n1 Queen size bed(s)\n2 pers. max\n17m²\nCity View\n\nMember rate\n\nFrom €568.79\n\nPublic rate from €597.78\n\n3 nights\n2 adults\nTaxes and fees included.\nSee the room details\nChoose this room\nSuperior room with 2 single beds and city view.\n\n1/7\n\n1 Twin bed(s)\n2 pers. max\n17m²\nCity View\n\nMember rate\n\nFrom €568.79\n\nPublic rate from €597.78\n\n3 nights\n2 adults\nTaxes and fees included.\nOnly 5 rooms left\nSee the room details\nChoose this room\nPrivilege Double Bedded Room with Panoramic City View\n\n1/6\n\n1 Double bed(s)\n2 pers. max\n18m²\nHistoric side view\nBath\n'}
+
+=== 원문 ===
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7
+
+---
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7
+
+---
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7
+
+---
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7
+
+---
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7
+
+---
+Superior room with 1 double bed and city view.
+
+1/2
+
+1 Queen size bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+See the room details
+Choose this room
+Superior room with 2 single beds and city view.
+
+1/7
+
+1 Twin bed(s)
+2 pers. max
+17m²
+City View
+
+Member rate
+
+From €568.79
+
+Public rate from €597.78
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 5 rooms left
+See the room details
+Choose this room
+Privilege Double Bedded Room with Panoramic City View
+
+1/6
+
+1 Double bed(s)
+2 pers. max
+18m²
+Historic side view
+Bath
+
+Member rate
+
+From €637.85
+
+Public rate from €670.47
+
+3 nights
+2 adults
+Taxes and fees included.
+Only 6 rooms left
+See the room details
+Choose this room
+Junior Suite with 1 double bed and 1 sofa
+
+1/7

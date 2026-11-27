@@ -1,410 +1,302 @@
-=== 아코르 공식(ALL 회원가) 2027-09-15 / 카드 7개 ===
-선택: {'room': 'Superior room with 1 double bed and city view.', 'rate': 'FLEXIBLE/무료취소·조식 필터', 'meal': 'Breakfast included', 'cancel': 'Free cancellation 필터 적용', 'cur': 'EUR', 'public': 597.78, 'member': 568.79, 'per_night': False, 'raw': 'Superior room with 1 double bed and city view.\n\n1/2\n\n1 Queen size bed(s)\n2 pers. max\n17m²\nCity View\n\nMember rate\n\nFrom €568.79\n\nPublic rate from €597.78\n\n3 nights\n2 adults\nTaxes and fees included.\nSee the room details\nChoose this room\nSuperior room with 2 single beds and city view.\n\n1/7\n\n1 Twin bed(s)\n2 pers. max\n17m²\nCity View\n\nMember rate\n\nFrom €568.79\n\nPublic rate from €597.78\n\n3 nights\n2 adults\nTaxes and fees included.\nOnly 5 rooms left\nSee the room details\nChoose this room\nPrivilege Double Bedded Room with Panoramic City View\n\n1/6\n\n1 Double bed(s)\n2 pers. max\n18m²\nHistoric side view\nBath\n'}
+=== 조에트리 공식(World of Hyatt) 2027-09-12~2027-09-16 / 방 8개 ===
+=== 화면 앞부분 ===
+Inclusive Collection
+Already Booked?
+EN 
+Customer Support
+RESORTS & HOTELS
+DESTINATIONS
+OFFERS
+WEDDINGS & HONEYMOONS
+MEETINGS
+TRAVEL AGENTS
+Where
+Travel dates
+12 /
+09/2027
+16 /
+09/2027
+1 Room
+1
+0
+Book now
+Zoëtry Mallorca
+2027.09.12. - 2027.09.16.
+4 nights
+Rooms
+(8)
+Discover the hotel
+Experiences
+(11)
+EUR
+Now only the rooms you have marked as favourites are displayed.
+A world of rewards designed to revolve around you.
+Earn Free Nights: Earn points to use towards free nights, room upgrades and more.
+Membership Is Free: Access exclusive offers and meaningful benefits.
+Enjoy Member Rates: Save up to 10% with your member rate at participating hotels.
+BECOME A MEMBER
+Ponent Room
+1234567
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
 
-=== 원문 ===
-Superior room with 1 double bed and city view.
+If your plans change, resell your reservation or change the name on the reservation.
 
-1/2
+Booking conditions
+Bed & Breakfast
+€ 359 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,149
+Price with discount
+€ 1,436
+Half Board
+€ 489 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,565
+Price with discount
+€ 1,956
+Endless Privileges®
+€ 759 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,429
+Price with discount
+€ 3,036
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.11.!
+Booking conditions
+Bed & Breakfast
+€ 399 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,277
+Price with discount
+€ 1,596
+Half Board
+€ 529 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,693
+Price with discount
+€ 2,116
+Endless Privileges®
+€ 799 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,557
+Price with discount
+€ 3,196
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Tramuntana Room
+1234
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
 
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
+If yo
 
-Member rate
+- Ponent Room | 1208자
+- Tramuntana Room | 1209자
+- Ponent Deluxe Room | 1215자
+- Tramuntana Deluxe Room | 1254자
+- Tramuntana Junior Suite | 1218자
+- Ponent Junior Suite | 1252자
+- Ponent Suite | 1208자
+- Elegant Suite | 1248자
 
-From €568.79
+선택: {'room': 'Ponent Room', 'rate': 'Flexible Rate', 'meal': 'Bed & Breakfast', 'cancel': 'Free cancellation until 2027.09.11.!', 'cur': 'EUR', 'public': 1596.0, 'member': 1277.0, 'per_night': False, 'raw': 'Bed & Breakfast\n€ 399 / night\nUNLOCK\nUNLOCK PRICE WORLD OF HYATT\n€ 1,277\nPrice with discount\n€ 1,596'}
 
-Public rate from €597.78
+=== 원문(첫 3000자) ===
+Ponent Room
+1234567
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
 
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
+If your plans change, resell your reservation or change the name on the reservation.
 
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
-
+Booking conditions
+Bed & Breakfast
+€ 359 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,149
+Price with discount
+€ 1,436
+Half Board
+€ 489 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,565
+Price with discount
+€ 1,956
+Endless Privileges®
+€ 759 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,429
+Price with discount
+€ 3,036
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.11.!
+Booking conditions
+Bed & Breakfast
+€ 399 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,277
+Price with discount
+€ 1,596
+Half Board
+€ 529 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,693
+Price with discount
+€ 2,116
+Endless Privileges®
+€ 799 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,557
+Price with discount
+€ 3,196
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
 ---
-Superior room with 1 double bed and city view.
+Tramuntana Room
+1234
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
 
-1/2
+If your plans change, resell your reservation or change the name on the reservation.
 
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
-
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
-
+Booking conditions
+Bed & Breakfast
+€ 369 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,181
+Price with discount
+€ 1,476
+Half Board
+€ 499 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,597
+Price with discount
+€ 1,996
+Endless Privileges®
+€ 769 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,461
+Price with discount
+€ 3,076
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.11.!
+Booking conditions
+Bed & Breakfast
+€ 410 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,312
+Price with discount
+€ 1,640
+Half Board
+€ 540 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,728
+Price with discount
+€ 2,160
+Endless Privileges®
+€ 810 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,592
+Price with discount
+€ 3,240
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
 ---
-Superior room with 1 double bed and city view.
-
-1/2
-
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
-
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
-
----
-Superior room with 1 double bed and city view.
-
-1/2
-
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
-
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
-
----
-Superior room with 1 double bed and city view.
-
-1/2
-
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
-
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
-
----
-Superior room with 1 double bed and city view.
-
-1/2
-
-1 Queen size bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-See the room details
-Choose this room
-Superior room with 2 single beds and city view.
-
-1/7
-
-1 Twin bed(s)
-2 pers. max
-17m²
-City View
-
-Member rate
-
-From €568.79
-
-Public rate from €597.78
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 5 rooms left
-See the room details
-Choose this room
-Privilege Double Bedded Room with Panoramic City View
-
-1/6
-
-1 Double bed(s)
-2 pers. max
-18m²
-Historic side view
-Bath
-
-Member rate
-
-From €637.85
-
-Public rate from €670.47
-
-3 nights
-2 adults
-Taxes and fees included.
-Only 6 rooms left
-See the room details
-Choose this room
-Junior Suite with 1 double bed and 1 sofa
-
-1/7
+Ponent Deluxe Room
+1234567
+NON-REFUNDABLE RESELLABLE - Web Exclusive
+Taxes included except city tax payable at the hotel
+
+If your plans change, resell your reservation or change the name on the reservation.
+
+Booking conditions
+Bed & Breakfast
+€ 380 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,216
+Price with discount
+€ 1,520
+Half Board
+€ 510 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,632
+Price with discount
+€ 2,040
+Endless Privileges®
+€ 780 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,496
+Price with discount
+€ 3,120
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
+Flexible Rate
+Payment at hotel
+Taxes included except city tax payable at the hotel
+Free cancellation until 2027.09.11.!
+Booking conditions
+Bed & Breakfast
+€ 422 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,350
+Price with discount
+€ 1,688
+Half Board
+€ 552 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 1,766
+Price with discount
+€ 2,208
+Endless Privileges®
+€ 822 / night
+UNLOCK
+UNLOCK PRICE WORLD OF HYATT
+€ 2,630
+Price with discount
+€ 3,288
+Included: VAT (10%).
+Direct payment at the hotel: €4.40 (May - Oct) // €1.1 (Nov - Apr)(city tax per person per night)
+Add
