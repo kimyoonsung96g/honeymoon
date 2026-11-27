@@ -133,8 +133,8 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 
 /* 일정 탭 */
-.tabs{display:flex;gap:8px;padding:16px 20px 0}
-.tabs button{flex:1;font:inherit;font-weight:600;line-height:1.25;padding:10px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 20px 0}
+.tabs button{font:inherit;font-weight:600;line-height:1.25;padding:10px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer}
 .tabs button small{display:block;font-weight:500;font-size:.72rem;opacity:.9;margin-top:1px}
 .tabs button small.rt{font-size:.6rem;letter-spacing:.01em;opacity:.8;margin-top:2px;white-space:nowrap}
 .tabs button[aria-selected="true"]{background:var(--cobalt);color:var(--on-cobalt);border-color:var(--cobalt)}
@@ -149,6 +149,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
     <button type="button" role="tab" id="tab-s1" aria-controls="panel-s1" aria-selected="true">일정 1<small>9/6~18 · 12박</small><small class="rt">BCN→PMI→OPO→LIS</small></button>
     <button type="button" role="tab" id="tab-s2" aria-controls="panel-s2" aria-selected="false">일정 2<small>9/8~22 · 14박</small><small class="rt">BCN→PMI→SVQ→OPO</small></button>
     <button type="button" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false">일정 3<small>9/8~22 · 14박</small><small class="rt">PMI→OPO→SVQ→BCN</small></button>
+    <button type="button" role="tab" id="tab-s4" aria-controls="panel-s4" aria-selected="false">일정 2 (마요르카 제외)<small>9/8~22 · 14박</small><small class="rt">BCN→PMI(개별)→SVQ→OPO</small></button>
   </nav>
 
   <section>
@@ -379,6 +380,66 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
       <button class="btn reset" id="s3ResetBtn" type="button">옵션을 기본값으로 되돌리기</button>
     </section>
     <p class="foot">일정 2와 같은 방식으로 부킹닷컴·구글 호텔·공식 홈페이지를 날짜만 바꿔 조회해요. 가격이 3만 원 이상 내려가면 휴대폰으로 알림이 와요(ntfy 설정 시).</p>
+  </div>
+
+  <div class="panel" id="panel-s4" role="tabpanel" aria-labelledby="tab-s4" hidden>
+    <header class="verdict" aria-live="polite">
+      <h1>일정 2 (마요르카 제외) 견적 비교</h1>
+      <p class="trip">바르셀로나 4박 · 마요르카 4박(개별진행) · 세비야 3박 · 포르투 3박 (2027년 9월 8일~22일, 2인, 국제선 포함)</p>
+      <p class="diff num" id="s4DiffValue">0원</p>
+      <p class="diff-note" id="s4DiffNote"></p>
+      <div class="compare">
+        <div><span>여행사 견적 (국제선 포함)</span><strong class="num" id="s4AgencyValue">0원</strong><small class="agency-note" id="s4AgencyNote"></small></div>
+        <div><span>직접 예약 합계 (국제선 포함)</span><strong class="num" id="s4DirectValue">0원</strong><small class="agency-note" id="s4DirectNote"></small></div>
+      </div>
+      <p class="diff-note" id="s4CompareNote" style="margin:14px 0 0"></p>
+    </header>
+
+    <section>
+      <h2>국제선 (고정)</h2>
+      <p class="hint">바르셀로나 in/out · 트리니티항공 직항으로 고정한 일정이에요. 금액은 직접 고칠 수 있어요.</p>
+      <div id="s4intl"></div>
+    </section>
+
+    <section>
+      <h2>호텔 가격 (마요르카 4박 개별진행 제외)</h2>
+      <p class="hint" id="s4UpdatedHint">일정 2와 같은 호텔·날짜(바르셀로나·세비야·포르투 3곳 10박) 자동 조회가를 그대로 써요. 마요르카 숙소는 양쪽 모두 제외해 같은 기준으로 비교해요.</p>
+      <div id="s4hotels"></div>
+    </section>
+
+    <section>
+      <h2>도시 간 이동과 렌터카</h2>
+      <p class="hint">항공 조회가는 구글 항공편 편도 최저가(2인, 수하물 미포함) 참고용이에요. 합계에는 직접 입력한 20kg 포함 금액을 먼저 쓰고, 입력 전에는 조회가나 예상값으로 계산해요.</p>
+      <div id="s4moves"></div>
+    </section>
+
+    <section>
+      <h2>투어와 보험 (선택)</h2>
+      <p class="hint">견적서처럼 한국인 가이드 투어와 여행자보험을 넣는 경우의 참고값이에요. 비우면 참고값으로 계산하고 0을 넣으면 빼요.</p>
+      <div id="s4tour"></div>
+    </section>
+
+    <section>
+      <h2>옵션</h2>
+      <p class="hint">마요르카 숙소가 개별진행으로 빠져 있어 나머지 3곳 조식 포함이 기본값이에요. 조건을 바꾸면 합계가 바로 다시 계산돼요.</p>
+      <div id="s4options"></div>
+    </section>
+
+    <section>
+      <h2>항목별 내역 (2인)</h2>
+      <div class="rows">
+        <div><span>국제선 (트리니티항공 직항, 9/8~22)<br><small class="hint">1인 2,293,400원 × 2 기준가, 직접 수정 가능</small></span><strong class="num" id="s4bIntl"></strong></div>
+        <div><span>호텔 10박 (마요르카 4박 개별진행 제외)<br><small class="hint" id="s4bHotelNote"></small></span><strong class="num" id="s4bHotel"></strong></div>
+        <div><span>도시 간 이동 (항공 4회)<br><small class="hint" id="s4bRouteNote"></small></span><strong class="num" id="s4bRoute"></strong></div>
+        <div><span>마요르카 렌터카 (9/12~9/16, 4일)<br><small class="hint" id="s4bCarNote"></small></span><strong class="num" id="s4bCar"></strong></div>
+        <div><span>공항·기차역 이동 (고정값)</span><strong class="num" id="s4bTransfer"></strong></div>
+        <div><span>투어·보험 (선택)<br><small class="hint">참고값, 위에서 수정 가능</small></span><strong class="num" id="s4bTour"></strong></div>
+        <div><span>현지 비용 합계 (국제선 제외)</span><strong class="num" id="s4bLocal"></strong></div>
+        <div class="total"><span>총 예상 합계 (국제선 포함)</span><span class="num" id="s4bTotal"></span></div>
+      </div>
+      <button class="btn reset" id="s4ResetBtn" type="button">옵션을 기본값으로 되돌리기</button>
+    </section>
+    <p class="foot">일정 2의 바르셀로나·세비야·포르투 숙소 및 이동/렌터카 조회 데이터를 공유해요. 마요르카 숙소(개별진행)만 양쪽 계산에서 뺐어요.</p>
   </div>
 </main>
 <div class="toast" id="toast" role="status"></div>
@@ -1585,23 +1646,341 @@ $('s3ResetBtn').addEventListener('click',()=>{
   s3.opts={...S3_DEFAULT_OPTS}; s3.picked={}; s3Save(); renderS3(); s3Calc();
   toast('일정 3 옵션을 기본값으로 되돌렸어요(마요르카만 올인클루시브). 실제 예약 금액·입력값·환율은 그대로예요.');
 });
+
+/* ================= 일정 4: 일정 2 마요르카 제외 (2027-09-08~09-22, 14박 · 마요르카 4박 개별진행) ================= */
+const S4_LS='honeymoon_s4_v1';
+const S4_AGENCY=7820000;              // 11/27 마요르카 개별진행 견적 (1인 4,110,000 - 삼성박람회 200,000 = 3,910,000 × 2, 국제선·마요르카 숙소 제외)
+const S4_HOTELS=S2_HOTELS.filter(h=>h.id!=='2');
+const S4_OPTIONS=[
+  {key:'cancel', label:'호텔 예약 조건 (3곳 공통)', items:[
+    {v:'nonref', t:'환불 불가 (견적과 같음)', p:'조회가'},
+    {v:'free', t:'무료 취소 가능', p:'조회가'}]},
+  {key:'meal', label:'식사 조건 (3곳 공통)', items:[
+    {v:'breakfast', t:'3곳 모두 조식 포함 (견적과 같음)', p:'조회가'},
+    {v:'roomOnly', t:'3곳 모두 조식 미포함', p:'조회가'}]},
+  {key:'car', label:'마요르카 렌터카', items:[
+    {v:'small', t:'최저가 차량 (견적과 같은 소형)', p:'조회가'},
+    {v:'suv', t:'SUV', p:'조회가'}]},
+  {key:'transfer', label:'공항·기차역 이동 (고정값)', items:[
+    {v:390000, t:'전용차량 픽업 (견적과 같음)', p:'390,000원'},
+    {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
+];
+const S4_DEFAULT_OPTS={cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
+let s4={opts:{...S4_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, picked:{}};
+try{
+  const st=JSON.parse(localStorage.getItem(S4_LS));
+  if(st) s4={...s4, ...st, opts:{...S4_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+}catch(e){}
+const s4Save=()=>{try{localStorage.setItem(S4_LS,JSON.stringify({...s4,dv:DEFAULTS_VER}));}catch(e){}};
+const s4Cur=k=>s4.manualCur[k]||'KRW';
+const s4Has=k=>s4.manual[k]!==undefined && s4.manual[k]!=='';
+const s4Money=k=>s4Has(k)?toKRW(Number(s4.manual[k])||0,s4Cur(k)):null;
+
+function s4RouteInfo(m){
+  const rec=extrasS2[m.key]||{};
+  const auto=lastK(rec.history);
+  const money=s4Money(m.key);
+  const v=money!==null?money:(auto!==null&&auto!==undefined?auto:m.est);
+  const src=money!==null?'input':((auto!==null&&auto!==undefined)?'auto':'est');
+  return {v,src,auto,err:rec.error};
+}
+function s4CarInfo(){
+  const key=s4.opts.car==='suv'?'car_suv':'car_small';
+  const rec=extrasS2[key]||{};
+  const auto=lastK(rec.history);
+  const money=s4Money('car');
+  const v=money!==null?money:(auto!==null&&auto!==undefined?auto:(s4.opts.car==='suv'?580000:420000));
+  const src=money!==null?'input':((auto!==null&&auto!==undefined)?'auto':'est');
+  return {v,src,auto,key,err:rec.error};
+}
+function s4RowHTML(k,label,sub,links,placeholder){
+  const cur=s4Cur(k);
+  const val=s4Has(k)?s4.manual[k]:'';
+  const btns=(links||[]).map(([t,u])=>`<a class="btn" href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
+  return `<div class="hotel">
+    <div class="hotel-head"><div><div class="hotel-name">${label}</div>${sub?`<span class="room">${sub}</span>`:''}</div></div>
+    <div class="price-row">
+      <input type="number" inputmode="numeric" class="num" data-s4in="${k}" value="${val}" placeholder="${placeholder||'입력'}" aria-label="${label} 금액">
+      <select data-s4cur="${k}" aria-label="${label} 통화"><option value="KRW"${cur==='KRW'?' selected':''}>원</option><option value="EUR"${cur==='EUR'?' selected':''}>유로</option></select>
+    </div>
+    <div class="conv num" data-s4conv="${k}" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
+    <div class="history" data-s4ref="${k}"></div>
+    ${btns?`<div class="hotel-actions">${btns}</div>`:''}
+  </div>`;
+}
+function renderS4Intl(){
+  $('s4intl').innerHTML=`<div class="hotel">
+    <div class="hotel-head"><div><div class="hotel-name">인천 ↔ 바르셀로나</div><span class="room">트리니티항공 직항 · 2인</span></div><div class="hotel-meta">9/8~9/22, 14박</div></div>
+    <div class="price-row">
+      <input type="number" inputmode="numeric" class="num" data-s4in="intl" value="${s4Has('intl')?s4.manual['intl']:''}" placeholder="4,586,800" aria-label="국제선 금액">
+      <select data-s4cur="intl" aria-label="국제선 통화"><option value="KRW"${s4Cur('intl')==='KRW'?' selected':''}>원</option><option value="EUR"${s4Cur('intl')==='EUR'?' selected':''}>유로</option></select>
+    </div>
+    <div class="conv num" data-s4conv="intl" style="margin-top:6px;text-align:right;font-size:.78rem;color:var(--muted)"></div>
+    <div class="history">기본값 4,586,800원 · 소정 님 확인 구글 항공 기준가 1인 2,293,400원 × 2. 비우면 기본값으로 계산해요.</div>
+    <div class="history">트리니티항공 직항은 9/8(수) 인천 11:20 → 바르셀로나 19:00 / 9/22(수) 바르셀로나 21:00 → 인천 16:40+1. (견적서 추천편: 대한항공 KE915/916 개별발권)</div>
+    <div class="hotel-actions">
+      <a class="btn" href="https://www.google.com/travel/flights?q=${encodeURIComponent('Flights from ICN to BCN on 2027-09-08 through 2027-09-22')}&curr=KRW&hl=ko&gl=KR" target="_blank" rel="noopener">구글 항공편</a>
+      <a class="btn" href="https://www.kayak.co.kr/flights/ICN-BCN/2027-09-08/2027-09-22?sort=bestflight_a" target="_blank" rel="noopener">카약</a>
+      <a class="btn" href="https://flytrinity.com" target="_blank" rel="noopener">트리니티항공</a>
+    </div>
+  </div>`;
+}
+function renderS4Hotels(){
+  const wrap=$('s4hotels'); wrap.textContent='';
+  for(const h of S4_HOTELS){
+    const p=pricesS2[h.id]||{krw:h.est||0,auto:false};
+    const rec=p.rec||{};
+    const box=document.createElement('div'); box.className='hotel';
+    const head=document.createElement('div'); head.className='hotel-head';
+    const left=document.createElement('div');
+    const nm=document.createElement('div'); nm.className='hotel-name'; nm.textContent=h.name;
+    const rm=document.createElement('span'); rm.className='room'; rm.textContent=h.room;
+    left.append(nm,rm);
+    const meta=document.createElement('div'); meta.className='hotel-meta'; meta.textContent=`${h.city} ${h.nights}박, ${h.dates}`;
+    head.append(left,meta);
+    const price=document.createElement('div'); price.className='krw num'; price.dataset.s4price=h.id;
+    box.append(head,price);
+
+    const ab=document.createElement('div'); ab.className='actual';
+    const lb=document.createElement('div'); lb.className='lbl';
+    lb.textContent='실제 예약 금액 (비우면 자동 조회가로 돌아감)';
+    const inRow=document.createElement('div'); inRow.className='in';
+    const ain=document.createElement('input'); ain.type='number'; ain.inputMode='decimal'; ain.className='num'; ain.placeholder='입력';
+    ain.dataset.s4act=h.id; ain.setAttribute('aria-label',h.name+' 실제 예약 금액');
+    const asel=document.createElement('select'); asel.dataset.s4actcur=h.id; asel.setAttribute('aria-label',h.name+' 실제 예약 금액 통화');
+    for(const [v,t] of [['KRW','원'],['EUR','유로']]){const o=document.createElement('option');o.value=v;o.textContent=t;asel.append(o);}
+    const a0=s4.hotelActual[h.id];
+    if(a0){ ain.value=(a0.v===''||a0.v==null)?'':a0.v; asel.value=a0.cur||'KRW'; }
+    const aconv=document.createElement('div'); aconv.className='conv num'; aconv.dataset.s4actconv=h.id;
+    inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
+    ain.addEventListener('input',()=>{
+      const v=ain.value;
+      if(v===''||!(Number(v)>0)) delete s4.hotelActual[h.id];
+      else s4.hotelActual[h.id]={v:v,cur:asel.value};
+      s4Save(); s4Calc();
+    });
+    asel.addEventListener('change',()=>{
+      const a=s4.hotelActual[h.id]; const n=Number(a?a.v:ain.value);
+      if(n>0 && a && a.cur!==asel.value){
+        const to=asel.value, c=to==='EUR'?n/fx:n*fx;
+        const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+        ain.value=out; s4.hotelActual[h.id]={v:String(out),cur:to};
+      } else if(a){ s4.hotelActual[h.id]={v:a.v,cur:asel.value}; }
+      s4Save(); s4Calc();
+    });
+
+    box.append(srcLine('부킹닷컴',rec.history,rec.last_error,p.src==='booking'));
+    box.append(srcLine('구글 호텔',rec.gh_history,rec.gh_error,p.src==='google'));
+    const ol=s2OfficialLine(officialS2[h.id]); if(ol) box.append(ol);
+    if(rec && lastK(rec.history)==null && lastK(rec.gh_history)==null){
+      const t=document.createElement('div'); t.className='history';
+      t.textContent='※ 이 날짜에 예약 가능한 객실이 아직 열리지 않아 자동 조회가가 없어요. 표시한 금액은 참고 예상가예요.';
+      box.append(t);
+    }
+    if(rec.room_used){const r=document.createElement('div');r.className='history';r.textContent='부킹닷컴 기준 객실: '+rec.room_used;box.append(r);}
+    if(rec.last_check){const t=document.createElement('div');t.className='history';t.textContent=`${rec.last_check} 조회`;box.append(t);}
+
+    const act=document.createElement('div'); act.className='hotel-actions';
+    for(const [t,u] of [['부킹닷컴',h.booking],['구글 호텔',h.google],['카약',h.kayak],['공식 홈페이지',S2_OFF[h.id]]]){
+      const a=document.createElement('a'); a.className='btn'; a.href=u; a.target='_blank'; a.rel='noopener'; a.textContent=t; act.append(a);
+    }
+    box.append(act);
+    wrap.append(box);
+  }
+}
+function renderS4Moves(){
+  const rows=S2_ROUTES.map(m=>s4RowHTML(m.key,m.label,m.sub,m.links,'')).join('');
+  const carSub=s4.opts.car==='suv'?'SUV':'소형 (견적 Peugeot 208 동급)';
+  $('s4moves').innerHTML=rows+s4RowHTML('car','마요르카 렌터카 (9/12~9/16, 4일)',carSub+' · 자동 변속기',
+    [['카약 렌터카',S2_CAR],['카약 SUV',S2_CAR_SUV]],'');
+}
+function renderS4Tour(){
+  $('s4tour').innerHTML=s4RowHTML('tour','투어·보험 (선택)','견적서와 같은 투어 3개 + 여행자보험 기준',[],fmt(S2_TOUR_DEFAULT));
+}
+function renderS4Options(){
+  const wrap=$('s4options'); wrap.textContent='';
+  for(const g of S4_OPTIONS){
+    const box=document.createElement('div'); box.className='opt';
+    const lb=document.createElement('div'); lb.className='opt-label'; lb.textContent=g.label;
+    const seg=document.createElement('div'); seg.className='seg';
+    for(const it of g.items){
+      const b=document.createElement('button'); b.type='button'; b.setAttribute('aria-pressed',String(s4.opts[g.key]===it.v));
+      const t=document.createElement('span'); t.textContent=it.t;
+      const p=document.createElement('span'); p.className='p num'; p.textContent=it.p;
+      b.append(t,p);
+      b.addEventListener('click',()=>{
+        s4.opts[g.key]=it.v; s4.picked[g.key]=it.v; s4Save();
+        if(g.key==='car') renderS4(); else renderS4Options();
+        s4Calc();
+      });
+      seg.append(b);
+    }
+    box.append(lb,seg); wrap.append(box);
+  }
+}
+function bindS4Rows(){
+  document.querySelectorAll('[data-s4in]').forEach(inp=>{
+    const k=inp.dataset.s4in;
+    if(s4Has(k)) inp.value=s4.manual[k];
+    inp.addEventListener('input',()=>{
+      if(inp.value==='') s4.manual[k]=''; else s4.manual[k]=inp.value;
+      s4Save(); s4Calc();
+    });
+  });
+  document.querySelectorAll('[data-s4cur]').forEach(sel=>{
+    const k=sel.dataset.s4cur;
+    sel.addEventListener('change',()=>{
+      const inp=document.querySelector('[data-s4in="'+k+'"]');
+      const n=inp?Number(inp.value)||0:0;
+      const from=s4Cur(k), to=sel.value;
+      if(n>0 && from!==to){
+        const c=to==='EUR'?n/fx:n*fx;
+        const out=to==='EUR'?round2(c):Math.round(c/100)*100;
+        if(inp) inp.value=out;
+        s4.manual[k]=String(out);
+      }
+      s4.manualCur[k]=to; s4Save(); s4Calc();
+    });
+  });
+}
+function renderS4(){
+  renderS4Intl(); renderS4Hotels(); renderS4Moves(); renderS4Tour(); renderS4Options(); bindS4Rows();
+}
+function s4HotelCalc(h){
+  const p=pricesS2[h.id]||{krw:h.est||0,auto:false};
+  const rec=p.rec||{};
+  const a=s4.hotelActual[h.id]; const av=a?Number(a.v):0;
+  if(a && av>0) return {v:toKRW(av,a.cur||'KRW'),actual:true};
+  let v=p.krw, breakfast=true, roMiss=false, fcMiss=false;
+  if(s4.opts.meal==='roomOnly'){
+    const ro=lastK(rec.ro_history);
+    if(ro) v=ro; else {v-=380000/3; roMiss=true;}
+    breakfast=false;
+  }
+  if(s4.opts.cancel==='free'){
+    const fcs=[lastK(rec.fc_history),lastK(rec.gh_fc_history)].filter(Boolean);
+    const fc=fcs.length?Math.min(...fcs):null;
+    if(breakfast && fc) v=fc;
+    else {v*=1.12; fcMiss=true;}
+  }
+  return {v,actual:false,roMiss,fcMiss};
+}
+function s4Calc(){
+  let hotel=0, actualCnt=0, fcMiss=0, roMiss=0;
+  for(const h of S4_HOTELS){
+    const r=s4HotelCalc(h); hotel+=r.v;
+    if(r.actual) actualCnt++;
+    if(r.fcMiss) fcMiss++;
+    if(r.roMiss) roMiss++;
+    const el=document.querySelector('[data-s4price="'+h.id+'"]');
+    if(el){
+      el.textContent=fmt(r.v);
+      const sp=document.createElement('span'); sp.className='est'+(r.actual?' actual':'');
+      const rec2=pricesS2[h.id]&&pricesS2[h.id].rec;
+      const noData=!!(rec2 && lastK(rec2.history)==null && lastK(rec2.gh_history)==null);
+      sp.textContent=r.actual?'실제 예약가 반영':(pricesS2[h.id]&&pricesS2[h.id].auto?'자동 조회가':(noData?'조회 불가 · 예상가':'예상가 (자동 조회 전)'));
+      el.append(sp);
+    }
+    const conv=document.querySelector('[data-s4actconv="'+h.id+'"]');
+    if(conv){
+      const a=s4.hotelActual[h.id]; const v=a?Number(a.v):0;
+      if(a&&v>0){conv.hidden=false;conv.textContent=a.cur==='EUR'?`= 약 ${fmt(v*fx)}`:`= 약 ${fmtEur(round2(v/fx))}`;}
+      else {conv.hidden=true;conv.textContent='';}
+    }
+  }
+  const srcCount={input:0,auto:0,est:0};
+  let route=0;
+  for(const m of S2_ROUTES){
+    const info=s4RouteInfo(m); route+=info.v; srcCount[info.src]++;
+    const ref=document.querySelector('[data-s4ref="'+m.key+'"]');
+    if(ref){
+      const bits=[];
+      if(info.src==='input') bits.push(`직접 입력값 사용${info.auto!=null?` (조회 참고가 ${fmt(info.auto)})`:''}`);
+      else if(info.src==='auto') bits.push(`조회 참고가 ${fmt(info.auto)} 사용 (수하물 미포함) · 직접 입력하면 그 금액으로 바뀌어요`);
+      else bits.push(`조회 전 예상값 ${fmt(m.est)} 사용`);
+      if(info.err) bits.push(`조회: ${info.err}`);
+      ref.textContent=bits.join(' · ');
+    }
+  }
+  const car=s4CarInfo();
+  const carRef=document.querySelector('[data-s4ref="car"]');
+  if(carRef){
+    const bits=[];
+    if(car.src==='input') bits.push(`직접 입력값 사용${car.auto!=null?` (카약 조회가 ${fmt(car.auto)})`:''}`);
+    else if(car.src==='auto') bits.push(`카약 조회가 ${fmt(car.auto)} 사용 (기본 보험, 풀보험 별도)`);
+    else bits.push(`조회 전 예상값 ${fmt(car.v)} 사용 (기본 보험, 풀보험 별도)`);
+    if(car.err) bits.push(`조회: ${car.err}`);
+    carRef.textContent=bits.join(' · ');
+  }
+  const tourRef=document.querySelector('[data-s4ref="tour"]');
+  if(tourRef) tourRef.textContent=s4Has('tour')?'직접 입력값 사용':`비우면 ${fmt(S2_TOUR_DEFAULT)} 참고값으로 계산해요 (0을 넣으면 빼요)`;
+
+  document.querySelectorAll('[data-s4conv]').forEach(el=>{
+    const k=el.dataset.s4conv; const n=s4Money(k);
+    if(n!==null) el.textContent=s4Cur(k)==='EUR'?`= 약 ${fmt(n)}`:`= 약 ${fmtEur(round2(n/fx))}`;
+    else if(k==='intl') el.textContent=`기본값 ${fmt(S2_INTL_DEFAULT)} 사용`;
+    else el.textContent='';
+  });
+
+  const transfer=Number(s4.opts.transfer)||0;
+  const tour=s4Money('tour')!==null?s4Money('tour'):S2_TOUR_DEFAULT;
+  const intl=s4Money('intl')!==null?s4Money('intl'):S2_INTL_DEFAULT;
+  const local=hotel+route+car.v+transfer+tour;
+  const total=intl+local;
+  const agency=S4_AGENCY+intl;
+  const diff=total-agency;
+
+  $('s4bIntl').textContent=fmt(intl);
+  $('s4bHotel').textContent=fmt(hotel);
+  $('s4bRoute').textContent=fmt(route);
+  $('s4bCar').textContent=fmt(car.v);
+  $('s4bTransfer').textContent=fmt(transfer);
+  $('s4bTour').textContent=fmt(tour);
+  $('s4bLocal').textContent=fmt(local);
+  $('s4bTotal').textContent=fmt(total);
+  $('s4AgencyValue').textContent=fmt(agency);
+  $('s4AgencyNote').textContent=`기본 7,820,000원 (삼성박람회 20만 할인 · 마요르카 제외) + 국제선 ${fmt(intl)}`;
+  $('s4DirectValue').textContent=fmt(total);
+  $('s4DirectNote').textContent=`현지 ${fmt(local)} (마요르카 숙소 제외) + 국제선 ${fmt(intl)}`;
+  if(diff<0){$('s4DiffValue').textContent='−'+fmt(-diff);$('s4DiffNote').textContent='직접 예약하면 이만큼 아껴요. (마요르카 숙소 제외 · 국제선 포함 기준)';}
+  else if(diff>0){$('s4DiffValue').textContent='+'+fmt(diff);$('s4DiffNote').textContent='직접 예약하면 이만큼 더 들어요. 여행사 견적이 유리해요. (마요르카 숙소 제외 · 국제선 포함 기준)';}
+  else {$('s4DiffValue').textContent='0원';$('s4DiffNote').textContent='두 방법 차액이 없어요. (마요르카 숙소 제외 · 국제선 포함 기준)';}
+  $('s4CompareNote').textContent=`11/27 허니문리조트 마요르카 개별진행 견적서(2인 7,820,000원 · 바르셀로나4·세비야3·포르투3, 마요르카 숙소·국제선 제외)에 국제선 ${fmt(intl)}을 더해 같은 기준으로 비교했어요.`;
+
+  const hn=[];
+  if(actualCnt) hn.push(`실제 예약가 ${actualCnt}곳 반영`);
+  if(roMiss) hn.push(`조식 없는 요금 조회 전 ${roMiss}곳: 예상 차액`);
+  if(fcMiss) hn.push(`무료 취소 요금이 없는 ${fcMiss}곳: 호텔가 +12% 예상`);
+  if(!hn.length) hn.push('바르셀로나·세비야·포르투 3곳 조식 포함 자동 조회가 기준');
+  $('s4bHotelNote').textContent=hn.join(' / ');
+  $('s4bRouteNote').textContent=`직접 입력 ${srcCount.input} · 조회 참고가 ${srcCount.auto} · 예상값 ${srcCount.est}`;
+  $('s4bCarNote').textContent=(car.src==='input'?'입력값':(car.src==='auto'?'카약 조회가 (기본 보험)':'예상값'))+(s4.opts.car==='suv'?' · SUV':' · 소형');
+}
+$('s4ResetBtn').addEventListener('click',()=>{
+  s4.opts={...S4_DEFAULT_OPTS}; s4.picked={}; s4Save(); renderS4(); s4Calc();
+  toast('일정 2 (마요르카 제외) 옵션을 기본값으로 되돌렸어요. 실제 예약 금액·입력값·환율은 그대로예요.');
+});
+
 function showTab(t){
-  const tab=(t==='s2'||t==='s3')?t:'s1';
-  $('panel-s1').hidden=tab!=='s1'; $('panel-s2').hidden=tab!=='s2'; $('panel-s3').hidden=tab!=='s3';
+  const tab=(t==='s2'||t==='s3'||t==='s4')?t:'s1';
+  $('panel-s1').hidden=tab!=='s1'; $('panel-s2').hidden=tab!=='s2'; $('panel-s3').hidden=tab!=='s3'; $('panel-s4').hidden=tab!=='s4';
   $('tab-s1').setAttribute('aria-selected',String(tab==='s1'));
   $('tab-s2').setAttribute('aria-selected',String(tab==='s2'));
   $('tab-s3').setAttribute('aria-selected',String(tab==='s3'));
+  $('tab-s4').setAttribute('aria-selected',String(tab==='s4'));
   try{localStorage.setItem('honeymoon_tab',tab);}catch(e){}
   window.scrollTo({top:0});
 }
 $('tab-s1').addEventListener('click',()=>showTab('s1'));
 $('tab-s2').addEventListener('click',()=>showTab('s2'));
 $('tab-s3').addEventListener('click',()=>showTab('s3'));
-try{ const t=localStorage.getItem('honeymoon_tab'); if(t==='s2'||t==='s3') showTab(t); }catch(e){}
+$('tab-s4').addEventListener('click',()=>showTab('s4'));
+try{ const t=localStorage.getItem('honeymoon_tab'); if(t==='s2'||t==='s3'||t==='s4') showTab(t); }catch(e){}
 
 renderHotels(); renderExtras(); renderOptions(); paintManual(); paintConv(); calculate();
 renderS2(); s2Calc();
 renderS3(); s3Calc();
+renderS4(); s4Calc();
 // 식사 조건 기본값 변경(DEFAULTS_VER 2) 전에 저장된 '조식 포함'은 기본값이었으므로 새 기본값으로 한 번만 옮기고 알려준다
 if(optsMigrated){ save(); $('s1Notice').hidden=false; }
 if(s2Migrated){ s2Save(); $('s2Notice').hidden=false; }
@@ -1665,9 +2044,11 @@ fetch(RAW+'?t='+Date.now()).then(r=>{if(!r.ok) throw 0; return r.json();})
   if(d.updated) $('updatedHint').textContent=`마지막 자동 조회: ${d.updated}. 매일 오전 9시에 조회하고, 마요르카(조에트리)는 기본으로 올인클루시브 요금을 봐요.`;
   if(d.updated) $('s2UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 1과 같은 호텔을 날짜만 9/8~22로 바꿔 조회해요.`;
   if(d.updated) $('s3UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 3 날짜(9/8~22)로 같은 호텔·객실을 조회해요.`;
+  if(d.updated) $('s4UpdatedHint').textContent=`마지막 자동 조회: ${d.updated}. 일정 2의 바르셀로나·세비야·포르투 3곳(10박) 조회가를 공유하고, 마요르카 숙소는 양쪽 모두 제외했어요.`;
   renderHotels(); calculate();
   renderS2(); s2Calc();
   renderS3(); s3Calc();
+  renderS4(); s4Calc();
 }).catch(()=>{});
 </script>
 </body>
