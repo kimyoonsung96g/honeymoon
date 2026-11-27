@@ -60,9 +60,8 @@ HOTELS = {
 }
 
 
-# ---------------- 일정 2 (2027-09-08~09-22, 14박) ----------------
-# 바르셀로나 9/8~9/12(4박) · 세비야 9/12~9/15(숙소 미정, 조회 대상 아님) · 포르투 9/15~9/18(3박) · 마요르카 9/18~9/22(4박)
-# 견적서와 같은 호텔·객실 기준으로 날짜만 바꿔 조회한다. 세비야는 견적서에 없는 도시라 화면에서 직접 입력.
+# ---------------- 일정 2 (2027-09-08~09-22, 14박 · 11/27 여행사 견적서 기준) ----------------
+# 바르셀로나 9/8~9/12(4박) · 마요르카 9/12~9/16(4박) · 세비야 9/16~9/19(3박) · 포르투 9/19~9/22(3박)
 HOTELS_S2 = {
     "1": {"name": "Ohla Eixample", "dates": "9/8~9/12", "nights": 4, "room": ["Essential", "에센셜", "=더블룸"],
           "k_room": (["더블룸", "Double Room"], ["디럭스", "Deluxe", "수페리어", "Superior", "스위트", "Suite", "트윈", "Twin"]),
@@ -71,21 +70,28 @@ HOTELS_S2 = {
           "gh": ("Hotel Ohla Eixample Barcelona", "2027-09-08", "2027-09-12"),
           "booking": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-08&checkout=2027-09-12" + BQ,
           "kayak": "https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-08/2027-09-12" + KQ},
-    "2": {"name": "Mercure Porto Centro", "dates": "9/15~9/18", "nights": 3, "room": ["Standard Double", "스탠다드 더블"],
-          "k_room": (["Superior Double", "슈페리어 더블", "슈피리어룸, 더블", "슈페리어 더블"], ["Twin", "트윈", "Family", "패밀리", "Suite", "스위트"]),
-          "g_room": (["슈페리어룸", "Superior Double", "슈페리어 더블"], ["싱글", "트윈", "트리플", "스위트", "패밀리", "Twin", "Single", "Triple", "Suite", "Family"]),
-          "gh_name": ["호텔 머큐어 포르토 센트로", "Mercure Porto Centro Santa Catarina", "Hotel Mercure Porto Centro"],
-          "gh": ("Mercure Porto Centro Santa Catarina", "2027-09-15", "2027-09-18"),
-          "booking": "https://www.booking.com/hotel/pt/mercure-batalha-porto.ko.html?checkin=2027-09-15&checkout=2027-09-18" + BQ,
-          "kayak": "https://www.kayak.co.kr/hotels/Mercure-Porto-Centro-Santa-Catarina,Porto,Portugal-c22089-h74862-details/2027-09-15/2027-09-18" + KQ},
-    "3": {"name": "Zoëtry Mallorca", "dates": "9/18~9/22", "nights": 4, "room": ["=포넨트 더블룸", "Ponent Double", "Double Ponent"],
+    "2": {"name": "Zoëtry Mallorca", "dates": "9/12~9/16", "nights": 4, "room": ["=포넨트 더블룸", "Ponent Double", "Double Ponent"],
           "k_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
           "g_room": (["Ponent", "포넨트"], ["스위트", "Suite", "주니어", "Junior", "디럭스", "Deluxe"]),
           "gh_name": ["Zoëtry Mallorca", "Zoetry Mallorca"],
-          "gh": ("Zoetry Mallorca", "2027-09-18", "2027-09-22"),
-          "booking": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-18&checkout=2027-09-22" + BQ,
-          "kayak": "https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-18/2027-09-22" + KQ,
+          "gh": ("Zoetry Mallorca", "2027-09-12", "2027-09-16"),
+          "booking": "https://www.booking.com/hotel/es/hotel-sa-torre-mallorca.ko.html?checkin=2027-09-12&checkout=2027-09-16" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Zoetry-Mallorca-Wellness-Spa,Llucmajor,Spain-h2495579-details/2027-09-12/2027-09-16" + KQ,
           "all_inclusive": True},
+    "3": {"name": "Hotel Sevilla Center", "dates": "9/16~9/19", "nights": 3, "room": ["Standard", "스탠다드", "더블", "Double"],
+          "k_room": (["Standard", "스탠다드"], ["Suite", "스위트", "Junior", "주니어", "Triple", "트리플"]),
+          "g_room": (["Standard", "스탠다드"], ["Suite", "스위트", "Junior", "주니어", "Triple", "트리플", "Single", "싱글"]),
+          "gh_name": ["Hotel Sevilla Center", "호텔 세비야 센터"],
+          "gh": ("Hotel Sevilla Center", "2027-09-16", "2027-09-19"),
+          "booking": "https://www.booking.com/hotel/es/sevillacenter.ko.html?checkin=2027-09-16&checkout=2027-09-19" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/Hotel-Sevilla-Center,Seville,Spain-h45565-details/2027-09-16/2027-09-19" + KQ},
+    "4": {"name": "One Shot Aliados Goldsmith", "dates": "9/19~9/22", "nights": 3, "room": ["Standard", "스탠다드"],
+          "k_room": (["Standard", "스탠다드"], ["Superior", "수페리어", "슈페리어", "Deluxe", "디럭스", "Suite", "스위트"]),
+          "g_room": (["Standard", "스탠다드"], ["Superior", "수페리어", "슈페리어", "Deluxe", "디럭스", "Suite", "스위트", "Single", "싱글"]),
+          "gh_name": ["One Shot Aliados Goldsmith"],
+          "gh": ("One Shot Aliados Goldsmith", "2027-09-19", "2027-09-22"),
+          "booking": "https://www.booking.com/hotel/pt/one-shot-aliados-goldsmith-12.ko.html?checkin=2027-09-19&checkout=2027-09-22" + BQ,
+          "kayak": "https://www.kayak.co.kr/hotels/One-Shot-Aliados-Goldsmith,Porto,Portugal-h6179049-details/2027-09-19/2027-09-22" + KQ},
 }
 
 
@@ -117,7 +123,7 @@ HOTELS_S3 = {
           "booking": "https://www.booking.com/hotel/es/ohla-eixample.ko.html?checkin=2027-09-18&checkout=2027-09-22" + BQ,
           "kayak": "https://www.kayak.co.kr/hotels/Ohla-Eixample,Barcelona,Spain-c22567-h2502753-details/2027-09-18/2027-09-22" + KQ},
 }
-REUSE_HOTELS_S3 = {"2"}          # 포르투 9/15~9/18 = 일정 2와 동일 날짜·숙소 → hotels_s2/official_s2 결과 재사용
+REUSE_HOTELS_S3 = set()          # 일정 2 순서 변경(BCN→PMI→SVQ→OPO)으로 일정 3과 날짜·호텔이 달라져 독립 조회
 
 
 # ---------------- 구글 호텔 검색 URL ----------------
@@ -210,15 +216,16 @@ EXTRAS = {
 }
 CAR_DAYS = 4
 
-# 일정 2 도시 간 이동·렌터카 (세비야→포르투 9/15, 포르투→마요르카 9/18, 마요르카→바르셀로나 9/22, 마요르카 렌터카 9/18~9/22 4일)
+# 일정 2 도시 간 이동·렌터카 (바르셀로나→마요르카 9/12, 마요르카→세비야 9/16, 세비야→포르투 9/19, 포르투→바르셀로나 9/22, 마요르카 렌터카 9/12~9/16 4일)
 EXTRAS_S2 = {
-    "fl_svq_opo": {"name": "세비야→포르투 9/15", "kind": "flight", "url": _gf("SVQ", "OPO", "2027-09-15")},
-    "fl_opo_pmi": {"name": "포르투→마요르카 9/18", "kind": "flight", "url": _gf("OPO", "PMI", "2027-09-18")},
-    "fl_pmi_bcn": {"name": "마요르카→바르셀로나 9/22", "kind": "flight", "url": _gf("PMI", "BCN", "2027-09-22")},
-    "car_small": {"name": "마요르카 렌터카 자동 최저가 (9/18~9/22, 4일)", "kind": "car",
-                  "url": "https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a"},
-    "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/18~9/22, 4일)", "kind": "car",
-                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-18-12h/2027-09-22-12h?sort=price_a&fs=carclass=suv"},
+    "fl_bcn_pmi": {"name": "바르셀로나→마요르카 9/12", "kind": "flight", "url": _gf("BCN", "PMI", "2027-09-12")},
+    "fl_pmi_svq": {"name": "마요르카→세비야 9/16", "kind": "flight", "url": _gf("PMI", "SVQ", "2027-09-16")},
+    "fl_svq_opo": {"name": "세비야→포르투 9/19", "kind": "flight", "url": _gf("SVQ", "OPO", "2027-09-19")},
+    "fl_opo_bcn": {"name": "포르투→바르셀로나 9/22", "kind": "flight", "url": _gf("OPO", "BCN", "2027-09-22")},
+    "car_small": {"name": "마요르카 렌터카 자동 최저가 (9/12~9/16, 4일)", "kind": "car",
+                  "url": "https://www.kayak.co.kr/cars/PMI/2027-09-12-12h/2027-09-16-12h?sort=price_a"},
+    "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/12~9/16, 4일)", "kind": "car",
+                "url": "https://www.kayak.co.kr/cars/PMI/2027-09-12-12h/2027-09-16-12h?sort=price_a&fs=carclass=suv"},
 }
 
 # 일정 3 도시 간 이동·렌터카 (바르셀로나→마요르카 9/8, 마요르카→세비야 9/12, 세비야→포르투 9/15, 포르투→바르셀로나 9/18,
@@ -233,7 +240,7 @@ EXTRAS_S3 = {
     "car_suv": {"name": "마요르카 렌터카 자동 SUV (9/8~9/12, 4일)", "kind": "car",
                 "url": "https://www.kayak.co.kr/cars/PMI/2027-09-08-12h/2027-09-12-12h?sort=price_a&fs=carclass=suv"},
 }
-REUSE_EXTRAS_S3 = {"fl_svq_opo"}  # 세비야→포르투 9/15 = 일정 2와 동일 날짜 → extras_s2 결과 재사용
+REUSE_EXTRAS_S3 = set()  # 일정 2 날짜 변경으로 독립 조회
 
 WON = re.compile(r"(?:₩\s*([\d,]+)|([\d,]{5,})\s*원)")
 NO_ROOM = ["선택하신 날짜에 이용 가능한 객실이 없습니다", "예약 가능한 객실이 없습니다", "예약 가능한 객실 없음",
@@ -677,20 +684,16 @@ OFFICIAL = {
           "room": ["double superior"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
 }
 
-# 일정 2 공식 홈페이지 (같은 호텔·같은 객실, 날짜만 9/8~9/22로 변경)
+# 일정 2 공식 홈페이지 (바르셀로나 올라 9/8~9/12 · 마요르카 조에트리 9/12~9/16)
 OFFICIAL_S2 = {
     "1": {"site": "올라 공식(Privilege Club)", "engine": "emascaro", "cur": "auto",
           "home": "https://booking.ohlaboutiquehotels.com/en/",
           "url": "https://booking.ohlaboutiquehotels.com/en/bookcore/availability/ohlcrs/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
           "ci": "2027-09-08", "co": "2027-09-12", "nights": 4,
           "room": ["essential"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
-    "2": {"site": "아코르 공식(ALL 회원가)", "engine": "accor", "cur": "EUR",
-          "url": "https://all.accor.com/booking/en/accor/hotel/1975?dateIn={ci}&nights=3&compositions=2&stayplus=false",
-          "ci": "2027-09-15", "co": "2027-09-18", "nights": 3,
-          "room": ["superior room with 1 double bed"], "cancel": "Free cancellation", "meal": "Breakfast included"},
-    "3": {"site": "조에트리 공식(World of Hyatt)", "engine": "emascaro", "cur": "auto",
+    "2": {"site": "조에트리 공식(World of Hyatt)", "engine": "emascaro", "cur": "auto",
           "url": "https://bookings.hyattinclusivecollection.com/bookcore/availability/satorre/{ci}/{co}/2/0/?rrc=1&adults=2&occupancies=" + EMAS_OCC + "&occp=1",
-          "ci": "2027-09-18", "co": "2027-09-22", "nights": 4,
+          "ci": "2027-09-12", "co": "2027-09-16", "nights": 4,
           "room": ["ponent"], "cancel": "Free cancellation", "meal": "Bed & Breakfast"},
 }
 
