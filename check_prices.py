@@ -617,8 +617,8 @@ def gh_pick(cands, h, ref, label):
 FLIGHT_JS = r"""
 () => [...document.querySelectorAll('li')].map((e, i) => {
     const t = (e.innerText || '').replace(/\s+/g, ' ').trim();
-    const a = e.querySelector('a[aria-label]') || e.querySelector('a');
-    return {i, t: t.slice(0, 500), al: a ? (a.getAttribute('aria-label') || '') : '', href: a ? (a.href || '') : ''};
+    const a = e.querySelector('[role="link"][aria-label]') || e.querySelector('a[aria-label]') || e.querySelector('a');
+    return {i, t: t.slice(0, 500), al: a ? (a.getAttribute('aria-label') || '') : '', href: a ? (a.getAttribute('href') || a.href || '') : ''};
   })
   .filter(r => /₩/.test(r.t) && /(시간|분)/.test(r.t) && /(직항|경유)/.test(r.t))
 """
@@ -692,14 +692,20 @@ def fetch_flight(page, url, key):
             page.goto(booking, wait_until="domcontentloaded", timeout=60000)
         else:
             li = page.locator("li").nth(int(row["i"]))
-            link = li.locator("a[aria-label]").first if li.locator("a[aria-label]").count() else li
+            sel = "[role='link'][aria-label]"
+            link = li.locator(sel).first if li.locator(sel).count() else li
             try:
                 with page.context.expect_page(timeout=6000) as pinfo:
                     link.click(timeout=20000)
                 target = pinfo.value
             except Exception:
                 pass
-        target.wait_for_timeout(9000)
+        target.wait_for_timeout(6000)
+        try:
+            target.wait_for_function(
+                "() => document.body.innerText.includes('수하물')", timeout=15000)
+        except Exception:
+            pass
         body = target.inner_text("body")
         # 숨김 접근성 문구(aria-label)까지 함께 읽어 수하물 요금을 놓치지 않게 한다
         body += "\n" + target.evaluate(
