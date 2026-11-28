@@ -1481,11 +1481,7 @@
    "bag20": 80314,
    "bag20_src": "google",
    "carry_add": 0,
-   "carry_range": [
-    80314,
-    80314
-   ],
-   "carry_incl": false
+   "carry_incl": true
   },
   "fl_opo_svq": {
    "name": "포르투→세비야 9/15",

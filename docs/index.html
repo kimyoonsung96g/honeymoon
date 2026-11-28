@@ -678,7 +678,7 @@ function bagBreak(r){
   if(!r||r.fare_base==null||r.bag20==null) return '';
   const per=r.fare_base+r.bag20;
   let s=` · 1인 항공권 ${fmt(r.fare_base)} + 위탁 20kg ${fmt(r.bag20)} = ${fmt(per)}`+(r.bag20_src==='추정'?' (위탁 요금은 공시 추정치)':'');
-  if(r.carry_range && !r.carry_incl) s+=` · 기내 수하물 별도(${fmt(r.carry_range[0])}~${fmt(r.carry_range[1])})`;
+  if(r.carry_range && !r.carry_incl){ const a=fmt(r.carry_range[0]), b=fmt(r.carry_range[1]); s+=` · 기내 수하물 별도(${a===b?a:a+'~'+b})`; }
   return s;
 }
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;

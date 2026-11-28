@@ -655,17 +655,19 @@ def _bag_fee(body):
     t = (body or "").replace("₩", "")
 
     def rng(label):
-        m = re.search(label + r"[^0-9]{0,30}([0-9,]{4,})\s*(?:대한민국 원|원)?\s*[~∼\-]\s*([0-9,]{4,})", t)
+        m = re.search(label + r"[^0-9\n]{0,15}([0-9,]{4,})\s*(?:대한민국 원|원)?\s*[~∼\-]\s*([0-9,]{4,})", t)
         if m:
             return int(m.group(1).replace(",", "")), int(m.group(2).replace(",", ""))
-        m = re.search(label + r"[^0-9]{0,30}([0-9,]{4,})\s*(?:대한민국 원|원)", t)
+        m = re.search(label + r"[^0-9\n]{0,15}([0-9,]{4,})\s*(?:대한민국 원|원)", t)
         if m:
             v = int(m.group(1).replace(",", ""))
             return v, v
         return None
 
     carry = rng(r"(?:기내 수하물 1개 비용|기내 수하물 1개)")
-    carry_incl = bool(re.search(r"기내 수하물 1개[^\n]{0,60}총 가격에 포함", t))
+    # '무료 기내 수하물 1개'는 기내 수하물이 이미 포함됬다는 표시
+    carry_incl = bool(re.search(r"무료 기내 수하물 1개", t)) or \
+        bool(re.search(r"기내 수하물 1개[^\n]{0,60}총 가격에 포함", t))
     checked = rng(r"(?:첫 번째 위탁 수하물 비용|위탁 수하물 1개)")
     return carry, carry_incl, checked
 
