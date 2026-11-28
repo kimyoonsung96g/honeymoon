@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-27 17:12",
- "eur_krw": 1476,
- "eur_krw_date": "2026-11-26",
+ "updated": "2026-11-28 10:29",
+ "eur_krw": 1463,
+ "eur_krw_date": "2026-11-27",
  "eur_krw_src": "frankfurter",
- "eur_krw_updated": "2026-11-27 17:12",
+ "eur_krw_updated": "2026-11-28 10:29",
  "hotels": {
   "1": {
    "history": [
@@ -14,11 +14,15 @@
     {
      "date": "2026-11-27",
      "krw": 2042319
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2028926
     }
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -29,6 +33,10 @@
     {
      "date": "2026-11-27",
      "krw": 2042319
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2028926
     }
    ],
    "ro_error": "조식 미포함 요금이 없음",
@@ -36,7 +44,7 @@
    "ai_history": [],
    "method": "rows-v6",
    "ai_fc_history": [],
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 더블룸 투숙 가능 인원: 성인 2명 더블침대 1개 이 세련된 객실은 현지 뒤뜰 전망을 자랑합니다. 침대에서 투명하게 보이는 레인 샤워기가 구비되어 있습니다. 객실, 디럭스 더블룸 - 다락 투숙 가능 인원: 성인 2명 대형 더블침대 1개 이 객실은 인더스트리얼 장식, 독)",
+   "room_used": "더블룸",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -45,6 +53,10 @@
     {
      "date": "2026-11-27",
      "krw": 2191924
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1952353
     }
    ],
    "gh_fc_history": [
@@ -55,13 +67,17 @@
     {
      "date": "2026-11-27",
      "krw": 2191924
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1952353
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_error": "견적 객실 없어 전체 최저가",
+   "gh_fc_error": "견적 객실 없어 전체 최저가",
    "gh_method": "gh-entity-v1",
-   "gh_note": null
+   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
   },
   "2": {
    "history": [
@@ -72,11 +88,15 @@
     {
      "date": "2026-11-27",
      "krw": 2267181
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2252313
     }
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -87,6 +107,10 @@
     {
      "date": "2026-11-27",
      "krw": 4600377
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4570207
     }
    ],
    "fc_error": null,
@@ -98,6 +122,10 @@
     {
      "date": "2026-11-27",
      "krw": 2516798
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2500292
     }
    ],
    "ro_error": "조식 미포함 요금이 없음",
@@ -111,9 +139,13 @@
     {
      "date": "2026-11-27",
      "krw": 4852057
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4820236
     }
    ],
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스룸 - Ponent 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개 방음 시설과 발코니를 갖춘 이 트윈룸/더블룸에는 에어컨이 설치되어 있습니다. 객실, 디럭스룸 - Tramuntana 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개)",
+   "room_used": "포넨트 더블룸",
    "ai_fc_error": null,
    "gh_history": [
     {
@@ -151,11 +183,15 @@
     {
      "date": "2026-11-27",
      "krw": 1039506
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1032688
     }
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -166,6 +202,10 @@
     {
      "date": "2026-11-27",
      "krw": 1197984
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1190128
     }
    ],
    "ro_error": null,
@@ -177,12 +217,16 @@
     {
      "date": "2026-11-27",
      "krw": 898046
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 892156
     }
    ],
    "ai_history": [],
    "method": "rows-v6",
    "ai_fc_history": [],
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: Junior Family Suite with Double Bed and Sofa Bed 소파베드 1개 및 대형 더블침대 1개 단독으로 사용하는 스위트룸, Privilege Double Room with Panoramic City View 더블침대 1개 객실, Super)",
+   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: Junior Family Suite with Double Bed and Sofa Bed, Privilege Double Room with Panoramic City View, Superior Double Bed City View, 수페리어룸 - 도시 전망, 트윈침대, )",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -218,11 +262,15 @@
     {
      "date": "2026-11-27",
      "krw": 485780
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 482595
     }
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -233,6 +281,10 @@
     {
      "date": "2026-11-27",
      "krw": 529544
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 526072
     }
    ],
    "ro_error": null,
@@ -244,12 +296,16 @@
     {
      "date": "2026-11-27",
      "krw": 412840
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 410133
     }
    ],
    "ai_history": [],
    "method": "rows-v6",
    "ai_fc_history": [],
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스 더블룸 - 대로 전망 투숙 가능 인원: 성인 2명 더블침대 1개 이 더블룸에는 샤워 시설, 헤어드라이어, 슬리퍼가 구비된 전용 욕실이 있으며, 무료 세면도구와 목욕 가운이 비치되어 있습니다. 이 넓은 더블룸에는 방음벽이 장치되어 있고, 에어컨, 평면 케이블 TV)",
+   "room_used": "수페리어 더블룸",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -263,8 +319,8 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_error": "상세 가격 목록을 찾지 못함",
+   "gh_fc_error": "상세 가격 목록을 찾지 못함",
    "gh_method": "gh-entity-v1",
    "gh_note": null
   }
@@ -272,8 +328,8 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-27 17:12",
-   "error": null,
+   "last_check": "2026-11-28 10:29",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-26",
@@ -288,8 +344,8 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-27 17:12",
-   "error": null,
+   "last_check": "2026-11-28 10:29",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-26",
@@ -304,8 +360,8 @@
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-27 17:12",
-   "error": null,
+   "last_check": "2026-11-28 10:29",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
    "history": [
     {
      "date": "2026-11-25",
@@ -324,7 +380,7 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -340,7 +396,7 @@
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
    "history": [
     {
@@ -358,12 +414,12 @@
  "official": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -372,7 +428,7 @@
    "cur": "EUR",
    "public": {
     "amt": 1726.0,
-    "krw": 2547576
+    "krw": 2525138
    },
    "history": [
     {
@@ -382,11 +438,15 @@
     {
      "date": "2026-11-27",
      "krw": 2547576
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2525138
     }
    ],
    "member": {
     "amt": 1381.0,
-    "krw": 2038356
+    "krw": 2020403
    },
    "member_error": null,
    "member_history": [
@@ -397,12 +457,16 @@
     {
      "date": "2026-11-27",
      "krw": 2038356
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2020403
     }
    ]
   },
   "3": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -411,7 +475,7 @@
    "cur": "EUR",
    "public": {
     "amt": 596.97,
-    "krw": 881128
+    "krw": 873367
    },
    "history": [
     {
@@ -421,11 +485,15 @@
     {
      "date": "2026-11-27",
      "krw": 881128
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 873367
     }
    ],
    "member": {
     "amt": 568.02,
-    "krw": 838398
+    "krw": 831013
    },
    "member_error": null,
    "member_history": [
@@ -436,12 +504,16 @@
     {
      "date": "2026-11-27",
      "krw": 838398
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 831013
     }
    ]
   },
   "4": {
    "name": "투림 공식(TURIM Club)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": null,
    "room": "DOUBLE SUPERIOR",
    "rate": "Black Friday 2026 | Flexible Rate",
@@ -450,7 +522,7 @@
    "cur": "EUR",
    "public": {
     "amt": 228.69,
-    "krw": 337546
+    "krw": 334573
    },
    "history": [
     {
@@ -460,6 +532,10 @@
     {
      "date": "2026-11-27",
      "krw": 337546
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 334573
     }
    ]
   }
@@ -468,7 +544,7 @@
   "1": {
    "name": "Ohla Eixample",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -477,6 +553,10 @@
     {
      "date": "2026-11-27",
      "krw": 1907684
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1962329
     }
    ],
    "gh_fc_history": [
@@ -487,6 +567,10 @@
     {
      "date": "2026-11-27",
      "krw": 1907684
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2006474
     }
    ],
    "gh_ai_history": [],
@@ -499,6 +583,10 @@
     {
      "date": "2026-11-27",
      "krw": 2104209
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2090409
     }
    ],
    "fc_history": [
@@ -509,24 +597,28 @@
     {
      "date": "2026-11-27",
      "krw": 2104209
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2090409
     }
    ],
    "ro_history": [],
    "ai_history": [],
    "ai_fc_history": [],
    "method": "rows-v6",
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 더블룸 투숙 가능 인원: 성인 2명 더블침대 1개 이 세련된 객실은 현지 뒤뜰 전망을 자랑합니다. 침대에서 투명하게 보이는 레인 샤워기가 구비되어 있습니다. 객실, 디럭스 더블룸 - 다락 투숙 가능 인원: 성인 2명 대형 더블침대 1개 이 객실은 인더스트리얼 장식, 독)",
+   "room_used": "더블룸",
    "last_error": null,
    "fc_error": null,
    "ro_error": "조식 미포함 요금이 없음",
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
-   "gh_note": null
+   "gh_error": "견적 객실 없어 전체 최저가",
+   "gh_fc_error": "견적 객실 없어 전체 최저가",
+   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
   },
   "2": {
    "name": "Zoëtry Mallorca",
    "dates": "9/12~9/16",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -535,6 +627,10 @@
     {
      "date": "2026-11-27",
      "krw": 2135033
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2132227
     }
    ],
    "gh_fc_history": [
@@ -545,6 +641,10 @@
     {
      "date": "2026-11-27",
      "krw": 2364750
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2361642
     }
    ],
    "gh_ai_history": [],
@@ -557,6 +657,10 @@
     {
      "date": "2026-11-27",
      "krw": 2095957
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2082211
     }
    ],
    "fc_history": [
@@ -567,6 +671,10 @@
     {
      "date": "2026-11-27",
      "krw": 2327007
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2311746
     }
    ],
    "ro_history": [
@@ -583,16 +691,24 @@
     {
      "date": "2026-11-27",
      "krw": 4431216
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4402155
     }
    ],
    "ai_fc_history": [
     {
      "date": "2026-11-27",
      "krw": 4662265
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4631690
     }
    ],
    "method": "rows-v6",
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스룸 - Ponent 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개 방음 시설과 발코니를 갖춘 이 트윈룸/더블룸에는 에어컨이 설치되어 있습니다. 객실, 디럭스룸 - Tramuntana 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개)",
+   "room_used": "포넨트 더블룸",
    "last_error": null,
    "fc_error": null,
    "ro_error": "조식 미포함 요금이 없음",
@@ -606,7 +722,7 @@
   "3": {
    "name": "Hotel Sevilla Center",
    "dates": "9/16~9/19",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
@@ -615,18 +731,30 @@
     {
      "date": "2026-11-27",
      "krw": 845799
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 840252
     }
    ],
    "fc_history": [
     {
      "date": "2026-11-27",
      "krw": 845799
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 840252
     }
    ],
    "ro_history": [
     {
      "date": "2026-11-27",
      "krw": 735171
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 730349
     }
    ],
    "ai_history": [],
@@ -641,12 +769,12 @@
    "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_ai_error": "상세 가격 목록을 찾지 못함",
    "gh_note": null,
-   "room_used": "더블룸/트윈룸 (성인 1~2명) 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 대형 더블침대 1개 객실"
+   "room_used": "더블룸/트윈룸 (성인 1~2명)"
   },
   "4": {
    "name": "One Shot Aliados Goldsmith",
    "dates": "9/19~9/22",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
@@ -655,24 +783,36 @@
     {
      "date": "2026-11-27",
      "krw": 980019
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 973592
     }
    ],
    "fc_history": [
     {
      "date": "2026-11-27",
      "krw": 980019
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 973592
     }
    ],
    "ro_history": [
     {
      "date": "2026-11-27",
      "krw": 837985
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 832489
     }
    ],
    "ai_history": [],
    "ai_fc_history": [],
    "method": "rows-v6",
-   "room_used": "스탠다드 더블룸/트윈룸 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 대형 더블침대 1개",
+   "room_used": "스탠다드 더블룸/트윈룸",
    "last_error": null,
    "fc_error": null,
    "ro_error": null,
@@ -684,12 +824,12 @@
  "official_s2": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -698,7 +838,7 @@
    "cur": "EUR",
    "public": {
     "amt": 1596.0,
-    "krw": 2355696
+    "krw": 2334948
    },
    "history": [
     {
@@ -708,11 +848,15 @@
     {
      "date": "2026-11-27",
      "krw": 2355696
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2334948
     }
    ],
    "member": {
     "amt": 1277.0,
-    "krw": 1884852
+    "krw": 1868251
    },
    "member_error": null,
    "member_history": [
@@ -723,6 +867,10 @@
     {
      "date": "2026-11-27",
      "krw": 1884852
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 1868251
     }
    ]
   },
@@ -735,7 +883,7 @@
  "extras_s2": {
   "fl_svq_opo": {
    "name": "세비야→포르투 9/19",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [
     {
      "date": "2026-11-26",
@@ -747,7 +895,7 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_opo_pmi": {
    "name": "포르투→마요르카 9/18",
@@ -783,21 +931,21 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/12~9/16, 4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/12~9/16, 4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/12",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [
     {
      "date": "2026-11-27",
@@ -805,11 +953,11 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_pmi_svq": {
    "name": "마요르카→세비야 9/16",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [
     {
      "date": "2026-11-27",
@@ -817,11 +965,11 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_opo_bcn": {
    "name": "포르투→바르셀로나 9/22",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [
     {
      "date": "2026-11-27",
@@ -829,24 +977,32 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   }
  },
  "hotels_s3": {
   "1": {
    "name": "Zoëtry Mallorca",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [
     {
      "date": "2026-11-26",
      "krw": 2165608
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2150324
     }
    ],
    "gh_fc_history": [
     {
      "date": "2026-11-26",
      "krw": 2404660
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2387684
     }
    ],
    "gh_ai_history": [],
@@ -859,6 +1015,10 @@
     {
      "date": "2026-11-27",
      "krw": 2382707
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2367080
     }
    ],
    "fc_history": [
@@ -869,6 +1029,10 @@
     {
      "date": "2026-11-27",
      "krw": 2645732
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2628382
     }
    ],
    "ro_history": [],
@@ -880,6 +1044,10 @@
     {
      "date": "2026-11-27",
      "krw": 4714871
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4683950
     }
    ],
    "ai_fc_history": [
@@ -890,24 +1058,28 @@
     {
      "date": "2026-11-27",
      "krw": 4979960
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 4947301
     }
    ],
    "method": "rows-v6",
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: 디럭스룸 - Ponent 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개 방음 시설과 발코니를 갖춘 이 트윈룸/더블룸에는 에어컨이 설치되어 있습니다. 객실, 디럭스룸 - Tramuntana 선호 침대 선택(가능한 경우 제공) 싱글침대 2개 더블침대 1개)",
+   "room_used": "포넨트 더블룸",
    "last_error": null,
    "fc_error": null,
    "ro_error": "조식 미포함 요금이 없음",
    "ai_error": null,
    "ai_fc_error": null,
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_error": null,
+   "gh_fc_error": null,
    "gh_ai_error": "구글 호텔에 올인클루시브 표시 요금이 없음",
    "gh_note": null
   },
   "3": {
-   "name": "Ohla Eixample",
-   "dates": "9/18~9/22",
-   "last_check": "2026-11-27 17:12",
+   "name": "Hotel Sevilla Center",
+   "dates": "9/15~9/18",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -930,23 +1102,39 @@
    ],
    "gh_ai_history": [],
    "gh_method": "gh-entity-v1",
-   "history": [],
-   "fc_history": [],
-   "ro_history": [],
+   "history": [
+    {
+     "date": "2026-11-28",
+     "krw": 840252
+    }
+   ],
+   "fc_history": [
+    {
+     "date": "2026-11-28",
+     "krw": 840252
+    }
+   ],
+   "ro_history": [
+    {
+     "date": "2026-11-28",
+     "krw": 730349
+    }
+   ],
    "ai_history": [],
    "ai_fc_history": [],
    "method": "rows-v6",
-   "last_error": "해당 날짜 예약 가능한 객실 없음 (매진이거나 아직 판매 전)",
-   "fc_error": "해당 날짜 예약 가능한 객실 없음 (매진이거나 아직 판매 전)",
-   "ro_error": "해당 날짜 예약 가능한 객실 없음 (매진이거나 아직 판매 전)",
-   "gh_error": "견적 객실 없어 전체 최저가",
-   "gh_fc_error": "견적 객실 없어 전체 최저가",
-   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
+   "last_error": null,
+   "fc_error": null,
+   "ro_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_note": null,
+   "room_used": "더블룸/트윈룸 (성인 1~2명)"
   },
   "2": {
-   "name": "Mercure Porto Centro",
-   "dates": "9/15~9/18",
-   "last_check": "2026-11-27 17:12",
+   "name": "One Shot Aliados Goldsmith",
+   "dates": "9/12~9/15",
+   "last_check": "2026-11-28 10:29",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -977,6 +1165,10 @@
     {
      "date": "2026-11-27",
      "krw": 1040758
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 967180
     }
    ],
    "fc_history": [
@@ -987,6 +1179,10 @@
     {
      "date": "2026-11-27",
      "krw": 1199458
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 967180
     }
    ],
    "ro_history": [
@@ -997,24 +1193,60 @@
     {
      "date": "2026-11-27",
      "krw": 899299
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 826077
     }
    ],
    "ai_history": [],
    "ai_fc_history": [],
    "method": "rows-v6",
-   "room_used": "견적 객실을 찾지 못해 전체 최저가 사용 (표의 객실: Junior Family Suite with Double Bed and Sofa Bed 소파베드 1개 및 대형 더블침대 1개 단독으로 사용하는 스위트룸, Privilege Double Room with Panoramic City View 더블침대 1개 객실, Super)",
+   "room_used": "스탠다드 더블룸/트윈룸",
    "last_error": null,
    "fc_error": null,
    "ro_error": null,
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "상세 가격 목록을 찾지 못함",
+   "gh_fc_error": "상세 가격 목록을 찾지 못함",
+   "gh_note": null
+  },
+  "4": {
+   "name": "Pestana Arena Barcelona",
+   "dates": "9/18~9/22",
+   "last_check": "2026-11-28 10:29",
+   "gh_history": [],
+   "gh_fc_history": [],
+   "gh_ai_history": [],
+   "gh_method": "gh-entity-v1",
+   "history": [
+    {
+     "date": "2026-11-28",
+     "krw": 2758177
+    }
+   ],
+   "fc_history": [],
+   "ro_history": [
+    {
+     "date": "2026-11-28",
+     "krw": 2585777
+    }
+   ],
+   "ai_history": [],
+   "ai_fc_history": [],
+   "method": "rows-v6",
+   "room_used": "스탠다드룸",
+   "last_error": null,
+   "fc_error": "조식 포함 무료 취소 요금이 없음",
+   "ro_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_note": null
   }
  },
  "official_s3": {
   "1": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -1023,7 +1255,7 @@
    "cur": "EUR",
    "public": {
     "amt": 1814.0,
-    "krw": 2677464
+    "krw": 2653882
    },
    "history": [
     {
@@ -1033,11 +1265,15 @@
     {
      "date": "2026-11-27",
      "krw": 2677464
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2653882
     }
    ],
    "member": {
     "amt": 1451.0,
-    "krw": 2141676
+    "krw": 2122813
    },
    "member_error": null,
    "member_history": [
@@ -1048,6 +1284,10 @@
     {
      "date": "2026-11-27",
      "krw": 2141676
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2122813
     }
    ]
   },
@@ -1099,7 +1339,7 @@
  "extras_s3": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/8",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [
     {
      "date": "2026-11-26",
@@ -1111,7 +1351,7 @@
     }
    ],
    "method": "list-v2",
-   "error": null
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_pmi_svq": {
    "name": "마요르카→세비야 9/12",
@@ -1147,14 +1387,14 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/8~9/12, 4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/8~9/12, 4일)",
-   "last_check": "2026-11-27 17:12",
+   "last_check": "2026-11-28 10:29",
    "history": [],
    "method": "list-v2",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
@@ -1174,6 +1414,27 @@
    ],
    "method": "list-v2",
    "error": null
+  },
+  "fl_pmi_opo": {
+   "name": "마요르카→포르투 9/12",
+   "last_check": "2026-11-28 10:29",
+   "history": [],
+   "method": "list-v2",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+  },
+  "fl_opo_svq": {
+   "name": "포르투→세비야 9/15",
+   "last_check": "2026-11-28 10:29",
+   "history": [],
+   "method": "list-v2",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+  },
+  "fl_svq_bcn": {
+   "name": "세비야→바르셀로나 9/18",
+   "last_check": "2026-11-28 10:29",
+   "history": [],
+   "method": "list-v2",
+   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   }
  }
 }
