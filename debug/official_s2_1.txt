@@ -26,6 +26,20 @@ ENGLISH
 FRANÇAIS
 DEUTSCH
 BOOKING
+Destination
+Select all hotels
+Ohla Barcelona
+Ohla Eixample Barcelona
+Check-in
+08
+Sep 2027
+Check-out
+12
+Sep 2027
+1 Room
+1
+0
+BOOK
 MENU
 Offers
 Gastronomy
