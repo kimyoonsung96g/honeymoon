@@ -623,12 +623,16 @@ FLIGHT_JS = r"""
   .filter(r => /₩/.test(r.t) && /(시간|분)/.test(r.t) && /(직항|경유)/.test(r.t))
 """
 
-# 예약 화면에서 수하물 요금을 못 읽었을 때 쓰는 항공사별 1인 편도 20kg 위탁 수하물 공시 요금 추정치
-BAG20_EST_KRW = {
-    "라이언에어": 87000, "부엘링": 55000, "이베리아": 60000, "에어유로파": 50000,
-    "에어노스트룸": 55000, "TAP": 60000, "포르투갈항공": 60000, "이지젯": 55000, "볼로테아": 50000,
+# 예약 화면에서 수하물 요금을 못 읽었을 때 쓰는 항공사별 1인 편도 20kg 위탁 수하물 공시 요금 (유로, 2026-11 확인)
+#   라이언 20kg: 구글 표시 범위 상단이 약 €59 (BCN→PMI 실측 ₩87,600)
+#   부엘링 20kg 온라인: €14~96 (항공사 공시, 성수기·단거리는 상단 근처)
+#   TAP 유럽 노선 첫 위탁: 온라인 €30부터, 통상 €39~45
+#   이베리아·에어유로파·이지젯·볼로테아 비슷한 유럽 단거리 20~23kg 온라인 요금대
+BAG20_EST_EUR = {
+    "라이언에어": 59, "부엘링": 55, "이베리아": 50, "이베리아항공": 50, "에어유로파": 40,
+    "에어노스트룸": 40, "TAP": 45, "Tap Air Portugal": 45, "포르투갈항공": 45, "이지젯": 40, "볼로테아": 45,
 }
-BAG20_EST_DEFAULT_KRW = 60000
+BAG20_EST_DEFAULT_EUR = 45
 
 
 def _flight_airline(row):
@@ -692,14 +696,29 @@ def fetch_flight(page, url, key):
             page.goto(booking, wait_until="domcontentloaded", timeout=60000)
         else:
             li = page.locator("li").nth(int(row["i"]))
-            sel = "[role='link'][aria-label]"
-            link = li.locator(sel).first if li.locator(sel).count() else li
             try:
-                with page.context.expect_page(timeout=6000) as pinfo:
-                    link.click(timeout=20000)
-                target = pinfo.value
+                det = li.locator("button[aria-label^='항공편 세부정보']").first
+                if det.count():
+                    det.click(timeout=20000)
+                    page.wait_for_timeout(2500)
             except Exception:
                 pass
+            picked = False
+            for cand in (li.locator("button:has-text('항공편 선택')").first,
+                         li.locator("[role='link'][aria-label]").first):
+                try:
+                    if not cand.count():
+                        continue
+                    cand.click(timeout=20000)
+                except Exception:
+                    continue
+                page.wait_for_timeout(4000)
+                pages = page.context.pages
+                target = pages[-1] if len(pages) > 1 else page
+                picked = True
+                break
+            if not picked:
+                target = page
         target.wait_for_timeout(6000)
         try:
             target.wait_for_function(
@@ -707,10 +726,20 @@ def fetch_flight(page, url, key):
         except Exception:
             pass
         body = target.inner_text("body")
+        # 구글이 오류 화면을 돌려주면 한 번만 다시 열어 본다
+        if "죄송합니다. 오류가 발생했습니다" in body or "반환된 결과가 없습니다" in body:
+            try:
+                target.reload(wait_until="domcontentloaded", timeout=60000)
+                target.wait_for_timeout(8000)
+                body = target.inner_text("body")
+            except Exception:
+                pass
         # 숨김 접근성 문구(aria-label)까지 함께 읽어 수하물 요금을 놓치지 않게 한다
         body += "\n" + target.evaluate(
             "() => [...document.querySelectorAll('[aria-label]')].map(e => e.getAttribute('aria-label')).join('\\n')")
         save_debug(f"flight_bag_{key}.txt", body)
+        if "운항 일정 요약" not in body:
+            note = (note + " · " if note else "") + "예약 화면을 열지 못해 위탁 수하물 요금 조회 실패"
         carry, carry_incl, checked = _bag_fee(body)
     except Exception as e:
         note = f"수하물 요금 화면 조회 실패: {str(e)[:60]}"
@@ -718,9 +747,11 @@ def fetch_flight(page, url, key):
     if checked:
         bag, bag_src = checked[1], "google"          # 범위의 최대값 = 20kg 가방 요금
     else:
-        bag = BAG20_EST_KRW.get(airline, BAG20_EST_DEFAULT_KRW)
+        eur = BAG20_EST_EUR.get(airline, BAG20_EST_DEFAULT_EUR)
+        bag = int(round(eur * EUR_KRW / 1000.0)) * 1000
         bag_src = "추정"
-        note = (note + " · " if note else "") + f"위탁 수하물 요금 조회 전이라 {airline or '항공사'} 공시 추정치 적용"
+        note = (note + " · " if note else "") + (
+            f"구글이 이 항공사의 위탁 요금을 안 줘서 {airline or '항공사'} 공시 €{eur} 적용")
     # 기준은 '위탁 수하물 1개(20kg) 포함'이므로 기내 수하물 요금은 합계에 넣지 않고 참고로만 남긴다
     per = fare + bag
     err = note if bag_src != "google" else None
