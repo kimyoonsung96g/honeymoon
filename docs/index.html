@@ -897,14 +897,24 @@ const S2_OPTIONS=[
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
 const S2_DEFAULT_OPTS={cancel:'nonref', meal:'allinc', car:'small', transfer:390000};
-let s2={opts:{...S2_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, sevName:'', picked:{}};
+// 실제 예약 결제 금액 (11/27 확정 메일, 현장 도시세 제외) — 조회가·옵션 계산보다 항상 우선해서 고정
+const S2_DEFAULT_HOTEL_ACTUAL={
+  '1':{v:'1259.70',cur:'EUR'}, // 올라 에이샴플레 예약확정 [tamcctcef1] (9/8~12, Essential Bed & Breakfast, VAT 포함, 현장 도시세 €114.40 제외, 9/1까지 무료취소)
+  '2':{v:'2557',cur:'EUR'}     // 조에트리 마요르카 예약확정 [hggxhgg6h1] (9/12~16, Ponent Endless Privileges 올인클루시브 20% 할인, 현장 관광세 €35 제외, 9/11까지 무료취소)
+};
+let s2={opts:{...S2_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, actualEdited:{}, sevName:'', picked:{}};
 let s2Migrated=false;
 let pricesS2={}, extrasS2={}, officialS2={};
 try{
   const st=JSON.parse(localStorage.getItem(S2_LS));
-  if(st){ s2={...s2, ...st, opts:{...S2_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+  if(st){ s2={...s2, ...st, opts:{...S2_DEFAULT_OPTS, ...(st.opts||{})}, actualEdited:st.actualEdited||{}, picked:st.picked||{}};
     if((Number(st.dv)||1)<DEFAULTS_VER && !s2.picked.meal && s2.opts.meal!==S2_DEFAULT_OPTS.meal){ s2.opts.meal=S2_DEFAULT_OPTS.meal; s2Migrated=true; } }
 }catch(e){}
+for(const id of Object.keys(S2_DEFAULT_HOTEL_ACTUAL)){
+  if(!s2.actualEdited[id] && (!s2.hotelActual[id] || !(Number(s2.hotelActual[id].v)>0))){
+    s2.hotelActual[id]={...S2_DEFAULT_HOTEL_ACTUAL[id]};
+  }
+}
 const s2Save=()=>{try{localStorage.setItem(S2_LS,JSON.stringify({...s2,dv:DEFAULTS_VER}));}catch(e){}};
 const s2Cur=k=>s2.manualCur[k]||'KRW';
 const s2Has=k=>s2.manual[k]!==undefined && s2.manual[k]!=='';
@@ -1010,11 +1020,13 @@ function renderS2Hotels(){
     inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
     ain.addEventListener('input',()=>{
       const v=ain.value;
+      s2.actualEdited[h.id]=true;
       if(v===''||!(Number(v)>0)) delete s2.hotelActual[h.id];
       else s2.hotelActual[h.id]={v:v,cur:asel.value};
       s2Save(); s2Calc();
     });
     asel.addEventListener('change',()=>{
+      s2.actualEdited[h.id]=true;
       const a=s2.hotelActual[h.id]; const n=Number(a?a.v:ain.value);
       if(n>0 && a && a.cur!==asel.value){
         const to=asel.value, c=to==='EUR'?n/fx:n*fx;
@@ -1666,11 +1678,20 @@ const S4_OPTIONS=[
     {v:180000, t:'우버, 볼트, 택시', p:'180,000원'}]}
 ];
 const S4_DEFAULT_OPTS={cancel:'nonref', meal:'breakfast', car:'small', transfer:390000};
-let s4={opts:{...S4_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, picked:{}};
+// 실제 예약 결제 금액 (일정 2와 같은 올라 에이샴플레 9/8~12 예약 [tamcctcef1], 현장 도시세 제외)
+const S4_DEFAULT_HOTEL_ACTUAL={
+  '1':{v:'1259.70',cur:'EUR'}
+};
+let s4={opts:{...S4_DEFAULT_OPTS}, manual:{}, manualCur:{}, hotelActual:{}, actualEdited:{}, picked:{}};
 try{
   const st=JSON.parse(localStorage.getItem(S4_LS));
-  if(st) s4={...s4, ...st, opts:{...S4_DEFAULT_OPTS, ...(st.opts||{})}, picked:st.picked||{}};
+  if(st) s4={...s4, ...st, opts:{...S4_DEFAULT_OPTS, ...(st.opts||{})}, actualEdited:st.actualEdited||{}, picked:st.picked||{}};
 }catch(e){}
+for(const id of Object.keys(S4_DEFAULT_HOTEL_ACTUAL)){
+  if(!s4.actualEdited[id] && (!s4.hotelActual[id] || !(Number(s4.hotelActual[id].v)>0))){
+    s4.hotelActual[id]={...S4_DEFAULT_HOTEL_ACTUAL[id]};
+  }
+}
 const s4Save=()=>{try{localStorage.setItem(S4_LS,JSON.stringify({...s4,dv:DEFAULTS_VER}));}catch(e){}};
 const s4Cur=k=>s4.manualCur[k]||'KRW';
 const s4Has=k=>s4.manual[k]!==undefined && s4.manual[k]!=='';
@@ -1755,11 +1776,13 @@ function renderS4Hotels(){
     inRow.append(ain,asel); ab.append(lb,inRow,aconv); box.append(ab);
     ain.addEventListener('input',()=>{
       const v=ain.value;
+      s4.actualEdited[h.id]=true;
       if(v===''||!(Number(v)>0)) delete s4.hotelActual[h.id];
       else s4.hotelActual[h.id]={v:v,cur:asel.value};
       s4Save(); s4Calc();
     });
     asel.addEventListener('change',()=>{
+      s4.actualEdited[h.id]=true;
       const a=s4.hotelActual[h.id]; const n=Number(a?a.v:ain.value);
       if(n>0 && a && a.cur!==asel.value){
         const to=asel.value, c=to==='EUR'?n/fx:n*fx;
