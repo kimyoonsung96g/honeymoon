@@ -208,9 +208,9 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
   <section>
     <h2>항공, 기차, 렌터카</h2>
-    <p class="hint">항공 조회가는 구글 항공편 편도 최저가(1인 요금 × 2인, 수하물 미포함, 참고용), 렌터카는 카약의 자동 변속기 4일 최저가(기본 보험, 풀보험 별도)예요.</p>
+    <p class="hint">항공 조회가는 구글 항공편 최저가에 구글이 표시한 위탁 수하물 1개(20kg) 요금을 더한 2인 기준이에요. 렌터카는 카약의 자동 변속기 4일 최저가(기본 보험, 풀보험 별도)예요.</p>
     <div id="extras"></div>
-    <p class="hint" style="margin-top:14px">직접 입력 (2인 기준). 항공은 1인당 20kg 위탁 수하물이 포함된 요금을 넣어주세요. 렌터카는 입력하면 조회가 대신 이 금액으로 계산해요.</p>
+    <p class="hint" style="margin-top:14px">직접 입력 (2인 기준). 조회가가 이미 위탁 수하물 20kg 포함 금액이니, 더 싼 요금을 찾았거나 기차표를 샀으면 여기에 넣어 주세요. 렌터카는 입력하면 조회가 대신 이 금액으로 계산해요.</p>
     <div class="fx">
       <div class="row"><span class="name">바르셀로나→마요르카 (20kg 포함)</span><span class="money"><input type="number" data-manual="fl_bcn_pmi" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="fl_bcn_pmi" aria-label="바르셀로나→마요르카 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="fl_bcn_pmi"></span></div>
       <div class="row"><span class="name">마요르카→포르투 (20kg 포함)</span><span class="money"><input type="number" data-manual="fl_pmi_opo" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="fl_pmi_opo" aria-label="마요르카→포르투 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="fl_pmi_opo"></span></div>
@@ -218,7 +218,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
       <div class="row"><span class="name">포르투→리스본 기차</span><span class="money"><input type="number" data-manual="train" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="train" aria-label="기차 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="train"></span></div>
       <div class="row"><span class="name">렌터카 (4일)</span><span class="money"><input type="number" data-manual="car" inputmode="numeric" class="num" placeholder="입력"><select data-manual-cur="car" aria-label="렌터카 금액 통화"><option value="KRW">원</option><option value="EUR">유로</option></select></span><span class="conv num" data-manual-conv="car"></span></div>
     </div>
-    <p class="hint" style="margin-top:6px">자동 조회된 항공 요금은 수하물이 빠진 최저가라 참고용으로만 보여주고, 합계에는 20kg 포함 입력값만 써요. 기차표는 출발 몇 달 전부터 판매돼요.</p>
+    <p class="hint" style="margin-top:6px">자동 조회된 항공 요금은 항공권 최저가에 구글이 표시한 위탁 수하물 1개(20kg) 요금을 더한 값이에요. 기차표는 출발 몇 달 전부터 판매돼요.</p>
   </section>
 
   <section>
@@ -285,7 +285,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>도시 간 이동과 렌터카</h2>
-      <p class="hint">항공 조회가는 구글 항공편 편도 최저가(2인, 수하물 미포함) 참고용이에요. 합계에는 직접 입력한 20kg 포함 금액을 먼저 쓰고, 입력 전에는 조회가나 예상값으로 계산해요.</p>
+      <p class="hint">항공 조회가는 구글 항공편 최저가에 위탁 수하물 1개(20kg) 요금을 더한 2인 기준이에요. 직접 입력한 금액이 있으면 그 금액을 먼저 써요.</p>
       <div id="s2moves"></div>
     </section>
 
@@ -349,7 +349,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>도시 간 이동과 렌터카</h2>
-      <p class="hint">항공 조회가는 구글 항공편 편도 최저가(2인, 수하물 미포함) 참고용이에요. 합계에는 직접 입력한 20kg 포함 금액을 먼저 쓰고, 입력 전에는 조회가나 예상값으로 계산해요.</p>
+      <p class="hint">항공 조회가는 구글 항공편 최저가에 위탁 수하물 1개(20kg) 요금을 더한 2인 기준이에요. 직접 입력한 금액이 있으면 그 금액을 먼저 써요.</p>
       <div id="s3moves"></div>
     </section>
 
@@ -409,7 +409,7 @@ h2{font-size:1rem;font-weight:700;margin:0 0 4px}
 
     <section>
       <h2>도시 간 이동과 렌터카</h2>
-      <p class="hint">항공 조회가는 구글 항공편 편도 최저가(2인, 수하물 미포함) 참고용이에요. 합계에는 직접 입력한 20kg 포함 금액을 먼저 쓰고, 입력 전에는 조회가나 예상값으로 계산해요.</p>
+      <p class="hint">항공 조회가는 구글 항공편 최저가에 위탁 수하물 1개(20kg) 요금을 더한 2인 기준이에요. 직접 입력한 금액이 있으면 그 금액을 먼저 써요.</p>
       <div id="s4moves"></div>
     </section>
 
@@ -672,7 +672,15 @@ function renderOptions(){
 }
 function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({opts,manual,manualCur,hotelActual,actualEdited,fx,fxManual,dv:DEFAULTS_VER,picked}));}catch(e){}}
 const lastK=hs=>hs&&hs.length?hs[hs.length-1].krw:null;
-const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (참고, 수하물 미포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (참고, 수하물 미포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (참고, 수하물 미포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
+const EXTRA_KEYS=[['fl_bcn_pmi','바르셀로나→마요르카 9/10 (20kg 포함)'],['fl_pmi_opo','마요르카→포르투 9/14 (20kg 포함)'],['fl_lis_bcn','리스본→바르셀로나 9/18 (20kg 포함)'],['car_small','렌터카 자동 최저가 (4일)'],['car_suv','렌터카 자동 SUV (4일)']];
+// 조회가가 어떤 항공권·수하물 요금으로 만들어졌는지 한 줄로 보여준다 (prices.json의 rec.fare_base / rec.bag20)
+function bagBreak(r){
+  if(!r||r.fare_base==null||r.bag20==null) return '';
+  const per=r.fare_base+r.bag20;
+  let s=` · 1인 항공권 ${fmt(r.fare_base)} + 위탁 20kg ${fmt(r.bag20)} = ${fmt(per)}`+(r.bag20_src==='추정'?' (위탁 요금은 공시 추정치)':'');
+  if(r.carry_range && !r.carry_incl) s+=` · 기내 수하물 별도(${fmt(r.carry_range[0])}~${fmt(r.carry_range[1])})`;
+  return s;
+}
 const GF=(f,t,d)=>`https://www.google.com/travel/flights?q=Flights%20from%20${f}%20to%20${t}%20on%20${d}%20one%20way&curr=KRW&hl=ko&gl=KR`;
 const BOOK_LINKS={
   fl_bcn_pmi:[['구글 항공편',GF('BCN','PMI','2027-09-10')],['스카이스캐너','https://www.skyscanner.co.kr/transport/flights/bcn/pmi/270910/?adultsv2=2']],
@@ -691,6 +699,8 @@ function renderExtras(){
   for(const [k,label] of EXTRA_KEYS){
     const r=extras[k]||{}; const box=document.createElement('div'); box.className='hotel';
     box.append(srcLine(label, r.history, r.error, false), linkRow(BOOK_LINKS[k]||[]));
+    const bb=bagBreak(r);
+    if(bb){ const d=document.createElement('div'); d.className='history'; d.style.fontSize='.78rem'; d.textContent=bb.replace(/^ · /,''); box.insertBefore(d, box.lastChild); }
     w.append(box);
   }
   const tb=document.createElement('div'); tb.className='hotel';
@@ -737,13 +747,19 @@ function calculate(){
   $('aiNote').textContent=notes.join(' / ');
 
   const M=k=>toKRW(Number(manual[k])||0, curOf(k));
-  const SEG=[['fl_bcn_pmi','바르셀로나→마요르카'],['fl_pmi_opo','마요르카→포르투'],['fl_lis_bcn','리스본→바르셀로나']];
-  let flight=0, known=0; const missing=[];
-  for(const [k,name] of SEG){ if(M(k)){ flight+=M(k); known++; } else missing.push(name); }
-  if(M('train')) flight+=M('train'); else missing.push('기차');
-  let fNote;
-  if(!known && !M('train')){ flight=840000; fNote='20kg 포함 항공 요금이 아직 입력되지 않아 기존 예상값 사용 (수하물, 기차 포함)'; }
-  else fNote=(missing.length?`20kg 포함 기준, 미입력: ${missing.join(', ')}`:'20kg 포함 기준, 모든 구간 반영');
+  // 항공 3구간 + 기차: 직접 입력 > 자동 조회가(위탁 20kg 포함) > 구간 예상값 순으로 계산 (일정 2·3·4와 같은 기준)
+  const SEG=[['fl_bcn_pmi','바르셀로나→마요르카',290000],['fl_pmi_opo','마요르카→포르투',350000],['fl_lis_bcn','리스본→바르셀로나',330000],['train','포르투→리스본 기차',90000]];
+  let flight=0; const fromAuto=[], fromEst=[]; let fromManual=0;
+  for(const [k,name,est] of SEG){
+    if(M(k)){ flight+=M(k); fromManual++; continue; }
+    const a=lastK((extras[k]||{}).history);
+    if(a!=null){ flight+=a; fromAuto.push(name); } else { flight+=est; fromEst.push(name); }
+  }
+  let fNote='위탁 수하물 20kg 포함 기준';
+  if(fromManual) fNote+=` · 직접 입력 ${fromManual}구간`;
+  if(fromAuto.length) fNote+=` · 자동 조회가 ${fromAuto.join(', ')}`;
+  if(fromEst.length) fNote+=` · 예상값 ${fromEst.join(', ')}`;
+  fNote+=' · 직접 입력하면 그 금액으로 계산';
   $('fNote').textContent=fNote;
 
   const ck=opts.car==='suv'?'car_suv':'car_small'; const cv=lastK((extras[ck]||{}).history);
@@ -1187,7 +1203,7 @@ function s2Calc(){
     if(ref){
       const bits=[];
       if(info.src==='input') bits.push(`직접 입력값 사용${info.auto!=null?` (조회 참고가 ${fmt(info.auto)})`:''}`);
-      else if(info.src==='auto') bits.push(`조회 참고가 ${fmt(info.auto)} 사용 (수하물 미포함) · 직접 입력하면 그 금액으로 바뀌어요`);
+      else if(info.src==='auto') bits.push(`조회가 ${fmt(info.auto)} 사용 (위탁 수하물 20kg 포함${bagBreak(extrasS2[m.key]||{})}) · 직접 입력하면 그 금액으로 바뀌어요`);
       else bits.push(`조회 전 예상값 ${fmt(m.est)} 사용`);
       if(info.err) bits.push(`조회: ${info.err}`);
       ref.textContent=bits.join(' · ');
@@ -1589,7 +1605,7 @@ function s3Calc(){
     if(ref){
       const bits=[];
       if(info.src==='input') bits.push(`직접 입력값 사용${info.auto!=null?` (조회 참고가 ${fmt(info.auto)})`:''}`);
-      else if(info.src==='auto') bits.push(`조회 참고가 ${fmt(info.auto)} 사용 (수하물 미포함) · 직접 입력하면 그 금액으로 바뀌어요`);
+      else if(info.src==='auto') bits.push(`조회가 ${fmt(info.auto)} 사용 (위탁 수하물 20kg 포함${bagBreak(extrasS3[m.key]||{})}) · 직접 입력하면 그 금액으로 바뀌어요`);
       else bits.push(`조회 전 예상값 ${fmt(m.est)} 사용`);
       if(info.err) bits.push(`조회: ${info.err}`);
       ref.textContent=bits.join(' · ');
@@ -1919,7 +1935,7 @@ function s4Calc(){
     if(ref){
       const bits=[];
       if(info.src==='input') bits.push(`직접 입력값 사용${info.auto!=null?` (조회 참고가 ${fmt(info.auto)})`:''}`);
-      else if(info.src==='auto') bits.push(`조회 참고가 ${fmt(info.auto)} 사용 (수하물 미포함) · 직접 입력하면 그 금액으로 바뀌어요`);
+      else if(info.src==='auto') bits.push(`조회가 ${fmt(info.auto)} 사용 (위탁 수하물 20kg 포함${bagBreak(extrasS2[m.key]||{})}) · 직접 입력하면 그 금액으로 바뀌어요`);
       else bits.push(`조회 전 예상값 ${fmt(m.est)} 사용`);
       if(info.err) bits.push(`조회: ${info.err}`);
       ref.textContent=bits.join(' · ');

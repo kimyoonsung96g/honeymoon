@@ -13,7 +13,9 @@ prices.json의 eur_krw / eur_krw_date에 저장한다 (실패하면 저장값, �
   - 조식 포함 / 조식 포함 + 무료 취소 / 조식 미포함 / 올인클루시브
   (부킹닷컴 주소의 필터는 호텔 페이지에서 적용되지 않아서, 표의 조건 문구로 직접 구분)
 호텔(구글 호텔): 견적서와 같은 객실의 조식 포함 / 올인클루시브 표시 요금만 읽음 (카약은 자동 조회 차단으로 제외)
-항공(구글 항공편): 검색 결과 목록의 편도 최저가 x 2인 (수하물 별도)
+항공(구글 항공편): 검색 결과 목록의 편도 최저가 + 위탁 수하물 1개(20kg) 요금 x 2인
+  - 구글 항공편의 '수하물' 필터는 기내 수하물만 지원하고 위탁 수하물 필터가 없어서,
+    최저가 항공편의 예약 화면에 구글이 표시하는 '첫 번째 위탁 수하물 비용'을 더한다 (2026-11 확인)
 렌터카(카약): 마요르카 4일 최저가 (자동 변속기, 광고 제외)
 
 결과: docs/prices.json / 확인용 화면 글자: debug/ 폴더
@@ -604,26 +606,121 @@ def gh_pick(cands, h, ref, label):
     return total, err
 
 
-# ---------------- 구글 항공편 ----------------
+# ---------------- 구글 항공편 (위탁 수하물 1개 20kg 포함 기준) ----------------
+# 구글 항공편의 '수하물' 필터는 기내 수하물 0/1개만 고를 수 있고 위탁 수하물 필터가 없다 (2026-11 확인).
+# 대신 항공편을 고르면 나오는 예약 화면에 구글이 그 항공편의 수하물 요금을 보여준다.
+#   기내 수하물 1개 비용: 18,239~52,569원 (총 가격에 포함)
+#   첫 번째 위탁 수하물 비용: 31,381~87,600원
+# 위탁 수하물 요금 범위의 최대값을 20kg 가방 요금으로 보고(구글도 '총 가격'을 최대 수하물 요금으로 계산),
+# 목록 최저가에 그 요금을 더해 '20kg 포함' 실결제 예상가를 만든다. 2인 기준으로 ×2.
+# 예약 화면에서 수하물 요금을 못 읽으면 항공사별 공시 20kg 요금 추정치를 쓴다(아래 BAG20_EST_KRW).
 FLIGHT_JS = r"""
-() => [...document.querySelectorAll('li')]
-  .map(e => (e.innerText || '').replace(/\s+/g, ' ').trim())
-  .filter(t => t.length < 400 && /₩/.test(t) && /(시간|분)/.test(t) && /(직항|경유)/.test(t))
+() => [...document.querySelectorAll('li')].map((e, i) => {
+    const t = (e.innerText || '').replace(/\s+/g, ' ').trim();
+    const a = e.querySelector('a[aria-label]') || e.querySelector('a');
+    return {i, t: t.slice(0, 500), al: a ? (a.getAttribute('aria-label') || '') : '', href: a ? (a.href || '') : ''};
+  })
+  .filter(r => /₩/.test(r.t) && /(시간|분)/.test(r.t) && /(직항|경유)/.test(r.t))
 """
+
+# 예약 화면에서 수하물 요금을 못 읽었을 때 쓰는 항공사별 1인 편도 20kg 위탁 수하물 공시 요금 추정치
+BAG20_EST_KRW = {
+    "라이언에어": 87000, "부엘링": 55000, "이베리아": 60000, "에어유로파": 50000,
+    "에어노스트룸": 55000, "TAP": 60000, "포르투갈항공": 60000, "이지젯": 55000, "볼로테아": 50000,
+}
+BAG20_EST_DEFAULT_KRW = 60000
+
+
+def _flight_airline(row):
+    """'최저가는 … 라이언에어의 직항 항공편입니다' 같은 문장에서 항공사 이름을 뽑는다."""
+    for txt in (row.get("al") or "", row.get("t") or ""):
+        for part in re.split(r"[.\n]", txt):
+            m = re.search(r"([가-힣A-Za-z][가-힣A-Za-z0-9 &]{0,20}?)의 (?:\d회 )?(?:직항|경유)", part)
+            if m:
+                return m.group(1).strip()
+        m = re.search(r"(?:오전|오후)\s*[\d:]+\s+([가-힣A-Za-z][가-힣A-Za-z0-9 &]{1,20}?)\s*(?:·|운항사)", txt)
+        if m:
+            return m.group(1).strip()
+    return ""
+
+
+def _bag_fee(body):
+    """구글 항공편 예약 화면에서 기내·위탁 수하물 요금을 읽는다.
+    화면 글자('위탁 수하물 1개: ₩31,381~87,600')와 숨김 접근성 문구
+    ('첫 번째 위탁 수하물 비용: 31381 대한민국 원~87600 대한민국 원') 둘 다 받는다."""
+    t = (body or "").replace("₩", "")
+
+    def rng(label):
+        m = re.search(label + r"[^0-9]{0,30}([0-9,]{4,})\s*(?:대한민국 원|원)?\s*[~∼\-]\s*([0-9,]{4,})", t)
+        if m:
+            return int(m.group(1).replace(",", "")), int(m.group(2).replace(",", ""))
+        m = re.search(label + r"[^0-9]{0,30}([0-9,]{4,})\s*(?:대한민국 원|원)", t)
+        if m:
+            v = int(m.group(1).replace(",", ""))
+            return v, v
+        return None
+
+    carry = rng(r"(?:기내 수하물 1개 비용|기내 수하물 1개)")
+    carry_incl = bool(re.search(r"기내 수하물 1개[^\n]{0,60}총 가격에 포함", t))
+    checked = rng(r"(?:첫 번째 위탁 수하물 비용|위탁 수하물 1개)")
+    return carry, carry_incl, checked
 
 
 def fetch_flight(page, url, key):
+    """위탁 수하물 1개(20kg) 포함 2인 편도 요금을 구한다."""
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(12000)
-    items = page.evaluate(FLIGHT_JS)
-    save_debug(f"flight_{key}.txt", "=== 항공편 목록으로 읽은 부분 ===\n" + "\n".join(items) +
-               "\n\n=== 화면 전체 ===\n" + page.inner_text("body"))
-    vals = []
-    for t in items:
-        vals += won_values(t, 10000, 3000000)
-    if not vals:
+    rows = page.evaluate(FLIGHT_JS)
+    save_debug(f"flight_{key}.txt", "=== 항공편 목록으로 읽은 부분 ===\n" +
+               "\n".join(r["t"] for r in rows) + "\n\n=== 화면 전체 ===\n" + page.inner_text("body"))
+    cand = []
+    for r in rows:
+        vals = won_values(r["t"], 10000, 3000000)
+        if vals:
+            cand.append((min(vals), _flight_airline(r), r))
+    if not cand:
         return None, "아직 판매 전이거나 항공편 목록을 찾지 못함"
-    return min(vals) * 2, None  # 1인 요금 x 2인
+    fare, airline, row = min(cand, key=lambda c: c[0])
+
+    # 최저가 항공편의 예약 화면에서 구글이 표시하는 수하물 요금을 읽는다
+    carry = carry_incl = checked = None
+    note = ""
+    booking = row.get("href") or ""
+    target = page
+    try:
+        if "/booking" in booking:
+            page.goto(booking, wait_until="domcontentloaded", timeout=60000)
+        else:
+            li = page.locator("li").nth(int(row["i"]))
+            link = li.locator("a[aria-label]").first if li.locator("a[aria-label]").count() else li
+            try:
+                with page.context.expect_page(timeout=6000) as pinfo:
+                    link.click(timeout=20000)
+                target = pinfo.value
+            except Exception:
+                pass
+        target.wait_for_timeout(9000)
+        body = target.inner_text("body")
+        # 숨김 접근성 문구(aria-label)까지 함께 읽어 수하물 요금을 놓치지 않게 한다
+        body += "\n" + target.evaluate(
+            "() => [...document.querySelectorAll('[aria-label]')].map(e => e.getAttribute('aria-label')).join('\\n')")
+        save_debug(f"flight_bag_{key}.txt", body)
+        carry, carry_incl, checked = _bag_fee(body)
+    except Exception as e:
+        note = f"수하물 요금 화면 조회 실패: {str(e)[:60]}"
+
+    if checked:
+        bag, bag_src = checked[1], "google"          # 범위의 최대값 = 20kg 가방 요금
+    else:
+        bag = BAG20_EST_KRW.get(airline, BAG20_EST_DEFAULT_KRW)
+        bag_src = "추정"
+        note = (note + " · " if note else "") + f"위탁 수하물 요금 조회 전이라 {airline or '항공사'} 공시 추정치 적용"
+    # 기준은 '위탁 수하물 1개(20kg) 포함'이므로 기내 수하물 요금은 합계에 넣지 않고 참고로만 남긴다
+    per = fare + bag
+    err = note if bag_src != "google" else None
+    return {"total": per * 2, "per": per, "fare": fare, "airline": airline,
+            "carry": 0, "carry_range": carry, "carry_incl": carry_incl,
+            "checked": bag, "bag_src": bag_src}, err
 
 
 # ---------------- 카약 렌터카 ----------------
@@ -1048,13 +1145,25 @@ def track_extras(page, extra_map, store, tag, now, put):
         rec = store.setdefault(key, {})
         rec["name"] = e["name"]
         rec["last_check"] = now.strftime("%Y-%m-%d %H:%M")
-        if rec.get("method") != "list-v2":
+        if rec.get("method") != "list-v3-bag20":
             rec["history"] = []
-            rec["method"] = "list-v2"
+            rec["method"] = "list-v3-bag20"
         prev_hist = rec.get("history") or []
         try:
             if e["kind"] == "flight":
-                v, verr = fetch_flight(page, e["url"], tag + key)
+                res, verr = fetch_flight(page, e["url"], tag + key)
+                if res:
+                    rec["fare_base"] = res["fare"]
+                    rec["airline"] = res["airline"]
+                    rec["bag20"] = res["checked"]
+                    rec["bag20_src"] = res["bag_src"]
+                    rec["carry_add"] = res["carry"]
+                    if res.get("carry_range"):
+                        rec["carry_range"] = list(res["carry_range"])
+                        rec["carry_incl"] = bool(res.get("carry_incl"))
+                    v = res["total"]
+                else:
+                    v = None
             else:
                 v, verr = fetch_car(page, e["url"], tag + key, prev_hist[-1]["krw"] if prev_hist else None)
         except Exception as err:
