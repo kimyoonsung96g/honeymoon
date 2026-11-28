@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-28 10:29",
+ "updated": "2026-11-28 12:30",
  "eur_krw": 1463,
  "eur_krw_date": "2026-11-27",
  "eur_krw_src": "frankfurter",
- "eur_krw_updated": "2026-11-28 10:29",
+ "eur_krw_updated": "2026-11-28 12:30",
  "hotels": {
   "1": {
    "history": [
@@ -22,7 +22,7 @@
    ],
    "name": "Ohla Eixample",
    "dates": "9/6~9/10",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -74,10 +74,10 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "견적 객실 없어 전체 최저가",
-   "gh_fc_error": "견적 객실 없어 전체 최저가",
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_method": "gh-entity-v1",
-   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
+   "gh_note": null
   },
   "2": {
    "history": [
@@ -96,7 +96,7 @@
    ],
    "name": "Zoëtry Mallorca",
    "dates": "9/10~9/14",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "last_error": null,
    "ai_error": null,
    "ai_history": [
@@ -155,6 +155,10 @@
     {
      "date": "2026-11-27",
      "krw": 2055444
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2046068
     }
    ],
    "gh_fc_history": [
@@ -165,11 +169,15 @@
     {
      "date": "2026-11-27",
      "krw": 2281756
+    },
+    {
+     "date": "2026-11-28",
+     "krw": 2271352
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
-   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
+   "gh_error": null,
+   "gh_fc_error": null,
    "gh_ai_error": "구글 호텔에 올인클루시브 표시 요금이 없음",
    "gh_method": "gh-entity-v1",
    "gh_note": null
@@ -191,7 +199,7 @@
    ],
    "name": "Mercure Porto Centro",
    "dates": "9/14~9/17",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -270,7 +278,7 @@
    ],
    "name": "TURIM Boulevard",
    "dates": "9/17~9/18",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "last_error": null,
    "fc_error": null,
    "fc_history": [
@@ -319,8 +327,8 @@
     }
    ],
    "gh_ai_history": [],
-   "gh_error": "상세 가격 목록을 찾지 못함",
-   "gh_fc_error": "상세 가격 목록을 찾지 못함",
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_method": "gh-entity-v1",
    "gh_note": null
   }
@@ -328,98 +336,79 @@
  "extras": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/10",
-   "last_check": "2026-11-28 10:29",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
+   "last_check": "2026-11-28 12:30",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
    "history": [
     {
-     "date": "2026-11-26",
-     "krw": 100120
-    },
-    {
-     "date": "2026-11-27",
-     "krw": 99672
+     "date": "2026-11-28",
+     "krw": 209268
     }
    ],
-   "method": "list-v2"
+   "method": "list-v3-bag20",
+   "fare_base": 49634,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/14",
-   "last_check": "2026-11-28 10:29",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
+   "last_check": "2026-11-28 12:30",
+   "error": "위탁 수하물 요금 조회 전이라 이지젯 공시 추정치 적용",
    "history": [
     {
-     "date": "2026-11-26",
-     "krw": 163450
-    },
-    {
-     "date": "2026-11-27",
-     "krw": 162472
+     "date": "2026-11-28",
+     "krw": 272060
     }
    ],
-   "method": "list-v2"
+   "method": "list-v3-bag20",
+   "fare_base": 81030,
+   "airline": "이지젯",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_lis_bcn": {
    "name": "리스본→바르셀로나 9/18",
-   "last_check": "2026-11-28 10:29",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함",
+   "last_check": "2026-11-28 12:30",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
    "history": [
     {
-     "date": "2026-11-25",
-     "krw": 88798
-    },
-    {
-     "date": "2026-11-26",
-     "krw": 88780
-    },
-    {
-     "date": "2026-11-27",
-     "krw": 88250
+     "date": "2026-11-28",
+     "krw": 198024
     }
    ],
-   "method": "list-v2"
+   "method": "list-v3-bag20",
+   "fare_base": 44012,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
-   "history": [
-    {
-     "date": "2026-11-25",
-     "krw": 152832
-    },
-    {
-     "date": "2026-11-26",
-     "krw": 152832
-    }
-   ],
-   "method": "list-v2"
+   "history": [],
+   "method": "list-v3-bag20"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)",
-   "history": [
-    {
-     "date": "2026-11-25",
-     "krw": 189220
-    },
-    {
-     "date": "2026-11-26",
-     "krw": 189220
-    }
-   ],
-   "method": "list-v2"
+   "history": [],
+   "method": "list-v3-bag20"
   }
  },
  "official": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -466,7 +455,7 @@
   },
   "3": {
    "name": "아코르 공식(ALL 회원가)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": null,
    "room": "Superior room with 1 double bed and city view.",
    "rate": "FLEXIBLE/무료취소·조식 필터",
@@ -513,7 +502,7 @@
   },
   "4": {
    "name": "투림 공식(TURIM Club)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": null,
    "room": "DOUBLE SUPERIOR",
    "rate": "Black Friday 2026 | Flexible Rate",
@@ -544,7 +533,7 @@
   "1": {
    "name": "Ohla Eixample",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -611,14 +600,14 @@
    "last_error": null,
    "fc_error": null,
    "ro_error": "조식 미포함 요금이 없음",
-   "gh_error": "견적 객실 없어 전체 최저가",
-   "gh_fc_error": "견적 객실 없어 전체 최저가",
-   "gh_note": "조식 포함: 견적 객실 없어 전체 최저가; 조식 포함 무료 취소: 견적 객실 없어 전체 최저가"
+   "gh_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
+   "gh_fc_error": "구글 호텔에 요청 일정이 적용되지 않음 (화면: {'체크인': '', '체크아웃': ''})",
+   "gh_note": null
   },
   "2": {
    "name": "Zoëtry Mallorca",
    "dates": "9/12~9/16",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -712,8 +701,8 @@
    "last_error": null,
    "fc_error": null,
    "ro_error": "조식 미포함 요금이 없음",
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_note": null,
    "ai_error": null,
    "ai_fc_error": null,
@@ -722,7 +711,7 @@
   "3": {
    "name": "Hotel Sevilla Center",
    "dates": "9/16~9/19",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
@@ -774,7 +763,7 @@
   "4": {
    "name": "One Shot Aliados Goldsmith",
    "dates": "9/19~9/22",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [],
    "gh_fc_history": [],
    "gh_ai_history": [],
@@ -824,12 +813,12 @@
  "official_s2": {
   "1": {
    "name": "올라 공식(Privilege Club)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": "공식 사이트에서 해당 객실의 무료 취소 요금을 찾지 못함"
   },
   "2": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -883,18 +872,9 @@
  "extras_s2": {
   "fl_svq_opo": {
    "name": "세비야→포르투 9/19",
-   "last_check": "2026-11-28 10:29",
-   "history": [
-    {
-     "date": "2026-11-26",
-     "krw": 120738
-    },
-    {
-     "date": "2026-11-27",
-     "krw": 146368
-    }
-   ],
-   "method": "list-v2",
+   "last_check": "2026-11-28 12:30",
+   "history": [],
+   "method": "list-v3-bag20",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_opo_pmi": {
@@ -931,60 +911,75 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/12~9/16, 4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [],
-   "method": "list-v2",
+   "method": "list-v3-bag20",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/12~9/16, 4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [],
-   "method": "list-v2",
+   "method": "list-v3-bag20",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/12",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [
     {
-     "date": "2026-11-27",
-     "krw": 99522
+     "date": "2026-11-28",
+     "krw": 209268
     }
    ],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
+   "fare_base": 49634,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_pmi_svq": {
    "name": "마요르카→세비야 9/16",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [
     {
-     "date": "2026-11-27",
-     "krw": 87166
+     "date": "2026-11-28",
+     "krw": 196944
     }
    ],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
+   "fare_base": 43472,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_opo_bcn": {
    "name": "포르투→바르셀로나 9/22",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [
     {
-     "date": "2026-11-27",
-     "krw": 101102
+     "date": "2026-11-28",
+     "krw": 210846
     }
    ],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
+   "fare_base": 50423,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   }
  },
  "hotels_s3": {
   "1": {
    "name": "Zoëtry Mallorca",
    "dates": "9/8~9/12",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -1071,15 +1066,15 @@
    "ro_error": "조식 미포함 요금이 없음",
    "ai_error": null,
    "ai_fc_error": null,
-   "gh_error": null,
-   "gh_fc_error": null,
+   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_ai_error": "구글 호텔에 올인클루시브 표시 요금이 없음",
    "gh_note": null
   },
   "3": {
    "name": "Hotel Sevilla Center",
    "dates": "9/15~9/18",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -1134,7 +1129,7 @@
   "2": {
    "name": "One Shot Aliados Goldsmith",
    "dates": "9/12~9/15",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "gh_history": [
     {
      "date": "2026-11-26",
@@ -1213,8 +1208,13 @@
   "4": {
    "name": "Pestana Arena Barcelona",
    "dates": "9/18~9/22",
-   "last_check": "2026-11-28 10:29",
-   "gh_history": [],
+   "last_check": "2026-11-28 12:30",
+   "gh_history": [
+    {
+     "date": "2026-11-28",
+     "krw": 2799473
+    }
+   ],
    "gh_fc_history": [],
    "gh_ai_history": [],
    "gh_method": "gh-entity-v1",
@@ -1238,7 +1238,7 @@
    "last_error": null,
    "fc_error": "조식 포함 무료 취소 요금이 없음",
    "ro_error": null,
-   "gh_error": "구글 호텔에 조식 포함 표시 요금이 없음",
+   "gh_error": null,
    "gh_fc_error": "구글 호텔에 조식 포함 무료 취소 표시 요금이 없음",
    "gh_note": null
   }
@@ -1246,7 +1246,7 @@
  "official_s3": {
   "1": {
    "name": "조에트리 공식(World of Hyatt)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "error": null,
    "room": "Ponent Room",
    "rate": "Flexible Rate",
@@ -1339,18 +1339,9 @@
  "extras_s3": {
   "fl_bcn_pmi": {
    "name": "바르셀로나→마요르카 9/8",
-   "last_check": "2026-11-28 10:29",
-   "history": [
-    {
-     "date": "2026-11-26",
-     "krw": 61962
-    },
-    {
-     "date": "2026-11-27",
-     "krw": 61458
-    }
-   ],
-   "method": "list-v2",
+   "last_check": "2026-11-28 12:30",
+   "history": [],
+   "method": "list-v3-bag20",
    "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
   },
   "fl_pmi_svq": {
@@ -1387,16 +1378,16 @@
   },
   "car_small": {
    "name": "마요르카 렌터카 자동 최저가 (9/8~9/12, 4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [],
-   "method": "list-v2",
+   "method": "list-v3-bag20",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "car_suv": {
    "name": "마요르카 렌터카 자동 SUV (9/8~9/12, 4일)",
-   "last_check": "2026-11-28 10:29",
+   "last_check": "2026-11-28 12:30",
    "history": [],
-   "method": "list-v2",
+   "method": "list-v3-bag20",
    "error": "카약이 자동 조회를 차단함 (사용자 확인 요구)"
   },
   "fl_svq_opo": {
@@ -1417,24 +1408,54 @@
   },
   "fl_pmi_opo": {
    "name": "마요르카→포르투 9/12",
-   "last_check": "2026-11-28 10:29",
-   "history": [],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "last_check": "2026-11-28 12:30",
+   "history": [
+    {
+     "date": "2026-11-28",
+     "krw": 367864
+    }
+   ],
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 Tap Air Portugal 공시 추정치 적용",
+   "fare_base": 123932,
+   "airline": "Tap Air Portugal",
+   "bag20": 60000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_opo_svq": {
    "name": "포르투→세비야 9/15",
-   "last_check": "2026-11-28 10:29",
-   "history": [],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "last_check": "2026-11-28 12:30",
+   "history": [
+    {
+     "date": "2026-11-28",
+     "krw": 393010
+    }
+   ],
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 라이언에어 공시 추정치 적용",
+   "fare_base": 109505,
+   "airline": "라이언에어",
+   "bag20": 87000,
+   "bag20_src": "추정",
+   "carry_add": 0
   },
   "fl_svq_bcn": {
    "name": "세비야→바르셀로나 9/18",
-   "last_check": "2026-11-28 10:29",
-   "history": [],
-   "method": "list-v2",
-   "error": "아직 판매 전이거나 항공편 목록을 찾지 못함"
+   "last_check": "2026-11-28 12:30",
+   "history": [
+    {
+     "date": "2026-11-28",
+     "krw": 209268
+    }
+   ],
+   "method": "list-v3-bag20",
+   "error": "위탁 수하물 요금 조회 전이라 부엘링 공시 추정치 적용",
+   "fare_base": 49634,
+   "airline": "부엘링",
+   "bag20": 55000,
+   "bag20_src": "추정",
+   "carry_add": 0
   }
  }
 }
